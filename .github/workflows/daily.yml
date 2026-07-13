@@ -19,20 +19,23 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: 安装依赖
-        run: pip install -r requirements.txt
+      - name: 安装依赖 & Playwright 浏览器
+        run: |
+          pip install -r requirements.txt
+          python -m playwright install chromium
+          python -m playwright install-deps chromium
 
-      - name: 自动采集
+      - name: 采集新闻（Playwright 直采）
         run: python scripts/collect_ci.py
 
-      - name: 生成概览
+      - name: 生成概览文本
         run: python scripts/generate_overview.py --force || true
 
       - name: 生成日报
         run: |
           TODAY=$(date +%Y-%m-%d)
           YESTERDAY=$(date -d 'yesterday' +%Y-%m-%d)
-          python scripts/gen_report.py "$TODAY" v1 "$YESTERDAY" || true
+          python scripts/gen_report.py "$TODAY" v1 "$YESTERDAY"
 
       - name: 生成周报
         run: python scripts/generate_weekly.py || true
@@ -43,7 +46,7 @@ jobs:
           git config user.email "actions@github.com"
           git add -A
           git diff --staged --quiet || git commit -m "每日更新 $(date +%Y-%m-%d)"
-          git push || echo "无可推送的更新"
+          git push
 
       - name: 部署到 Pages
         uses: peaceiris/actions-gh-pages@v3
