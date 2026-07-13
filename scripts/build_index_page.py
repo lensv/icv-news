@@ -1,0 +1,275 @@
+"""根据 test_cal.html 思路生成完整入口页（零 fetch、所有数据内联）"""
+import json, os
+from datetime import date, timedelta
+
+REPORTS = r'E:\trae_solo\自动化监测智能网联汽车新闻\reports'
+
+daily = []
+for f in sorted(os.listdir(os.path.join(REPORTS, 'daily')), reverse=True):
+    if not f.endswith('.html'): continue
+    parts = f.replace('.html', '').split('_')
+    date_part = parts[0]
+    version = parts[1] if len(parts) >= 2 and parts[1].startswith('v') else 'v1'
+    daily.append({"file": f, "path": f"daily/{f}", "date": date_part, "version": version})
+
+weekly = []
+for f in sorted(os.listdir(os.path.join(REPORTS, 'weekly')), reverse=True):
+    if not f.endswith('.html'): continue
+    wid = f.replace('.html', '')
+    dr = wid
+    try:
+        parts = wid.split('-W')
+        y, wn = int(parts[0]), int(parts[1])
+        jan4 = date(y, 1, 4)
+        m = jan4 - timedelta(days=jan4.isoweekday()-1) + timedelta(weeks=wn-1)
+        s = m + timedelta(days=6)
+        dr = f'{m.month}月{m.day}日-{s.month}月{s.day}日'
+    except: pass
+    weekly.append({"file": f, "path": f"weekly/{f}", "week": wid, "date_range": dr})
+
+cal_dates = [d["date"] for d in daily]
+date_file = {}
+for d in daily:
+    if d["date"] not in date_file or d["version"] > date_file[d["date"]]["version"]:
+        date_file[d["date"]] = d
+
+CAL_DATES_JSON = json.dumps(cal_dates, ensure_ascii=False)
+DATE_FILE_JSON = json.dumps(date_file, ensure_ascii=False)
+WEEKLY_JSON = json.dumps(weekly, ensure_ascii=False)
+
+html = f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能网联汽车新闻 · 报告入口</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {{
+  --bg-deep: #f8f6f2;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #faf8f4;
+  --color-accent: #c27803;
+  --color-accent-dim: rgba(194,120,3,0.08);
+  --color-text: #1f1b16;
+  --color-text-secondary: #6b6258;
+  --color-text-muted: #a89f94;
+  --color-border: #e8e2d9;
+  --color-border-light: #ddd6cb;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+  --font-display: 'DM Serif Display', serif;
+  --font-sans: 'Outfit', sans-serif;
+  --font-body: 'Noto Sans SC', 'Outfit', sans-serif;
+}}
+*{{margin:0;padding:0;box-sizing:border-box}}
+html{{font-size:15px;-webkit-font-smoothing:antialiased}}
+body{{font-family:var(--font-body);background:var(--bg-deep);color:var(--color-text);min-height:100vh}}
+::-webkit-scrollbar{{width:5px}}
+::-webkit-scrollbar-thumb{{background:var(--color-border-light);border-radius:3px}}
+.nav{{position:sticky;top:0;z-index:100;background:rgba(248,246,242,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--color-border);padding:0 24px}}
+.nav-inner{{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:32px;height:64px}}
+.nav-brand{{display:flex;align-items:center;gap:10px;font-family:var(--font-sans);font-weight:700;font-size:1rem;color:var(--color-text);text-decoration:none;white-space:nowrap}}
+.nav-brand-icon{{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#c27803,#a06402);display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff}}
+.nav-links{{display:flex;gap:4px;flex:1}}
+.nav-link{{padding:8px 20px;border-radius:var(--radius-sm);font-size:0.85rem;font-weight:500;color:var(--color-text-secondary);cursor:pointer;transition:var(--transition);border:none;background:transparent;font-family:var(--font-sans);letter-spacing:0.3px;position:relative}}
+.nav-link:hover{{color:var(--color-text);background:var(--color-accent-dim)}}
+.nav-link.active{{color:var(--color-accent);background:var(--color-accent-dim)}}
+.nav-link.active::after{{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:60%;height:2px;background:var(--color-accent);border-radius:1px}}
+.container{{max-width:1200px;margin:0 auto;padding:0 24px}}
+.tab-content{{display:none;animation:fadeIn 0.35s ease}}
+.tab-content.active{{display:block}}
+@keyframes fadeIn{{from{{opacity:0;transform:translateY(10px)}}to{{opacity:1;transform:translateY(0)}}}}
+.calendar-section{{padding:28px 0 20px}}
+.calendar-nav{{display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:16px}}
+.calendar-nav-btn{{background:var(--bg-card);border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:6px 14px;cursor:pointer;font-size:0.85rem;color:var(--color-text-secondary);transition:var(--transition);font-family:var(--font-sans)}}
+.calendar-nav-btn:hover{{background:var(--bg-card-hover);color:var(--color-text);border-color:var(--color-accent)}}
+.calendar-month{{font-family:var(--font-display);font-size:1.3rem;color:var(--color-text);min-width:140px;text-align:center}}
+.calendar-grid{{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;background:var(--bg-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:10px}}
+.calendar-weekday{{text-align:center;font-size:0.72rem;color:var(--color-text-muted);padding:6px 0;font-weight:500}}
+.calendar-day{{text-align:center;padding:6px 0;border-radius:var(--radius-sm);font-size:0.85rem;color:var(--color-text-secondary);cursor:pointer;transition:var(--transition);position:relative;min-height:32px;display:flex;align-items:center;justify-content:center}}
+.calendar-day:hover{{background:var(--color-accent-dim);color:var(--color-accent)}}
+.calendar-day.has-report{{color:var(--color-text);font-weight:600}}
+.calendar-day.has-report::after{{content:'';position:absolute;bottom:3px;width:4px;height:4px;border-radius:50%;background:var(--color-accent)}}
+.calendar-day.selected{{background:var(--color-accent);color:#fff;font-weight:700}}
+.calendar-day.selected::after{{background:#fff}}
+.calendar-day.empty{{cursor:default;visibility:hidden}}
+.report-viewer .empty-state{{padding:60px;text-align:center;color:var(--color-text-muted);background:var(--bg-card);border:1px solid var(--color-border);border-radius:var(--radius-md);margin-top:20px}}
+.hero-section{{padding:28px 0 16px;text-align:center}}
+.hero-title{{font-family:var(--font-display);font-size:clamp(1.5rem,3vw,2.2rem);color:var(--color-text);margin-bottom:4px}}
+.hero-title span{{color:var(--color-accent)}}
+.hero-subtitle{{font-size:0.85rem;color:var(--color-text-secondary);font-weight:300}}
+.weekly-content{{padding-bottom:32px}}
+.weekly-viewer,.monthly-viewer{{min-height:300px}}
+.past-section{{margin-top:16px;padding-top:16px;border-top:1px solid var(--color-border)}}
+.past-header{{display:flex;align-items:center;gap:10px;margin-bottom:10px}}
+.past-header h3{{font-family:var(--font-sans);font-size:0.95rem;font-weight:600;color:var(--color-text);letter-spacing:0.3px}}
+.past-line{{flex:1;height:1px;background:linear-gradient(90deg,var(--color-border-light),transparent)}}
+.past-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px}}
+.past-item{{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--radius-sm);border-left:3px solid transparent;cursor:pointer;transition:var(--transition);font-size:0.85rem;color:var(--color-text-secondary);background:var(--bg-card);border:1px solid var(--color-border);text-decoration:none}}
+.past-item:hover{{background:var(--bg-card-hover);color:var(--color-text);border-left-color:var(--color-accent)}}
+.past-item-icon{{width:18px;height:18px;border:1.5px solid var(--color-border-light);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--color-text-muted);flex-shrink:0}}
+.past-item-date{{font-size:0.75rem;color:var(--color-text-muted);flex-shrink:0}}
+.report-viewer iframe,.weekly-viewer iframe,.monthly-viewer iframe{{width:100%;border:none;min-height:500px}}
+@media(max-width:768px){{.nav-links{{gap:0}} .nav-link{{padding:8px 12px;font-size:0.78rem}} .calendar-grid{{padding:6px;gap:2px}} .calendar-day{{font-size:0.78rem;min-height:28px}} .calendar-month{{font-size:1.1rem}}}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="/"><div class="nav-brand-icon">⚡</div>智能网联汽车新闻</a>
+    <div class="nav-links">
+      <button class="nav-link active" onclick="switchTab('daily')">📰 日报</button>
+      <button class="nav-link" onclick="switchTab('weekly')">📋 周报</button>
+      <button class="nav-link" onclick="switchTab('monthly')">📅 月报</button>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+<div class="tab-content active" id="tab-daily">
+  <div class="calendar-section">
+    <div class="calendar-nav">
+      <button class="calendar-nav-btn" onclick="calMonth(-1)">←</button>
+      <span class="calendar-month" id="calMonthLabel"></span>
+      <button class="calendar-nav-btn" onclick="calMonth(1)">→</button>
+    </div>
+    <div class="calendar-grid" id="calGrid"></div>
+  </div>
+  <div class="report-viewer" id="dailyViewer">
+    <div class="empty-state"><div class="icon">📰</div><div>选择一个日期查看日报</div></div>
+  </div>
+</div>
+
+<div class="tab-content" id="tab-weekly">
+  <div class="hero-section">
+    <div class="hero-title"><span>周报</span> 总览</div>
+    <div class="hero-subtitle">智能网联汽车每周新闻综述</div>
+  </div>
+  <div class="weekly-content">
+    <div class="weekly-viewer" id="weeklyViewer"></div>
+    <div class="past-section">
+      <div class="past-header"><h3>📋 往期回顾</h3><div class="past-line"></div></div>
+      <div class="past-grid" id="weeklyPastGrid"></div>
+    </div>
+  </div>
+</div>
+
+<div class="tab-content" id="tab-monthly">
+  <div class="hero-section">
+    <div class="hero-title"><span>月报</span> 总览</div>
+    <div class="hero-subtitle">月度智能网联汽车新闻汇总</div>
+  </div>
+  <div class="weekly-content">
+    <div class="monthly-viewer" id="monthlyViewer">
+      <div class="empty-state"><div class="icon">📅</div><div>月报功能即将上线</div></div>
+    </div>
+    <div class="past-section">
+      <div class="past-header"><h3>📅 往期回顾</h3><div class="past-line"></div></div>
+      <div class="past-grid" id="monthlyPastGrid"></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// === Inline Data ===
+const CALENDAR_DATES = {CAL_DATES_JSON};
+const DATE_FILE = {DATE_FILE_JSON};
+const WEEKLY_LIST = {WEEKLY_JSON};
+
+// === Tab ===
+function switchTab(tab) {{
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  document.querySelector('.nav-link[onclick*=\"'+tab+'\"]').classList.add('active');
+  if (tab==='daily' && selectedDate) loadDailyReport(selectedDate);
+  if (tab==='weekly') setTimeout(initWeekly, 100);
+}}
+
+// === Calendar ===
+let calDate = new Date();
+let selectedDate = null;
+const WD = ['日','一','二','三','四','五','六'];
+const TODAY = new Date().toISOString().slice(0,10);
+
+function initCalendar() {{
+  const keys = Object.keys(DATE_FILE).sort().reverse();
+  selectedDate = keys.length > 0 ? keys[0] : TODAY;
+  calDate = new Date(parseInt(selectedDate.slice(0,4)), parseInt(selectedDate.slice(5,7))-1, 1);
+  renderCalendar();
+  if (selectedDate) loadDailyReport(selectedDate);
+}}
+
+function calMonth(d) {{ calDate.setMonth(calDate.getMonth()+d); renderCalendar(); }}
+
+function renderCalendar() {{
+  const y = calDate.getFullYear(), m = calDate.getMonth();
+  document.getElementById('calMonthLabel').textContent = y+'年'+(m+1)+'月';
+  const fd = new Date(y,m,1).getDay();
+  const dim = new Date(y,m+1,0).getDate();
+  let html = '';
+  WD.forEach(w => html += '<div class=\"calendar-weekday\">'+w+'</div>');
+  for (let i=0; i<fd; i++) html += '<div class=\"calendar-day empty\"></div>';
+  for (let d=1; d<=dim; d++) {{
+    const s = y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const has = CALENDAR_DATES.includes(s);
+    let cls = 'calendar-day';
+    if (has) cls += ' has-report';
+    if (s === selectedDate) cls += ' selected';
+    let oc = '';
+    if (has) oc = ' onclick=\"selectDate(\\''+s+'\\')\"';
+    html += '<div class=\"'+cls+'\"'+oc+'>'+d+'</div>';
+  }}
+  document.getElementById('calGrid').innerHTML = html;
+}}
+
+function selectDate(s) {{ selectedDate = s; renderCalendar(); loadDailyReport(s); }}
+
+function loadDailyReport(s) {{
+  const viewer = document.getElementById('dailyViewer');
+  const info = DATE_FILE[s];
+  if (!info) {{
+    viewer.innerHTML = '<div class=\"empty-state\"><div class=\"icon\">📰</div><div>'+s+' 暂无日报</div></div>';
+    return;
+  }}
+  viewer.innerHTML = '<iframe src=\"'+info.path+'\" onload=\"fitIframe(this)\" style=\"min-height:500px\"></iframe>';
+}}
+
+function fitIframe(f) {{
+  try {{ f.style.height = Math.max(f.contentWindow.document.body.scrollHeight, 500)+'px'; }} catch(e) {{}}
+}}
+
+// === Weekly ===
+function initWeekly() {{
+  if (WEEKLY_LIST.length === 0) {{
+    document.getElementById('weeklyViewer').innerHTML = '<div class=\"empty-state\"><div class=\"icon\">📋</div><div>暂无周报</div></div>';
+    return;
+  }}
+  document.getElementById('weeklyViewer').innerHTML = '<iframe src=\"'+WEEKLY_LIST[0].path+'\" onload=\"fitIframe(this)\" style=\"min-height:500px\"></iframe>';
+  let h = '';
+  WEEKLY_LIST.forEach(function(w) {{
+    h += '<a class=\"past-item\" href=\"'+w.path+'\" target=\"_blank\"><span class=\"past-item-icon\">📋</span><span>'+w.date_range+'</span><span class=\"past-item-date\">'+w.week+'</span></a>';
+  }});
+  document.getElementById('weeklyPastGrid').innerHTML = h;
+}}
+
+// === Init ===
+document.addEventListener('DOMContentLoaded', function() {{ initCalendar(); initWeekly(); }});
+</script>
+</body>
+</html>"""
+
+with open(os.path.join(REPORTS, 'index.html'), 'w', encoding='utf-8') as f:
+    f.write(html)
+
+print(f'✅ 已生成 ({len(html)} 字节)')
+print(f'   日历日期: {len(cal_dates)} 个')
+print(f'   周报: {len(weekly)} 个')
