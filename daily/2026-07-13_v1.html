@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能网联汽车新闻日报</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CSS Variables
+   ============================================================ */
+:root {
+  --bg: #f8f6f2;
+  --surface: #ffffff;
+  --accent: #c27803;
+  --accent-dim: rgba(194,120,3,0.10);
+  --accent-light: rgba(194,120,3,0.04);
+  --text: #1f1b16;
+  --text-secondary: #6b6258;
+  --text-muted: #a89f94;
+  --border: #e8e2d9;
+  --border-light: #ddd6cb;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --font-display: 'DM Serif Display', serif;
+  --font-sans: 'Outfit', sans-serif;
+  --font-body: 'Noto Sans SC', 'Outfit', sans-serif;
+
+  --shadow-sm: 0 1px 2px rgba(31,27,22,0.05);
+  --shadow-hover: 0 4px 16px rgba(31,27,22,0.08);
+
+  --cat-policy: #c0392b;
+  --cat-standards: #2980b9;
+  --cat-investment: #d4a843;
+  --cat-technology: #27ae60;
+  --cat-projects: #8e44ad;
+  --cat-industry: #e67e22;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden}
+.container{max-width:880px;margin:0 auto;padding:0 24px}
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.hero{padding:40px 0 24px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 14px;border-radius:100px;
+  background:var(--accent-dim);border:1px solid rgba(194,120,3,0.18);
+  font-family:var(--font-sans);font-size:0.7rem;font-weight:600;
+  color:var(--accent);letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:12px;
+}
+.hero-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.hero-title{
+  font-family:var(--font-display);font-size:clamp(1.5rem,4vw,2rem);
+  color:var(--text);font-weight:400;line-height:1.2;margin-bottom:6px;
+}
+.hero-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:0.82rem;color:var(--text-muted);margin-bottom:14px}
+.hero-meta-div{width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0}
+.stat-summary{display:flex;gap:8px;flex-wrap:wrap}
+.stat-chip{
+  padding:3px 12px;border-radius:100px;
+  background:var(--accent-light);border:1px solid var(--border);
+  font-family:var(--font-sans);font-size:0.72rem;color:var(--text-secondary);
+}
+
+/* ============================================================
+   概览（扁平列表）
+   ============================================================ */
+/* ============================================================
+   分类新闻
+   ============================================================ */
+.main-content{padding:24px 0 32px}
+.cat-section{margin-bottom:28px}
+.cat-header{
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:10px;padding-bottom:8px;
+  border-bottom:1px solid var(--border);
+}
+.cat-icon{font-size:15px;flex-shrink:0}
+.cat-title{
+  font-family:var(--font-sans);font-size:0.9rem;font-weight:600;
+  color:var(--text);letter-spacing:0.2px;
+}
+.cat-count{
+  font-family:var(--font-sans);font-size:0.65rem;font-weight:500;
+  color:var(--text-muted);background:var(--bg);
+  padding:2px 10px;border-radius:100px;margin-left:auto;
+}
+
+/* 文章卡片 */
+.article-card{
+  display:flex;gap:12px;padding:12px 14px;
+  background:var(--surface);border:1px solid var(--border);
+  margin-bottom:8px;border-radius:var(--radius-md);
+  transition:all 0.2s ease;position:relative;overflow:hidden;
+}
+.article-card:hover{
+  border-color:transparent;box-shadow:var(--shadow-hover);
+}
+.article-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:3px;opacity:0;transition:opacity 0.2s;
+  border-radius:0 2px 2px 0;
+}
+.article-card:hover::before{opacity:1}
+
+/* 各类别文章左边框色 */
+.cat-policy .article-card::before{background:var(--cat-policy)}
+.cat-standards .article-card::before{background:var(--cat-standards)}
+.cat-investment .article-card::before{background:var(--cat-investment)}
+.cat-technology .article-card::before{background:var(--cat-technology)}
+.cat-projects .article-card::before{background:var(--cat-projects)}
+.cat-industry .article-card::before{background:var(--cat-industry)}
+
+.article-num{
+  font-family:var(--font-sans);font-size:0.8rem;font-weight:600;
+  color:var(--text-muted);min-width:22px;text-align:center;padding-top:1px;flex-shrink:0;
+}
+.article-body{flex:1;min-width:0}
+.article-title{
+  font-size:0.88rem;font-weight:500;color:var(--text);
+  line-height:1.5;margin-bottom:2px;
+}
+.article-title a{color:inherit;text-decoration:none}
+.article-title a:hover{color:var(--accent)}
+.article-meta{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  font-size:0.72rem;color:var(--text-muted);margin-bottom:4px;
+}
+.article-stars{font-size:0.6rem;letter-spacing:-1px}
+.article-summary{
+  font-size:0.78rem;color:var(--text-secondary);line-height:1.6;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.footer{text-align:center;padding:24px 0 32px;border-top:1px solid var(--border)}
+.footer p{font-size:0.7rem;color:var(--text-muted)}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media(max-width:640px){
+  .hero{padding:28px 0 16px}
+  .container{padding:0 16px}
+  .article-card{padding:10px 12px}
+  .article-title{font-size:0.85rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     Hero
+     ============================================================ -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>日报</div>
+    <h1 class="hero-title">智能网联汽车新闻</h1>
+    <div class="hero-meta">
+      <span class="hero-date" id="hero-date">2026年7月13日 星期一</span>
+      <span class="hero-meta-div"></span>
+      <span id="hero-count">共 46 条资讯</span>
+    </div>
+    <div class="stat-summary"><span class="stat-chip" style="color:#c0392b">政策法规 8</span><span class="stat-chip" style="color:#2980b9">标准动态 4</span><span class="stat-chip" style="color:#d4a843">投融资动态 1</span><span class="stat-chip" style="color:#27ae60">技术动态 8</span><span class="stat-chip" style="color:#8e44ad">项目动态 6</span><span class="stat-chip" style="color:#e67e22">行业动态 19</span></div>
+  </div>
+</header>
+
+<!-- ============================================================
+     Main Content
+     ============================================================ -->
+<main class="main-content">
+  <div class="container">
+
+  <!-- 政策法规 -->
+  <section class="cat-section cat-policy" aria-label="政策法规">
+    <div class="cat-header">
+      <span class="cat-icon">&#9878;</span>
+      <h2 class="cat-title" style="color:#c0392b">政策法规</h2>
+      <span class="cat-count">8 条</span>
+    </div>
+    <article class="article-card">
+      <span class="article-num">1</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://cj.sina.com.cn/articles/view/1650111241/625ab30902001gw3w" target="_blank" rel="noopener noreferrer">智能网联汽车保险纠纷成北京金融法院关注焦点，智驾保险体系建设提速</a></h3>
+        <div class="article-meta">
+          <span>中国经营报 / 新浪财经</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary">7月12日报道，在第14个全国保险公众宣传日之际，北京金融法院发布一批涉科技保险案例，智能网联汽车保险成为重点关注和研究的新型险种。</p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">2</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/xwfb/gxdt/sjdt/art/2026/art_eb06d792d5d441d3b0810974face78bf.html" target="_blank" rel="noopener noreferrer">关于公开征集《合规管理体系 中小企业应用要求及指南》国家标准起草单位和起草专家的通知</a></h3>
+        <div class="article-meta">
+          <span>工信部工作动态</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">3</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/xwfb/gxdt/sjdt/art/2026/art_708b7727cc4544e8bc2f335cdc92b531.html" target="_blank" rel="noopener noreferrer">我国牵头制定的联合国自动驾驶系统全球技术法规获批发布</a></h3>
+        <div class="article-meta">
+          <span>工信部工作动态</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">4</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/qcgy/art/2026/art_466175981874447bb74f4336602f9f0c.html" target="_blank" rel="noopener noreferrer">中华人民共和国工业和信息化部 商务部 海关总署 市场监管总局公告</a></h3>
+        <div class="article-meta">
+          <span>工信部汽车工业</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">5</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/gzdt/art/2026/art_7d6a189d7ef14705aee02bda6220dd79.html" target="_blank" rel="noopener noreferrer">关于组织开展2026年度道路机动车辆生产企业及产品生产一致性监督检查工作的通知</a></h3>
+        <div class="article-meta">
+          <span>工信部工作动态</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">6</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/wjfb/art/2026/art_6e8cd96d38444b07a84f5d3bec0565e2.html" target="_blank" rel="noopener noreferrer">工业和信息化部办公厅 市场监管总局办公厅关于印发2023年度智能制造系统解决方案“揭榜挂帅...</a></h3>
+        <div class="article-meta">
+          <span>工信部文件发布</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">7</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/wjfb/art/2026/art_2a8011a2c50e4117b985a8c4dc0e4f17.html" target="_blank" rel="noopener noreferrer">工业和信息化部办公厅 公安部办公厅关于应用机动车出厂合格证信息办理机动车注册登记业务的通知</a></h3>
+        <div class="article-meta">
+          <span>工信部文件发布</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">8</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/wjfb/art/2026/art_e8451f9a3b074d3ab0f8c5985da0407d.html" target="_blank" rel="noopener noreferrer">工业和信息化部 商务部等五部门办公厅（综合司）关于开展2026年新能源汽车下乡活动的通知</a></h3>
+        <div class="article-meta">
+          <span>工信部文件发布</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+  </section>
+
+  <!-- 标准动态 -->
+  <section class="cat-section cat-standards" aria-label="标准动态">
+    <div class="cat-header">
+      <span class="cat-icon">&#9881;</span>
+      <h2 class="cat-title" style="color:#2980b9">标准动态</h2>
+      <span class="cat-count">4 条</span>
+    </div>
+    <article class="article-card">
+      <span class="article-num">1</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.ce.cn/xwzx/gnsz/gdxw/202607/t20260713_3083409.shtml" target="_blank" rel="noopener noreferrer">GB 47955—2026《智能网联汽车 组合驾驶辅助系统安全要求》强制性国家标准正式发布</a></h3>
+        <div class="article-meta">
+          <span>人民日报 / 中国经济网</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary">本报北京7月12日电，工业和信息化部组织制定并归口的《智能网联汽车 组合驾驶辅助系统安全要求》（GB 47955—2026）强制性国家标准，近日由国家市场监督管理总局、国家标准化管理委员会批准发布，拟于2027年1月1日起正式实施。</p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">2</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/qcgy/art/2026/art_6719fb0ceedc4c73bbd606ab18d0cf57.html" target="_blank" rel="noopener noreferrer">一图读懂强制性国家标准GB 47955—2026《智能网联汽车 组合驾驶辅助系统安全要求》</a></h3>
+        <div class="article-meta">
+          <span>工信部汽车工业</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">3</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/qcgy/art/2026/art_7bcb480b0db5432f8542157a9fc12841.html" target="_blank" rel="noopener noreferrer">《智能网联汽车 组合驾驶辅助系统安全要求》强制性国家标准正式发布</a></h3>
+        <div class="article-meta">
+          <span>工信部汽车工业</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">4</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/gzdt/art/2026/art_c725c6c8e1914c4d90d3fea366b7959e.html" target="_blank" rel="noopener noreferrer">我国主导研制的汇智同步网络（WiTSnet）工业通信系列国际标准成功立项</a></h3>
+        <div class="article-meta">
+          <span>工信部工作动态</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+  </section>
+
+  <!-- 投融资动态 -->
+  <section class="cat-section cat-investment" aria-label="投融资动态">
+    <div class="cat-header">
+      <span class="cat-icon">&#9733;</span>
+      <h2 class="cat-title" style="color:#d4a843">投融资动态</h2>
+      <span class="cat-count">1 条</span>
+    </div>
+    <article class="article-card">
+      <span class="article-num">1</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://i.gasgoo.com/news/70463097.html" target="_blank" rel="noopener noreferrer">Seeds｜投后估值超10亿美元，临界点完成近10亿元融资</a></h3>
+        <div class="article-meta">
+          <span>盖世汽车智能网联</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+  </section>
+
+  <!-- 技术动态 -->
+  <section class="cat-section cat-technology" aria-label="技术动态">
+    <div class="cat-header">
+      <span class="cat-icon">&#9889;</span>
+      <h2 class="cat-title" style="color:#27ae60">技术动态</h2>
+      <span class="cat-count">8 条</span>
+    </div>
+    <article class="article-card">
+      <span class="article-num">1</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://view.inews.qq.com/a/20260712A039TS00" target="_blank" rel="noopener noreferrer">特斯拉FSD v14 Lite首次走出美国，韩国成为全球首个获得更新的海外市场</a></h3>
+        <div class="article-meta">
+          <span>IT之家</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary">7月12日，特斯拉韩国官方宣布，FSD v14 Lite已开始在美国以外市场首次推送，韩国成为全球首个获得该更新的海外市场。</p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">2</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://view.inews.qq.com/a/20260712A05JRL00" target="_blank" rel="noopener noreferrer">高阶智驾加速下沉至大众市场，零跑已将城市NOA落地至8万元级车型</a></h3>
+        <div class="article-meta">
+          <span>中国新闻网</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary">7月12日，第23届长春国际汽车博览会上，蔚来、极狐、零跑、深蓝、比亚迪等多个中国自主品牌将智能驾驶作为核心参展卖点。</p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">3</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://auto.huawei.com/cn/news/2026/2026-6-22-ads" target="_blank" rel="noopener noreferrer">华为乾崑智驾® ADS™ 高阶功能包价格及用户权益更新公告
+                              
+                              
+                                
+                                   
+                                    2026 年 6 月 22 日
+                                  
+                                   了解详情</a></h3>
+        <div class="article-meta">
+          <span>华为乾崑</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">4</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://auto.huawei.com/cn/news/2026/statement-on-assisted-driving-mileage" target="_blank" rel="noopener noreferrer">关于乾崑智驾累计辅助驾驶里程显示的说明
+                              
+                              
+                                
+                                   
+                                    2026 年 7 月 7 日
+                                  
+                                   了解详情</a></h3>
+        <div class="article-meta">
+          <span>华为乾崑</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">5</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://auto.huawei.com/cn/news/2026/2026-6-27-l2" target="_blank" rel="noopener noreferrer">引望核心参与 L2 强标制定
+                              
+                              
+                                 
+                                  2026 年 6 月 27 日
+                                
+                                 了解详情</a></h3>
+        <div class="article-meta">
+          <span>华为乾崑</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">6</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://auto.huawei.com/cn/news/2026/2026-04-23-jishu" target="_blank" rel="noopener noreferrer">2026 华为乾崑技术大会
+                                【中国，北京，2026 年 4 月 23 日】华为乾崑智能汽车解决方案在北京举行以“安全有乾崑 安心赴美好”为主题的华为乾崑技术大会，首发华为乾崑智驾® ADS™ 5、鸿蒙座舱 HarmonySpace 6、AMS 三合一舱内 AI 多模态感知系统、双 17.2 英寸蝶羽双联屏、LCoS 双焦面 AR-HUD、HUAWEI XPIXEL 百万像素彩色智能大灯模组、HUAWEI XSCENE LCoS 车载投影光机等新一代解决方案。 
+                              
+                              
+                                
+                                   
+                                    中国，北京 · 2026 年 4 月 23 日
+                                  
+                                   了解详情</a></h3>
+        <div class="article-meta">
+          <span>华为乾崑</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">7</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://auto.huawei.com/cn/news/2026/2026-3-4-lidar" target="_blank" rel="noopener noreferrer">全球量产最高规格 896 线！华为乾崑发布新一代双光路图像级激光雷达
+                              
+                              
+                                 
+                                  深圳 · 2026 年 3 月 4 日
+                                
+                                 了解详情</a></h3>
+        <div class="article-meta">
+          <span>华为乾崑</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">8</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.apollo.auto/robotaxi" target="_blank" rel="noopener noreferrer">Robotaxi及自动驾驶解决方案</a></h3>
+        <div class="article-meta">
+          <span>百度Apollo</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+  </section>
+
+  <!-- 项目动态 -->
+  <section class="cat-section cat-projects" aria-label="项目动态">
+    <div class="cat-header">
+      <span class="cat-icon">&#9874;</span>
+      <h2 class="cat-title" style="color:#8e44ad">项目动态</h2>
+      <span class="cat-count">6 条</span>
+    </div>
+    <article class="article-card">
+      <span class="article-num">1</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://view.inews.qq.com/a/20260712A04M4K00" target="_blank" rel="noopener noreferrer">小鹏Robotaxi正式开启员工内测，何小鹏完成首单并兼任机器人业务负责人</a></h3>
+        <div class="article-meta">
+          <span>21世纪经济报道</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary">7月12日消息，小鹏Robotaxi正式开启员工内测，何小鹏化身「一号乘客」完成首单。</p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">2</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.163.com/dy/article/L1KDFB3N0511B8LM.html" target="_blank" rel="noopener noreferrer">特斯拉Cybercab即将在得州超级工厂向员工开放试乘体验</a></h3>
+        <div class="article-meta">
+          <span>IT之家 / 网易</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary">7月12日，特斯拉官方账号宣布Cybercab将「很快在得州超级工厂向员工开放试乘体验」。</p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">3</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://hebei.news.163.com/26/0712/10/L1KN5INQ04159CNM.html" target="_blank" rel="noopener noreferrer">2026京津冀新能源和智能网联汽车产业链对接活动在廊坊举办，15家企业达成合作意向</a></h3>
+        <div class="article-meta">
+          <span>河北新闻网 / 网易</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary">7月12日报道，由河北省工信厅会同北京市经信局、天津工信局联合主办的2026京津冀新能源和智能网联汽车产业链对接活动在廊坊举办。</p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">4</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/qcgy/art/2026/art_8354ec8cb1bb42a9b0aae9eef28bc730.html" target="_blank" rel="noopener noreferrer">2024年、2025年县域充换电设施补短板试点县申请联合开展试点备案调整结果公示</a></h3>
+        <div class="article-meta">
+          <span>工信部汽车工业</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">5</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/gzdt/art/2026/art_36f372a0709e44eb92b62c85a5ac143a.html" target="_blank" rel="noopener noreferrer">2026年县域充换电设施补短板试点县备案审查及2024—2025年县域充换电设施补短板试点...</a></h3>
+        <div class="article-meta">
+          <span>工信部工作动态</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">6</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://mp.weixin.qq.com/s?src=11&timestamp=1783906425&ver=6839&signature=8*-CYsA7orWzxwaSt61szVkWoj6wpEt9nue-hzYzWb6KOllocQHOG-dDms1DLeleEJAhKBwgEgYdS*CylRsDoeZALDKdsbVCs13kIGQLKGL5jKDdUqXg75VP8jypBuML&new=1" target="_blank" rel="noopener noreferrer">2026世界智能安全大会专题会议二:智能网联汽车预期功能安全精彩回顾</a></h3>
+        <div class="article-meta">
+          <span>汽车底盘集成与仿生全重实验室（公众号）</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary">2026世界智能安全大会 专题会议二：智能网联汽车预期功能安全精彩回顾 为促进全球自动驾驶安全领域的科技交流与国际合作，2026世界智能安全大会（FISITA Intelligent Safety Conference，ISC 2026）于2026年7月10日至12日在吉林长春举行。</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- 行业动态 -->
+  <section class="cat-section cat-industry" aria-label="行业动态">
+    <div class="cat-header">
+      <span class="cat-icon">&#128200;</span>
+      <h2 class="cat-title" style="color:#e67e22">行业动态</h2>
+      <span class="cat-count">19 条</span>
+    </div>
+    <article class="article-card">
+      <span class="article-num">1</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/xwfb/gxdt/sjdt/art/2026/art_e28beb9f8fe94a92ba0a3a67c39eea20.html" target="_blank" rel="noopener noreferrer">工信部：2026上半年国内乘用车L2级自动驾驶搭载率达70%，NOA车型占比超30%</a></h3>
+        <div class="article-meta">
+          <span>工信部 / 腾讯新闻</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary">7月12日，工信部公布数据显示，2026年上半年国内乘用车新车中70%搭载了L2级自动驾驶功能，其中配备领航驾驶辅助（NOA，含城区和高速）的车型占比超过30%。</p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">2</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://view.inews.qq.com/a/20260712A06DB600" target="_blank" rel="noopener noreferrer">特斯拉46天拆除Model S/X生产线，改造为Optimus人形机器人生产基地</a></h3>
+        <div class="article-meta">
+          <span>红星新闻</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary">7月12日，特斯拉发布视频展示弗里蒙特工厂Model S和Model X生产线拆除过程，仅耗时46天即完成。</p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">3</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/xwfb/gxdt/sjdt/art/2026/art_cf667dbcb1c14a27bc4b1756ed1367fa.html" target="_blank" rel="noopener noreferrer">信息通信行业已投入抢险人员6.8万人次、应急通信车2.4万辆次，全力做好台风“美莎克”
+和...</a></h3>
+        <div class="article-meta">
+          <span>工信部工作动态</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">4</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/xwfb/gxdt/sjdt/art/2026/art_352714e8c8024dd99957867de040e81a.html" target="_blank" rel="noopener noreferrer">工业和信息化部、商务部等五部门联合启动2026年新能源汽车下乡活动</a></h3>
+        <div class="article-meta">
+          <span>工信部工作动态</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">5</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/qcgy/art/2026/art_48f1d6ae25084378be76087d47bad09a.html" target="_blank" rel="noopener noreferrer">关于《道路机动车辆生产企业及产品公告》（第409批）和《享受车船税减免优惠的节约能源 使用...</a></h3>
+        <div class="article-meta">
+          <span>工信部汽车工业</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">6</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/qcgy/art/2026/art_2425f438422f40699ffc4b2e40150754.html" target="_blank" rel="noopener noreferrer">两部门约谈提醒涉嫌非理性竞争汽车生产企业</a></h3>
+        <div class="article-meta">
+          <span>工信部汽车工业</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">7</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/qcgy/art/2026/art_3c6a96f24ade472ab31cc62b0795593f.html" target="_blank" rel="noopener noreferrer">2026年5月汽车工业经济运行情况</a></h3>
+        <div class="article-meta">
+          <span>工信部汽车工业</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">8</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/gzdt/art/2026/art_25a6c198def74ff28d39b3325d51cb7e.html" target="_blank" rel="noopener noreferrer">关于2025年度乘用车企业平均燃料消耗量与新能源汽车积分情况的公示</a></h3>
+        <div class="article-meta">
+          <span>工信部工作动态</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">9</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/gzdt/art/2026/art_56fa9dafe9ba4235b6462449a1c7b59d.html" target="_blank" rel="noopener noreferrer">工业和信息化部等三部门召开新能源汽车行业企业座谈会</a></h3>
+        <div class="article-meta">
+          <span>工信部工作动态</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">10</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/gzdt/art/2026/art_66c1450eb97f4918a87c01e0c88810b0.html" target="_blank" rel="noopener noreferrer">关于2022及以前年度新能源汽车推广应用补助资金清算审核结果申诉复核情况的公示</a></h3>
+        <div class="article-meta">
+          <span>工信部工作动态</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">11</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/wjfb/art/2026/art_e13f1a3d60314a2ea0f6a7b91fa5732f.html" target="_blank" rel="noopener noreferrer">《道路机动车辆生产企业及产品》（第407批）、《享受车船税减免优惠的节约能源 使用新能源汽...</a></h3>
+        <div class="article-meta">
+          <span>工信部文件发布</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">12</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/wjfb/art/2026/art_421a049da25f4b088bdb18a20fa8a690.html" target="_blank" rel="noopener noreferrer">《道路机动车辆生产企业及产品》（第406批）、《享受车船税减免优惠的节约能源 使用新能源汽...</a></h3>
+        <div class="article-meta">
+          <span>工信部文件发布</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">13</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/wjfb/art/2026/art_9fa19a953e2b485e8c8e8da67b207d65.html" target="_blank" rel="noopener noreferrer">《道路机动车辆生产企业及产品》（第405批）、《享受车船税减免优惠的节约能源 使用新能源汽...</a></h3>
+        <div class="article-meta">
+          <span>工信部文件发布</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">14</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://apollo.baidu.com/" target="_blank" rel="noopener noreferrer">Apollo开放平台</a></h3>
+        <div class="article-meta">
+          <span>百度Apollo</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">15</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="javascript:;" target="_blank" rel="noopener noreferrer">Apollo Studio</a></h3>
+        <div class="article-meta">
+          <span>百度Apollo</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">16</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.horizon.auto/solutions/horizon-journey" target="_blank" rel="noopener noreferrer">地平线征程®
+                                                            车载智能计算方案</a></h3>
+        <div class="article-meta">
+          <span>地平线</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">17</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.horizon.auto/solutions/horizon-mono" target="_blank" rel="noopener noreferrer">Horizon Mono™
+                                                            基础辅助驾驶解决方案</a></h3>
+        <div class="article-meta">
+          <span>地平线</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">18</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.horizon.auto/solutions/horizon-superdrive" target="_blank" rel="noopener noreferrer">Horizon SuperDrive™  
+                                                            全场景辅助驾驶系统</a></h3>
+        <div class="article-meta">
+          <span>地平线</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">19</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.horizon.auto/solutions/horizon-journey/horizon-journey6" target="_blank" rel="noopener noreferrer">征程®6系列
+                                                                    车载智能计算方案</a></h3>
+        <div class="article-meta">
+          <span>地平线</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-12</span>
+        </div>
+        <p class="article-summary"></p>
+      </div>
+    </article>
+  </section>
+</div>
+</main>
+
+<!-- ============================================================
+     Footer
+     ============================================================ -->
+<footer class="footer">
+  <div class="container">
+    <p>智能网联汽车新闻自动化监测</p>
+  </div>
+</footer>
+
+</body>
+</html>

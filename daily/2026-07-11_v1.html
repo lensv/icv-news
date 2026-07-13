@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能网联汽车新闻日报</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CSS Variables
+   ============================================================ */
+:root {
+  --bg: #f8f6f2;
+  --surface: #ffffff;
+  --accent: #c27803;
+  --accent-dim: rgba(194,120,3,0.10);
+  --accent-light: rgba(194,120,3,0.04);
+  --text: #1f1b16;
+  --text-secondary: #6b6258;
+  --text-muted: #a89f94;
+  --border: #e8e2d9;
+  --border-light: #ddd6cb;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --font-display: 'DM Serif Display', serif;
+  --font-sans: 'Outfit', sans-serif;
+  --font-body: 'Noto Sans SC', 'Outfit', sans-serif;
+
+  --shadow-sm: 0 1px 2px rgba(31,27,22,0.05);
+  --shadow-hover: 0 4px 16px rgba(31,27,22,0.08);
+
+  --cat-policy: #c0392b;
+  --cat-standards: #2980b9;
+  --cat-investment: #d4a843;
+  --cat-technology: #27ae60;
+  --cat-projects: #8e44ad;
+  --cat-industry: #e67e22;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden}
+.container{max-width:880px;margin:0 auto;padding:0 24px}
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.hero{padding:40px 0 24px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 14px;border-radius:100px;
+  background:var(--accent-dim);border:1px solid rgba(194,120,3,0.18);
+  font-family:var(--font-sans);font-size:0.7rem;font-weight:600;
+  color:var(--accent);letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:12px;
+}
+.hero-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.hero-title{
+  font-family:var(--font-display);font-size:clamp(1.5rem,4vw,2rem);
+  color:var(--text);font-weight:400;line-height:1.2;margin-bottom:6px;
+}
+.hero-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:0.82rem;color:var(--text-muted);margin-bottom:14px}
+.hero-meta-div{width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0}
+.stat-summary{display:flex;gap:8px;flex-wrap:wrap}
+.stat-chip{
+  padding:3px 12px;border-radius:100px;
+  background:var(--accent-light);border:1px solid var(--border);
+  font-family:var(--font-sans);font-size:0.72rem;color:var(--text-secondary);
+}
+
+/* ============================================================
+   概览（扁平列表）
+   ============================================================ */
+/* ============================================================
+   分类新闻
+   ============================================================ */
+.main-content{padding:24px 0 32px}
+.cat-section{margin-bottom:28px}
+.cat-header{
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:10px;padding-bottom:8px;
+  border-bottom:1px solid var(--border);
+}
+.cat-icon{font-size:15px;flex-shrink:0}
+.cat-title{
+  font-family:var(--font-sans);font-size:0.9rem;font-weight:600;
+  color:var(--text);letter-spacing:0.2px;
+}
+.cat-count{
+  font-family:var(--font-sans);font-size:0.65rem;font-weight:500;
+  color:var(--text-muted);background:var(--bg);
+  padding:2px 10px;border-radius:100px;margin-left:auto;
+}
+
+/* 文章卡片 */
+.article-card{
+  display:flex;gap:12px;padding:12px 14px;
+  background:var(--surface);border:1px solid var(--border);
+  margin-bottom:8px;border-radius:var(--radius-md);
+  transition:all 0.2s ease;position:relative;overflow:hidden;
+}
+.article-card:hover{
+  border-color:transparent;box-shadow:var(--shadow-hover);
+}
+.article-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:3px;opacity:0;transition:opacity 0.2s;
+  border-radius:0 2px 2px 0;
+}
+.article-card:hover::before{opacity:1}
+
+/* 各类别文章左边框色 */
+.cat-policy .article-card::before{background:var(--cat-policy)}
+.cat-standards .article-card::before{background:var(--cat-standards)}
+.cat-investment .article-card::before{background:var(--cat-investment)}
+.cat-technology .article-card::before{background:var(--cat-technology)}
+.cat-projects .article-card::before{background:var(--cat-projects)}
+.cat-industry .article-card::before{background:var(--cat-industry)}
+
+.article-num{
+  font-family:var(--font-sans);font-size:0.8rem;font-weight:600;
+  color:var(--text-muted);min-width:22px;text-align:center;padding-top:1px;flex-shrink:0;
+}
+.article-body{flex:1;min-width:0}
+.article-title{
+  font-size:0.88rem;font-weight:500;color:var(--text);
+  line-height:1.5;margin-bottom:2px;
+}
+.article-title a{color:inherit;text-decoration:none}
+.article-title a:hover{color:var(--accent)}
+.article-meta{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  font-size:0.72rem;color:var(--text-muted);margin-bottom:4px;
+}
+.article-stars{font-size:0.6rem;letter-spacing:-1px}
+.article-summary{
+  font-size:0.78rem;color:var(--text-secondary);line-height:1.6;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.footer{text-align:center;padding:24px 0 32px;border-top:1px solid var(--border)}
+.footer p{font-size:0.7rem;color:var(--text-muted)}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media(max-width:640px){
+  .hero{padding:28px 0 16px}
+  .container{padding:0 16px}
+  .article-card{padding:10px 12px}
+  .article-title{font-size:0.85rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     Hero
+     ============================================================ -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>日报</div>
+    <h1 class="hero-title">智能网联汽车新闻</h1>
+    <div class="hero-meta">
+      <span class="hero-date" id="hero-date">2026年7月11日 星期六</span>
+      <span class="hero-meta-div"></span>
+      <span id="hero-count">共 6 条资讯</span>
+    </div>
+    <div class="stat-summary"><span class="stat-chip" style="color:#2980b9">标准动态 2</span><span class="stat-chip" style="color:#27ae60">技术动态 1</span><span class="stat-chip" style="color:#8e44ad">项目动态 1</span><span class="stat-chip" style="color:#e67e22">行业动态 2</span></div>
+  </div>
+</header>
+
+<!-- ============================================================
+     Main Content
+     ============================================================ -->
+<main class="main-content">
+  <div class="container">
+
+  <!-- 政策法规 -->
+  <section class="cat-section cat-policy" aria-label="政策法规">
+    <div class="cat-header">
+      <span class="cat-icon">&#9878;</span>
+      <h2 class="cat-title" style="color:#c0392b">政策法规</h2>
+      <span class="cat-count">0 条</span>
+    </div>
+    <div style="padding:32px 0;text-align:center;color:var(--text-muted);font-size:13px;background:var(--surface);border-radius:var(--radius-md);border:1px dashed var(--border);">本期采集窗口内（2026-07-10）暂无更新</div>
+  </section>
+
+  <!-- 标准动态 -->
+  <section class="cat-section cat-standards" aria-label="标准动态">
+    <div class="cat-header">
+      <span class="cat-icon">&#9881;</span>
+      <h2 class="cat-title" style="color:#2980b9">标准动态</h2>
+      <span class="cat-count">2 条</span>
+    </div>
+    <article class="article-card">
+      <span class="article-num">1</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.toutiao.com/article/7660838334603821611" target="_blank" rel="noopener noreferrer">话语权进一步提升：中国深度参与全球自动驾驶标准制定</a></h3>
+        <div class="article-meta">
+          <span>中原新闻网</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-10</span>
+        </div>
+        <p class="article-summary">联合国ADS GTR全球技术法规获批发布，中国从参与者升级为规则制定者。</p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">2</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.toutiao.com/article/7660838334603821611/" target="_blank" rel="noopener noreferrer">中国深度参与全球自动驾驶标准制定，ADS GTR法规正式获批</a></h3>
+        <div class="article-meta">
+          <span>中原新闻网</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-10</span>
+        </div>
+        <p class="article-summary">联合国世界车辆法规协调组织（UN/WP.29）第199次全体会议上，中国牵头制定的ADS GTR正式获批发布。</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- 投融资动态 -->
+  <section class="cat-section cat-investment" aria-label="投融资动态">
+    <div class="cat-header">
+      <span class="cat-icon">&#9733;</span>
+      <h2 class="cat-title" style="color:#d4a843">投融资动态</h2>
+      <span class="cat-count">0 条</span>
+    </div>
+    <div style="padding:32px 0;text-align:center;color:var(--text-muted);font-size:13px;background:var(--surface);border-radius:var(--radius-md);border:1px dashed var(--border);">本期采集窗口内（2026-07-10）暂无更新</div>
+  </section>
+
+  <!-- 技术动态 -->
+  <section class="cat-section cat-technology" aria-label="技术动态">
+    <div class="cat-header">
+      <span class="cat-icon">&#9889;</span>
+      <h2 class="cat-title" style="color:#27ae60">技术动态</h2>
+      <span class="cat-count">1 条</span>
+    </div>
+    <article class="article-card">
+      <span class="article-num">1</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://k.sina.com.cn/article_7880068201_1d5b04c69068027pb2.html" target="_blank" rel="noopener noreferrer">特斯拉城市NOA在美国正式上线，FSD选装价下调至1.2万美元</a></h3>
+        <div class="article-meta">
+          <span>IT之家</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-10</span>
+        </div>
+        <p class="article-summary">特斯拉在美国市场正式上线城市NOA功能，同时将FSD选装价格从1.5万美元下调至1.2万美元。</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- 项目动态 -->
+  <section class="cat-section cat-projects" aria-label="项目动态">
+    <div class="cat-header">
+      <span class="cat-icon">&#9874;</span>
+      <h2 class="cat-title" style="color:#8e44ad">项目动态</h2>
+      <span class="cat-count">1 条</span>
+    </div>
+    <article class="article-card">
+      <span class="article-num">1</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.163.com/dy/article/L1G1NJ490514R9OJ.html" target="_blank" rel="noopener noreferrer">小鹏集团召开首次Robotaxi全员会：不做运营，只做技术提供商</a></h3>
+        <div class="article-meta">
+          <span>环球网</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-10</span>
+        </div>
+        <p class="article-summary">小鹏集团召开Robotaxi业务部首次全员会，何小鹏明确商业定位：小鹏不做运营，只做技术提供商和生态赋能者。</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- 行业动态 -->
+  <section class="cat-section cat-industry" aria-label="行业动态">
+    <div class="cat-header">
+      <span class="cat-icon">&#128200;</span>
+      <h2 class="cat-title" style="color:#e67e22">行业动态</h2>
+      <span class="cat-count">2 条</span>
+    </div>
+    <article class="article-card">
+      <span class="article-num">1</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://www.163.com/dy/article/L1FD7LG3051481US.html" target="_blank" rel="noopener noreferrer">NHTSA发出自动驾驶应急避让警告，中国已先行定标</a></h3>
+        <div class="article-meta">
+          <span>网易/路透社</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-10</span>
+        </div>
+        <p class="article-summary">美国NHTSA局长向自动驾驶行业发出公开信，指出无人车与应急人员互动存在清晰模式问题。</p>
+      </div>
+    </article>
+    <article class="article-card">
+      <span class="article-num">2</span>
+      <div class="article-body">
+        <h3 class="article-title"><a href="https://finance.sina.com.cn/tech/roll/2026-07-10/doc-inihhrae7181652.shtml" target="_blank" rel="noopener noreferrer">美国新泽西州拟立法：禁纯视觉自动驾驶，必须配备激光雷达</a></h3>
+        <div class="article-meta">
+          <span>快科技/IT之家</span>
+          <span class="hero-meta-div" style="width:3px;height:3px;border-radius:50%;background:var(--border);flex-shrink:0;display:inline-block"></span>
+          <span>2026-07-10</span>
+        </div>
+        <p class="article-summary">新泽西州推进S1677法案，要求无人驾驶商用车辆必须搭载摄像头外加至少两种其他传感器（雷达和激光雷达）。</p>
+      </div>
+    </article>
+  </section>
+</div>
+</main>
+
+<!-- ============================================================
+     Footer
+     ============================================================ -->
+<footer class="footer">
+  <div class="container">
+    <p>智能网联汽车新闻自动化监测</p>
+  </div>
+</footer>
+
+</body>
+</html>

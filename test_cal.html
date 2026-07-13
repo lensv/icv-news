@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><title>日历测试</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:sans-serif;background:#f8f6f2;color:#1f1b16;padding:32px}
+h1{font-size:1.3rem;margin-bottom:16px}
+.cal{background:#fff;border:1px solid #e8e2d9;border-radius:10px;padding:12px;max-width:400px}
+.cal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cal-h button{background:#fff;border:1px solid #e8e2d9;border-radius:6px;padding:4px 10px;cursor:pointer}
+.cal-h .lbl{font-weight:600;font-size:1rem}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.wd{font-size:0.7rem;color:#6b6258;padding:6px 0}
+.day{padding:8px 0;border-radius:6px;font-size:0.85rem;color:#a89f94}
+.day.has{cursor:pointer;background:#fff8ed;border:1px solid #c27803;color:#1f1b16;font-weight:600}
+.day.has:hover{background:#c27803;color:#fff}
+.day.today{outline:2px solid #c27803;outline-offset:-2px}
+.day.empty{visibility:hidden}
+</style></head>
+<body>
+<h1>📅 日历测试页</h1>
+<div class="cal">
+  <div class="cal-h">
+    <button onclick="chg(-1)">←</button>
+    <span class="lbl" id="lbl"></span>
+    <button onclick="chg(1)">→</button>
+  </div>
+  <div class="grid" id="g"></div>
+</div>
+<p style="margin-top:16px;color:#6b6258;font-size:0.85rem" id="info"></p>
+
+<script>
+const DATES = ['2026-07-01','2026-07-02','2026-07-03','2026-07-04','2026-07-05','2026-07-06','2026-07-07','2026-07-08','2026-07-09','2026-07-10','2026-07-11','2026-07-12','2026-07-13'];
+let d = new Date(2026, 6, 1);
+const wd = ['日','一','二','三','四','五','六'];
+const today = new Date().toISOString().slice(0,10);
+
+function render() {
+  const y = d.getFullYear(), m = d.getMonth();
+  document.getElementById('lbl').textContent = y+'年'+(m+1)+'月';
+  const fd = new Date(y,m,1).getDay(), dim = new Date(y,m+1,0).getDate();
+  let h = '';
+  wd.forEach(w => h += '<div class="wd">'+w+'</div>');
+  for(let i=0;i<fd;i++) h += '<div class="day empty"></div>';
+  for(let i=1;i<=dim;i++) {
+    const s = y+'-'+(m+1+'').padStart(2,'0')+'-'+(i+'').padStart(2,'0');
+    const has = DATES.includes(s);
+    const cls = 'day' + (has?' has':'') + (s===today?' today':'');
+    if(has) h += '<div class="'+cls+'" onclick="window.open(\'daily/'+s+'_v1.html\')">'+i+'</div>';
+    else h += '<div class="'+cls+'">'+i+'</div>';
+  }
+  document.getElementById('g').innerHTML = h;
+  document.getElementById('info').textContent = DATES.length+' 天有日报，点击带边框的日期打开';
+}
+function chg(n) { d = new Date(d.getFullYear(), d.getMonth()+n, 1); render(); }
+render();
+</script>
+</body>
+</html>
