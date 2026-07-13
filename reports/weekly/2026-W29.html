@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能网联汽车 · 本周核心周报</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f8f6f2;--surface:#fff;--accent:#c27803;
+  --accent-dim:rgba(194,120,3,0.10);--accent-light:rgba(194,120,3,0.04);
+  --text:#1f1b16;--text-secondary:#6b6258;--text-muted:#a89f94;
+  --border:#e8e2d9;--border-light:#ddd6cb;
+  --radius-sm:6px;--radius-md:10px;--radius-lg:14px;
+  --font-display:'DM Serif Display',serif;--font-sans:'Outfit',sans-serif;
+  --font-body:'Noto Sans SC','Outfit',sans-serif;
+  --shadow-sm:0 1px 2px rgba(31,27,22,0.05);--shadow-hover:0 4px 16px rgba(31,27,22,0.08);
+}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.7}
+.container{max-width:880px;margin:0 auto;padding:0 24px}
+
+/* Hero */
+.hero{padding:40px 0 24px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 14px;border-radius:100px;
+  background:var(--accent-dim);border:1px solid rgba(194,120,3,0.18);
+  font-family:var(--font-sans);font-size:0.7rem;font-weight:600;
+  color:var(--accent);letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:12px;
+}
+.hero-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.hero-title{
+  font-family:var(--font-display);font-size:clamp(1.3rem,3.5vw,1.8rem);
+  color:var(--text);font-weight:400;line-height:1.3;margin-bottom:6px;
+}
+.hero-meta{font-size:0.82rem;color:var(--text-muted);margin-bottom:14px}
+.stat-summary{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.stat-chip{
+  padding:3px 12px;border-radius:100px;
+  background:var(--accent-light);border:1px solid var(--border);
+  font-family:var(--font-sans);font-size:0.7rem;color:var(--text-secondary);
+}
+
+/* 概览 */
+.overview-section{padding:20px 0 8px;border-bottom:1px solid var(--border);margin-bottom:4px}
+.overview-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.overview-title{font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--text);letter-spacing:0.2px}
+.overview-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+.overview-cat-title{font-family:var(--font-sans);font-size:0.82rem;font-weight:600;color:var(--text);margin-top:6px;margin-bottom:1px}
+.overview-list{list-style:none;padding:0;margin:0}
+.overview-list li{font-size:0.8rem;color:var(--text-secondary);line-height:1.55;padding-left:14px;position:relative}
+.overview-list li::before{content:'';position:absolute;left:3px;top:7px;width:4px;height:4px;border-radius:50%;background:var(--text-muted)}
+
+/* 分类新闻 */
+.section{padding:24px 0 8px}
+.section-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.section-icon{font-size:15px}
+.section-title{font-family:var(--font-sans);font-size:0.9rem;font-weight:600;color:var(--text);letter-spacing:0.2px}
+.cat-section{margin-bottom:24px}
+.cat-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.cat-icon{font-size:15px;flex-shrink:0}
+.cat-title{font-family:var(--font-sans);font-size:0.9rem;font-weight:600;letter-spacing:0.2px}
+.cat-count{font-family:var(--font-sans);font-size:0.65rem;font-weight:500;color:var(--text-muted);background:var(--bg);padding:2px 10px;border-radius:100px;margin-left:auto}
+
+/* 文章卡片 */
+.article-card{display:flex;gap:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);margin-bottom:8px;border-radius:var(--radius-md);transition:all 0.2s ease;position:relative;overflow:hidden}
+.article-card:hover{border-color:transparent;box-shadow:var(--shadow-hover)}
+.article-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;opacity:0;transition:opacity 0.2s;border-radius:0 2px 2px 0}
+.article-card:hover::before{opacity:1}
+.article-num{font-family:var(--font-sans);font-size:0.8rem;font-weight:600;color:var(--text-muted);min-width:22px;text-align:center;padding-top:1px;flex-shrink:0}
+.article-body{flex:1;min-width:0}
+.article-title{font-size:0.88rem;font-weight:500;color:var(--text);line-height:1.5;margin-bottom:2px}
+.article-title a{color:inherit;text-decoration:none}
+.article-title a:hover{color:var(--accent)}
+.article-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:0.72rem;color:var(--text-muted);margin-bottom:4px}
+.article-source{}
+.article-date{font-family:var(--font-sans)}
+.article-summary{font-size:0.78rem;color:var(--text-secondary);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Footer */
+.footer{text-align:center;padding:24px 0 32px;border-top:1px solid var(--border)}
+.footer p{font-size:0.7rem;color:var(--text-muted)}
+
+@media(max-width:640px){
+  .hero{padding:28px 0 16px}
+  .container{padding:0 16px}
+  .article-card{padding:10px 12px}
+  .article-title{font-size:0.85rem}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>周报</div>
+    <h1 class="hero-title">智能网联汽车新闻</h1>
+    <p class="hero-meta"><span class="hero-date">2026年7月6日-7月13日</span></p>
+    <div class="stat-summary"><span class="stat-chip" style="color:#27ae60">技术动态 14</span><span class="stat-chip" style="color:#8e44ad">项目动态 12</span><span class="stat-chip" style="color:#2980b9">标准动态 6</span><span class="stat-chip" style="color:#c0392b">政策法规 5</span><span class="stat-chip" style="color:#d4a843">投融资动态 3</span><span class="stat-chip" style="color:#e67e22">行业动态 3</span></div>
+  </header>
+
+  <!-- 本周概览 -->
+  <div class="overview-section">
+    <div class="overview-header">
+      <h2 class="overview-title">本周概览</h2>
+      <div class="overview-line"></div>
+    </div>
+    <div class="overview-list">
+            <div class="overview-cat-title">政策法规</div>
+      <li>智能网联汽车保险纠纷成北京金融法院关注焦点，智驾保险体系建设提速</li>
+      <li>美国NHTSA拟探讨允许无方向盘的无人驾驶汽车上路，利好Robotaxi产业发展</li>
+      <li>美国NHTSA拟探讨允许无方向盘的无人驾驶汽车上路，利好Robotaxi产业发展</li>
+      <li>全国统一无人车上路标准正式实施，GA/T 2388-2026 重塑无人物流合规运营新秩序</li>
+      <li>L3级自动驾驶全国通行规范生效，阿维塔获L3测试牌照</li>
+      <div class="overview-cat-title">标准动态</div>
+      <li>GB 47955—2026《智能网联汽车 组合驾驶辅助系统安全要求》强制性国家标准正式发布</li>
+      <li>我国首个L2级组合驾驶辅助强制国标GB 47955—2026正式发布深度解读</li>
+      <li>我国首个L2级组合驾驶辅助强制国标GB 47955—2026正式发布深度解读</li>
+      <li>中国首部 L3/L4 自动驾驶强制国标即将落地，2027 年 7 月实施倒计时</li>
+      <li>联合国首个自动驾驶全球技术法规ADS GTR正式发布</li>
+      <div class="overview-cat-title">投融资动态</div>
+      <li>灵境智源完成超亿元天使轮及天使+轮融资，经纬创投领投，专注具身智能计算底座</li>
+      <li>灵境智源完成超亿元天使轮及天使+轮融资，经纬创投领投，专注具身智能计算底座</li>
+      <li>Momenta 正式登陆港交所，成为「物理 AI 第一股」，市值超 700 亿港元</li>
+      <div class="overview-cat-title">技术动态</div>
+      <li>华为高管李文广：特别欢迎特斯拉FSD入华，确认明年技术上实现高速L3自动驾驶</li>
+      <li>华为高管李文广：特别欢迎特斯拉FSD入华，确认明年技术上实现高速L3自动驾驶</li>
+      <li>东风汽车率先实现国内自主线控转向系统量产落地，首款车型通过工信部公告</li>
+      <li>自动驾驶深度解剖</li>
+      <li>高阶智驾加速下沉至大众市场，零跑已将城市NOA落地至8万元级车型</li>
+      <div class="overview-cat-title">项目动态</div>
+      <li>楚航科技马来西亚海外生产基地正式投入运营，毫米波雷达产品辐射南亚市场</li>
+      <li>Waymo在拉斯维加斯启动完全无人驾驶运营，2026年底前冲刺每周100万次行程</li>
+      <li>楚航科技马来西亚海外生产基地正式投入运营，毫米波雷达产品辐射南亚市场</li>
+      <li>Waymo在拉斯维加斯启动完全无人驾驶运营，2026年底前冲刺每周100万次行程</li>
+      <li>小鹏Robotaxi正式开启员工内测，何小鹏完成首单并兼任机器人业务负责人</li>
+      <div class="overview-cat-title">行业动态</div>
+      <li>2026年6月汽车工业经济运行情况：新能源汽车产销增长超23%，渗透率近六成</li>
+      <li>工信部：2026上半年国内乘用车L2级自动驾驶搭载率达70%，NOA车型占比超30%</li>
+      <li>特斯拉46天拆除Model S/X生产线，改造为Optimus人形机器人生产基地</li>
+    </div>
+  </div>
+
+  <!-- 本周重要新闻 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">🔥</span>
+      <h2 class="section-title">本周重要新闻</h2>
+      <div class="overview-line" style="flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)"></div>
+    </div>
+    
+    <div class="cat-section">
+      <div class="cat-header">
+        <span class="cat-icon">📜</span>
+        <h3 class="cat-title" style="color:#c0392b">政策法规</h3>
+        <span class="cat-count">5 条</span>
+      </div>
+      
+        <article class="article-card">
+          <span class="article-num">1</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="https://cj.sina.com.cn/articles/view/1650111241/625ab30902001gw3w" target="_blank" rel="noopener noreferrer">智能网联汽车保险纠纷成北京金融法院关注焦点，智驾保险体系建设提速</a></h4>
+            <div class="article-meta">
+              <span class="article-source">中国经营报 / 新浪财经</span>
+              <span class="article-date">2026-07-12</span>
+            </div>
+            <p class="article-summary">7月12日报道，在第14个全国保险公众宣传日之际，北京金融法院发布一批涉科技保险案例，智能网联汽车保险成为重点关注和研究的新型险种。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">2</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="#no-url-6" target="_blank" rel="noopener noreferrer">美国NHTSA拟探讨允许无方向盘的无人驾驶汽车上路，利好Robotaxi产业发展</a></h4>
+            <div class="article-meta">
+              <span class="article-source">新浪财经</span>
+              <span class="article-date">2026-07-09</span>
+            </div>
+            <p class="article-summary">美国最高汽车安全监管机构NHTSA局长Jonathan Morrison表示，该机构「绝对」会考虑取消关于无人驾驶汽车必须配备方向盘的规定。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">3</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="http://finance.sina.com.cn/7x24/2026-07-09/doc-inihfihx8581342.shtml" target="_blank" rel="noopener noreferrer">美国NHTSA拟探讨允许无方向盘的无人驾驶汽车上路，利好Robotaxi产业发展</a></h4>
+            <div class="article-meta">
+              <span class="article-source">新浪财经</span>
+              <span class="article-date">2026-07-09</span>
+            </div>
+            <p class="article-summary">美国最高汽车安全监管机构NHTSA局长Jonathan Morrison表示，该机构「绝对」会考虑取消关于无人驾驶汽车必须配备方向盘的规定。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">4</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="#no-url-1" target="_blank" rel="noopener noreferrer">全国统一无人车上路标准正式实施，GA/T 2388-2026 重塑无人物流合规运营新秩序</a></h4>
+            <div class="article-meta">
+              <span class="article-source">腾讯新闻</span>
+              <span class="article-date">2026-07-08</span>
+            </div>
+            <p class="article-summary">公安部发布的《智能网联汽车道路测试与示范应用安全通行规范》（GA/T 2388-2026）正式实施，成为国内首个统一覆盖 L3 及以上高阶自动驾驶车辆的道路通行安全准则。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">5</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="https://finance.sina.cn/2026-07-07/detail-inifxxxc1596562.d.html" target="_blank" rel="noopener noreferrer">L3级及以上自动驾驶全国通行规范正式生效，阿维塔获L3测试牌照</a></h4>
+            <div class="article-meta">
+              <span class="article-source">新浪财经</span>
+              <span class="article-date">2026-07-07</span>
+            </div>
+            <p class="article-summary">7月1日起，公安部发布的《智能网联汽车道路测试与示范应用安全通行规范》正式生效，成为国内首个面向L3级及以上自动驾驶的全国性道路通行安全规范。</p>
+          </div>
+        </article>
+    </div>
+    <div class="cat-section">
+      <div class="cat-header">
+        <span class="cat-icon">⚙️</span>
+        <h3 class="cat-title" style="color:#2980b9">标准动态</h3>
+        <span class="cat-count">5 条</span>
+      </div>
+      
+        <article class="article-card">
+          <span class="article-num">1</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="https://www.ce.cn/xwzx/gnsz/gdxw/202607/t20260713_3083409.shtml" target="_blank" rel="noopener noreferrer">GB 47955—2026《智能网联汽车 组合驾驶辅助系统安全要求》强制性国家标准正式发布</a></h4>
+            <div class="article-meta">
+              <span class="article-source">人民日报 / 中国经济网</span>
+              <span class="article-date">2026-07-12</span>
+            </div>
+            <p class="article-summary">本报北京7月12日电，工业和信息化部组织制定并归口的《智能网联汽车 组合驾驶辅助系统安全要求》（GB 47955—2026）强制性国家标准，近日由国家市场监督管理总局、国家标准化管理委员会批准发布。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">2</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="#no-url-7" target="_blank" rel="noopener noreferrer">我国首个L2级组合驾驶辅助强制国标GB 47955—2026正式发布深度解读</a></h4>
+            <div class="article-meta">
+              <span class="article-source">盖世汽车</span>
+              <span class="article-date">2026-07-09</span>
+            </div>
+            <p class="article-summary">盖世汽车发布GB 47955—2026《智能网联汽车 组合驾驶辅助系统安全要求》深度解读。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">3</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="https://auto.gasgoo.com/news/202607/9I70465131C1103.shtml" target="_blank" rel="noopener noreferrer">我国首个L2级组合驾驶辅助强制国标GB 47955—2026正式发布深度解读</a></h4>
+            <div class="article-meta">
+              <span class="article-source">盖世汽车</span>
+              <span class="article-date">2026-07-09</span>
+            </div>
+            <p class="article-summary">盖世汽车发布GB 47955—2026《智能网联汽车 组合驾驶辅助系统安全要求》深度解读。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">4</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="#no-url-2" target="_blank" rel="noopener noreferrer">中国首部 L3/L4 自动驾驶强制国标即将落地，2027 年 7 月实施倒计时</a></h4>
+            <div class="article-meta">
+              <span class="article-source">搜狐汽车</span>
+              <span class="article-date">2026-07-08</span>
+            </div>
+            <p class="article-summary">工信部就《智能网联汽车 自动驾驶系统安全要求》强制国标（报批稿）公开征求意见，建议实施日期为 2027 年 7 月 1 日。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">5</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="https://c.m.163.com/news/a/L1J3M3FJ053469M5.html" target="_blank" rel="noopener noreferrer">全球自动驾驶规则注入「重庆基因」，山城凭啥为全球智驾「出题」</a></h4>
+            <div class="article-meta">
+              <span class="article-source">上游新闻</span>
+              <span class="article-date">2026-07-11</span>
+            </div>
+            <p class="article-summary">联合国世界车辆法规协调组织（UN/WP.29）第199次全体会议在瑞士日内瓦召开。</p>
+          </div>
+        </article>
+    </div>
+    <div class="cat-section">
+      <div class="cat-header">
+        <span class="cat-icon">⭐</span>
+        <h3 class="cat-title" style="color:#d4a843">投融资动态</h3>
+        <span class="cat-count">3 条</span>
+      </div>
+      
+        <article class="article-card">
+          <span class="article-num">1</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="#no-url-8" target="_blank" rel="noopener noreferrer">灵境智源完成超亿元天使轮及天使+轮融资，经纬创投领投，专注具身智能计算底座</a></h4>
+            <div class="article-meta">
+              <span class="article-source">盖世汽车</span>
+              <span class="article-date">2026-07-09</span>
+            </div>
+            <p class="article-summary">盖世汽车获悉，灵境智源已于近日完成超亿元天使轮及天使+轮融资，由经纬创投领投，上海闵行国资跟投。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">2</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="https://auto.gasgoo.com/news/202607/9I70465072C601.shtml" target="_blank" rel="noopener noreferrer">灵境智源完成超亿元天使轮及天使+轮融资，经纬创投领投，专注具身智能计算底座</a></h4>
+            <div class="article-meta">
+              <span class="article-source">盖世汽车</span>
+              <span class="article-date">2026-07-09</span>
+            </div>
+            <p class="article-summary">盖世汽车获悉，灵境智源已于近日完成超亿元天使轮及天使+轮融资，由经纬创投领投，上海闵行国资跟投。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">3</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="#no-url-3" target="_blank" rel="noopener noreferrer">Momenta 正式登陆港交所，成为「物理 AI 第一股」，市值超 700 亿港元</a></h4>
+            <div class="article-meta">
+              <span class="article-source">盖世汽车</span>
+              <span class="article-date">2026-07-08</span>
+            </div>
+            <p class="article-summary">7 月 8 日，Momenta 以每股 295.6 港元发行价在港交所正式挂牌上市（股票代码 6880.HK），开盘涨超 6%，总市值超 700 亿港元。</p>
+          </div>
+        </article>
+    </div>
+    <div class="cat-section">
+      <div class="cat-header">
+        <span class="cat-icon">⚡</span>
+        <h3 class="cat-title" style="color:#27ae60">技术动态</h3>
+        <span class="cat-count">5 条</span>
+      </div>
+      
+        <article class="article-card">
+          <span class="article-num">1</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="#no-url-9" target="_blank" rel="noopener noreferrer">华为高管李文广：特别欢迎特斯拉FSD入华，确认明年技术上实现高速L3自动驾驶</a></h4>
+            <div class="article-meta">
+              <span class="article-source">快科技 / 新浪科技</span>
+              <span class="article-date">2026-07-09</span>
+            </div>
+            <p class="article-summary">华为智能驾驶解决方案产品线总裁李文广接受采访明确表示：华为特别欢迎特斯拉FSD正式入华同台竞技，从技术落地节奏看，明年国内高速场景将正式迈入大规模商用的L3自动驾驶时代。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">2</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="http://k.sina.com.cn/article_7857201856_1d45362c0019081u9y.html" target="_blank" rel="noopener noreferrer">华为高管李文广：特别欢迎特斯拉FSD入华，确认明年技术上实现高速L3自动驾驶</a></h4>
+            <div class="article-meta">
+              <span class="article-source">快科技 / 新浪科技</span>
+              <span class="article-date">2026-07-09</span>
+            </div>
+            <p class="article-summary">华为智能驾驶解决方案产品线总裁李文广接受采访明确表示：华为特别欢迎特斯拉FSD正式入华同台竞技，从技术落地节奏看，明年国内高速场景将正式迈入大规模商用的L3自动驾驶时代。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">3</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="#no-url-4" target="_blank" rel="noopener noreferrer">东风汽车率先实现国内自主线控转向系统量产落地，首款车型通过工信部公告</a></h4>
+            <div class="article-meta">
+              <span class="article-source">盖世汽车</span>
+              <span class="article-date">2026-07-08</span>
+            </div>
+            <p class="article-summary">东风汽车首款搭载自主线控转向（SBW）系统的量产车型正式通过工信部公告。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">4</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="https://mp.weixin.qq.com/s?src=11&timestamp=1783564885&ver=6831&signature=c4i1Ofl4yH7EEOcyo6Ko9jqmSofIcK*GTYjXOGBNx1zUmJvoOw0pepOXybl9dDULlUqGyS4Wnk7TUIHVZfQ0AiUMeadHQ9-zvdsjloXGfn5ldJRk9yEcPpl1hGxKY*rX&new=1" target="_blank" rel="noopener noreferrer">自动驾驶深度解剖</a></h4>
+            <div class="article-meta">
+              <span class="article-source">智投瞭望（公众号）</span>
+              <span class="article-date">2026-07-08</span>
+            </div>
+            <p class="article-summary">核心提示：2026年以来，国内自动驾驶行业迎来史上最密集的上市窗口期。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">5</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="https://view.inews.qq.com/a/20260712A05JRL00" target="_blank" rel="noopener noreferrer">高阶智驾加速下沉至大众市场，零跑已将城市NOA落地至8万元级车型</a></h4>
+            <div class="article-meta">
+              <span class="article-source">中国新闻网</span>
+              <span class="article-date">2026-07-12</span>
+            </div>
+            <p class="article-summary">7月12日，第23届长春国际汽车博览会上，蔚来、极狐、零跑、深蓝、比亚迪等多个中国自主品牌将智能驾驶作为核心参展卖点。</p>
+          </div>
+        </article>
+    </div>
+    <div class="cat-section">
+      <div class="cat-header">
+        <span class="cat-icon">🔧</span>
+        <h3 class="cat-title" style="color:#8e44ad">项目动态</h3>
+        <span class="cat-count">5 条</span>
+      </div>
+      
+        <article class="article-card">
+          <span class="article-num">1</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="#no-url-12" target="_blank" rel="noopener noreferrer">楚航科技马来西亚海外生产基地正式投入运营，毫米波雷达产品辐射南亚市场</a></h4>
+            <div class="article-meta">
+              <span class="article-source">盖世汽车</span>
+              <span class="article-date">2026-07-09</span>
+            </div>
+            <p class="article-summary">7月9日，楚航科技宣布位于马来西亚吉隆坡的海外生产基地正式投入运营。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">2</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="#no-url-13" target="_blank" rel="noopener noreferrer">Waymo在拉斯维加斯启动完全无人驾驶运营，2026年底前冲刺每周100万次行程</a></h4>
+            <div class="article-meta">
+              <span class="article-source">盖世汽车</span>
+              <span class="article-date">2026-07-09</span>
+            </div>
+            <p class="article-summary">当地时间7月8日，Alphabet旗下Waymo在拉斯维加斯启动完全无人驾驶运营，车内无安全员。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">3</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="https://auto.gasgoo.com/news/202607/9I70465093C601.shtml" target="_blank" rel="noopener noreferrer">楚航科技马来西亚海外生产基地正式投入运营，毫米波雷达产品辐射南亚市场</a></h4>
+            <div class="article-meta">
+              <span class="article-source">盖世汽车</span>
+              <span class="article-date">2026-07-09</span>
+            </div>
+            <p class="article-summary">7月9日，楚航科技宣布位于马来西亚吉隆坡的海外生产基地正式投入运营。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">4</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="https://auto.gasgoo.com/news/202607/9I70465025C601.shtml" target="_blank" rel="noopener noreferrer">Waymo在拉斯维加斯启动完全无人驾驶运营，2026年底前冲刺每周100万次行程</a></h4>
+            <div class="article-meta">
+              <span class="article-source">盖世汽车</span>
+              <span class="article-date">2026-07-09</span>
+            </div>
+            <p class="article-summary">当地时间7月8日，Alphabet旗下Waymo在拉斯维加斯启动完全无人驾驶运营，车内无安全员。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">5</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="https://view.inews.qq.com/a/20260712A04M4K00" target="_blank" rel="noopener noreferrer">小鹏Robotaxi正式开启员工内测，何小鹏完成首单并兼任机器人业务负责人</a></h4>
+            <div class="article-meta">
+              <span class="article-source">21世纪经济报道</span>
+              <span class="article-date">2026-07-12</span>
+            </div>
+            <p class="article-summary">7月12日消息，小鹏Robotaxi正式开启员工内测，何小鹏化身「一号乘客」完成首单。</p>
+          </div>
+        </article>
+    </div>
+    <div class="cat-section">
+      <div class="cat-header">
+        <span class="cat-icon">📈</span>
+        <h3 class="cat-title" style="color:#e67e22">行业动态</h3>
+        <span class="cat-count">3 条</span>
+      </div>
+      
+        <article class="article-card">
+          <span class="article-num">1</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="https://www.miit.gov.cn/jgsj/zbys/qcgy/art/2026/art_1ff554c909a142cdb56b188a9a9a7f2f.html" target="_blank" rel="noopener noreferrer">2026年6月汽车工业经济运行情况：新能源汽车产销增长超23%，渗透率近六成</a></h4>
+            <div class="article-meta">
+              <span class="article-source">工信部装备工业一司</span>
+              <span class="article-date">2026-07-09</span>
+            </div>
+            <p class="article-summary">工信部发布2026年6月汽车工业经济运行情况。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">2</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="https://www.miit.gov.cn/xwfb/gxdt/sjdt/art/2026/art_e28beb9f8fe94a92ba0a3a67c39eea20.html" target="_blank" rel="noopener noreferrer">工信部：2026上半年国内乘用车L2级自动驾驶搭载率达70%，NOA车型占比超30%</a></h4>
+            <div class="article-meta">
+              <span class="article-source">工信部 / 腾讯新闻</span>
+              <span class="article-date">2026-07-12</span>
+            </div>
+            <p class="article-summary">7月12日，工信部公布数据显示，2026年上半年国内乘用车新车中70%搭载了L2级自动驾驶功能，其中配备领航驾驶辅助（NOA，含城区和高速）的车型占比超过30%。</p>
+          </div>
+        </article>
+        <article class="article-card">
+          <span class="article-num">3</span>
+          <div class="article-body">
+            <h4 class="article-title"><a href="https://view.inews.qq.com/a/20260712A06DB600" target="_blank" rel="noopener noreferrer">特斯拉46天拆除Model S/X生产线，改造为Optimus人形机器人生产基地</a></h4>
+            <div class="article-meta">
+              <span class="article-source">红星新闻</span>
+              <span class="article-date">2026-07-12</span>
+            </div>
+            <p class="article-summary">7月12日，特斯拉发布视频展示弗里蒙特工厂Model S和Model X生产线拆除过程，仅耗时46天即完成。</p>
+          </div>
+        </article>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>智能网联汽车新闻自动化监测 · 每周核心周报</p>
+  </footer>
+
+</div>
+
+</body>
+</html>

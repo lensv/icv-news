@@ -1,0 +1,60 @@
+name: 每日采集 & 部署
+
+on:
+  schedule:
+    # 每天北京时间 8:00 运行（UTC 0:00）
+    - cron: '0 0 * * *'
+  workflow_dispatch:  # 支持手动触发
+
+jobs:
+  collect-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: 安装依赖
+        run: |
+          pip install -r requirements.txt
+          python -m playwright install chromium
+          python -m playwright install-deps chromium
+
+      - name: 自动采集新闻
+        run: python scripts/collect_ci.py
+
+      - name: 生成概览文本
+        run: python scripts/generate_overview.py --force
+
+      - name: 生成日报
+        run: |
+          TODAY=$(date +%Y-%m-%d)
+          python scripts/gen_report.py "$TODAY" v1 "$(date -d 'yesterday' +%Y-%m-%d)"
+
+      - name: 生成周报
+        run: python scripts/generate_weekly.py
+
+      - name: 提交更新
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add data/ reports/ scripts/
+          git diff --staged --quiet || git commit -m "每日自动更新 $(date +%Y-%m-%d)"
+          git push
+
+      - name: 部署到 Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./reports
