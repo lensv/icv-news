@@ -13,7 +13,7 @@ import sqlite3
 import sys
 from datetime import date, timedelta
 
-BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE = r"E:\trae_solo\自动化监测智能网联汽车新闻"
 TEMPLATE = os.path.join(BASE, "templates", "daily_template.html")
 DB = os.path.join(BASE, "data", "icv_news.db")
 
@@ -161,13 +161,9 @@ def main():
     dt = date.fromisoformat(report_date)
     weekday = WEEKDAYS[dt.weekday()]
     if not window:
-        today = date.today()
-        if dt == today:
-            # 今天 → 显示昨天采集的数据
-            window = (dt - timedelta(days=1)).isoformat()
-        else:
-            # 历史日期 → 显示当天采集的数据
-            window = report_date
+        # 所有日期统一：显示前一天采集的数据
+        # 7月1日→6月30日采集, 7月2日→7月1日采集, ...
+        window = (dt - timedelta(days=1)).isoformat()
 
     # 从数据库加载数据（按采集窗口匹配）
     data = load_from_db(window)
