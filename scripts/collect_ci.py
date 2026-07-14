@@ -2,7 +2,7 @@
 GitHub Actions 采集脚本 — 使用 Playwright 扫描多个新闻源。
 安装依赖: pip install playwright && python -m playwright install chromium
 """
-import json, os, sys, re
+import json, os, sys
 from datetime import date, datetime, timedelta
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -12,22 +12,7 @@ DB = os.path.join(BASE, "data", "icv_news.db")
 YESTERDAY = (date.today() - timedelta(days=1)).isoformat()
 WINDOW = YESTERDAY
 
-CAT_KEYS = {
-    "政策法规": ["工信部", "公安部", "交通部", "政策", "法规", "条例", "管理办法", "准入"],
-    "标准动态": ["标准", "国标", "GB", "GA/T", "规范", "UN", "WP.29"],
-    "投融资动态": ["融资", "投资", "上市", "IPO", "估值", "天使轮", "A轮", "B轮"],
-    "技术动态": ["自动驾驶", "L2", "L3", "L4", "FSD", "智驾", "ADS", "NOA", "算法", "雷达", "芯片"],
-    "项目动态": ["Robotaxi", "测试", "量产", "交付", "落地", "试点", "运营"],
-    "行业动态": ["行业", "市场", "销量", "渗透率", "数据", "报告", "占比"],
-}
-
-
-def classify(title, summary=""):
-    text = title + " " + (summary or "")
-    for cat, kws in CAT_KEYS.items():
-        if any(kw in text for kw in kws):
-            return cat
-    return "行业动态"
+from scripts.icv_filter import CAT_KEYS, filter_icv, classify, validate_url
 
 
 def scrape_miit(page):
@@ -85,7 +70,7 @@ def scrape_36kr(page):
         """)
         for link in links:
             t = link["title"]
-            if len(t) > 8:
+            if len(t) > 8 and any(k in t for k in ["智能网联","自动驾驶","智驾","汽车","新能源","激光雷达","芯片","融资","Robotaxi","L2","L3","L4"]):
                 items.append(link)
     except Exception as e:
         print(f"  [36氪] {e}")
@@ -106,7 +91,7 @@ def scrape_gasgoo(page):
         """)
         for link in links:
             t = link["title"]
-            if len(t) > 8:
+            if len(t) > 8 and any(k in t for k in ["智能网联","自动驾驶","智驾","汽车","新能源","激光雷达","芯片","融资","Robotaxi","L2","L3","L4","雷达"]):
                 items.append(link)
     except Exception as e:
         print(f"  [盖世] {e}")
@@ -137,15 +122,32 @@ def main():
         key = item["title"][:30]
         if key not in seen:
             seen.add(key)
-            cat_name = classify(item["title"])
-            articles.append({
-                "title": item["title"],
-                "url": item["url"],
-                "source": "自动采集",
-                "date": YESTERDAY,
-                "cat": cat_name,
-                "summary": "",
-            })
+            articles.append(item)
+
+    # ICV 白名单过滤
+    before = len(articles)
+    articles = [item for item in articles if filter_icv(item["title"])]
+    print(f"  ICV白名单过滤: {before} → {len(articles)} 条")
+
+    # URL 有效性校验（防假链接/占位符）
+    url_before = len(articles)
+    articles = [item for item in articles if validate_url(item.get("url", ""))]
+    if len(articles) < url_before:
+        print(f"  无效URL过滤: {url_before} → {len(articles)} 条")
+
+    # 分类
+    categorized = []
+    for item in articles:
+        cat_name = classify(item["title"])
+        categorized.append({
+            "title": item["title"],
+            "url": item["url"],
+            "source": "自动采集",
+            "date": YESTERDAY,
+            "cat": cat_name,
+            "summary": "",
+        })
+    articles = categorized
 
     # 统计
     cat_counts = {}

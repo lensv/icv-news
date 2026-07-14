@@ -79,19 +79,51 @@ def main():
     conn = sqlite3.connect(DB)
     conn.executescript(SCHEMA)
 
-    # ---- 写入 articles ----
+    # ---- 写入 articles（带源优先级检查）----
+    import sys
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from source_priority import source_tier
+
     inserted = 0
+    replaced = 0
+    skipped_tier = 0
     for item in data.get("news", []):
         title = item.get("title", "")
         url = item.get("url", "")
         url_original = item.get("url_original") or item.get("url", "")
         source = item.get("source", "")
-        category = item.get("name", "")
+        category = item.get("name") or item.get("cat", "")
         summary = item.get("summary", "")
         date = item.get("date", "")
         overview = item.get("overview", "")
+        window = item.get("window", "") or data.get("window", "")
 
         source_type, is_wechat = guess_source_type(source)
+        new_tier = source_tier(source, url)
+
+        # 查重：同 title+window 时，比较来源梯队
+        if title and window:
+            existing = conn.execute(
+                "SELECT id, source, url FROM articles WHERE title = ? AND window = ? AND is_deleted = 0",
+                (title, window)
+            ).fetchone()
+            if existing:
+                ex_tier = source_tier(existing["source"], existing["url"])
+                if new_tier >= ex_tier:
+                    # 新来源不如已存在的，跳过
+                    skipped_tier += 1
+                    continue
+                else:
+                    # 新来源更优：软删除旧的
+                    conn.execute(
+                        "INSERT INTO articles_deleted_audit (id,title,source,url,category,publish_date,window,deleted_at,delete_reason,original_row_json) "
+                        "SELECT id,title,source,url,category,publish_date,window,datetime('now','localtime'),"
+                        "'REPLACED_BY_TIER1: 被更高梯队源替换',json_object('title',title,'source',source,'url',url) "
+                        "FROM articles WHERE id = ?",
+                        (existing["id"],)
+                    )
+                    conn.execute("UPDATE articles SET is_deleted = 1 WHERE id = ?", (existing["id"],))
+                    replaced += 1
 
         try:
             conn.execute(
@@ -106,6 +138,9 @@ def main():
                 inserted += 1
         except sqlite3.IntegrityError:
             pass
+
+    if skipped_tier or replaced:
+        print(f"  [tier-priority] 新增 {inserted}，替换 {replaced} 旧记录，跳过 {skipped_tier} 低梯队")
 
     # ---- 写入 collect_log ----
     categories = data.get("category_counts", {})
@@ -137,6 +172,28 @@ def main():
 
     print(f"导入完成：articles 新增 {inserted} 条，跳过(已存在) {len(data.get('news',[])) - inserted} 条。")
     print(f"数据库累计：{total} 条  ->  {DB}")
+
+    # ---- 自动补摘要 ----
+    from fill_missing_summaries import main as fill_summaries
+    sys.argv = [sys.argv[0]]
+    if window:
+        sys.argv += ["--window", window]
+    fill_summaries()
+
+    # ---- URL 健康检查（自动软删除失效链接）----
+    print("\n[STEP] URL 健康检查...")
+    from check_urls_health import run as check_urls
+    sys.argv = [sys.argv[0]]
+    if window:
+        sys.argv += ["--window", window, "--soft-delete-broken"]
+    else:
+        sys.argv += ["--soft-delete-broken"]
+    try:
+        check_urls()
+    except SystemExit:
+        pass  # check_urls_health 在有失效时 sys.exit(1)
+    except Exception as e:
+        print(f"[WARN] URL 检查异常: {e}")
 
     # ---- 生成每日快照 ----
     version = data.get("version", "")

@@ -40,15 +40,15 @@ def api_stats():
     total = conn.execute("SELECT COUNT(*) FROM articles").fetchone()[0]
     # 分类分布
     cats = conn.execute(
-        "SELECT category, COUNT(*) as cnt FROM articles GROUP BY category ORDER BY cnt DESC"
+        "SELECT category, COUNT(*) as cnt FROM articles WHERE is_deleted = 0 GROUP BY category ORDER BY cnt DESC"
     ).fetchall()
     # 来源分布
     sources = conn.execute(
-        "SELECT source_type, COUNT(*) as cnt FROM articles GROUP BY source_type ORDER BY cnt DESC"
+        "SELECT source_type, COUNT(*) as cnt FROM articles WHERE is_deleted = 0 GROUP BY source_type ORDER BY cnt DESC"
     ).fetchall()
     # 评分分布
     scores = conn.execute(
-        "SELECT importance, COUNT(*) as cnt FROM articles WHERE importance > 0 GROUP BY importance ORDER BY importance DESC"
+        "SELECT importance, COUNT(*) as cnt FROM articles WHERE importance > 0 AND is_deleted = 0 GROUP BY importance ORDER BY importance DESC"
     ).fetchall()
     # 日期范围
     date_range = conn.execute(
@@ -56,7 +56,7 @@ def api_stats():
     ).fetchone()
     # 公众号数量
     wechat = conn.execute(
-        "SELECT COUNT(*) FROM articles WHERE is_wechat = 1"
+        "SELECT COUNT(*) FROM articles WHERE is_wechat = 1 AND is_deleted = 0"
     ).fetchone()[0]
     conn.close()
 
@@ -86,6 +86,8 @@ def api_articles():
 
     where = []
     params = []
+
+    where.append("is_deleted = 0")
 
     if category:
         where.append("category = ?")
@@ -160,7 +162,7 @@ def api_articles():
 def api_charts_category():
     conn = get_db()
     rows = conn.execute(
-        "SELECT category, COUNT(*) as cnt FROM articles GROUP BY category ORDER BY cnt DESC"
+        "SELECT category, COUNT(*) as cnt FROM articles WHERE is_deleted = 0 GROUP BY category ORDER BY cnt DESC"
     ).fetchall()
     conn.close()
     return jsonify({
@@ -174,7 +176,7 @@ def api_charts_trend():
     conn = get_db()
     rows = conn.execute(
         "SELECT publish_date, COUNT(*) as cnt FROM articles "
-        "WHERE publish_date IS NOT NULL "
+        "WHERE publish_date IS NOT NULL AND is_deleted = 0 "
         "GROUP BY publish_date ORDER BY publish_date"
     ).fetchall()
     conn.close()
@@ -190,7 +192,7 @@ def api_charts_source():
     label_map = {"media": "行业媒体", "wechat": "微信公众号", "enterprise": "企业官方", "gov": "政府机构"}
     conn = get_db()
     rows = conn.execute(
-        "SELECT source_type, COUNT(*) as cnt FROM articles GROUP BY source_type"
+        "SELECT source_type, COUNT(*) as cnt FROM articles WHERE is_deleted = 0 GROUP BY source_type"
     ).fetchall()
     conn.close()
 
@@ -322,6 +324,9 @@ def api_export():
 
     where = []
     params = []
+
+    where.append("is_deleted = 0")
+
     if category:
         where.append("category = ?")
         params.append(category)
@@ -363,6 +368,146 @@ def api_export():
         as_attachment=True,
         download_name=f"icv_news_export_{datetime.now().strftime('%Y%m%d')}.csv",
     )
+
+
+@app.route("/api/available-dates")
+def api_available_dates():
+    """返回所有有日报数据的日期列表（展示日期，非采集窗口）"""
+    conn = get_db()
+    rows = conn.execute(
+        "SELECT DISTINCT publish_date FROM articles WHERE is_deleted = 0 AND publish_date IS NOT NULL ORDER BY publish_date DESC"
+    ).fetchall()
+    dates = []
+    for r in rows:
+        pd = r["publish_date"]
+        try:
+            dt = datetime.strptime(pd, "%Y-%m-%d")
+            display_date = (dt + timedelta(days=1)).strftime("%Y-%m-%d")
+            weekday = ["周一","周二","周三","周四","周五","周六","周日"][(dt + timedelta(days=1)).weekday()]
+            dates.append({"date": display_date, "window": pd, "weekday": weekday})
+        except:
+            pass
+    conn.close()
+    return jsonify(dates)
+
+
+@app.route("/api/daily-data/<date_str>")
+def api_daily_data(date_str):
+    """从 DB 实时获取日报数据。date_str 为展示日期，窗口 = 前一天"""
+    try:
+        dt = datetime.strptime(date_str, "%Y-%m-%d")
+        window = (dt - timedelta(days=1)).strftime("%Y-%m-%d")
+    except ValueError:
+        return jsonify({"error": "日期格式错误"}), 400
+
+    conn = get_db()
+    rows = conn.execute(
+        """SELECT title, source, category, publish_date, summary, overview, importance, url, window
+           FROM articles
+           WHERE is_deleted = 0
+             AND (window = ? OR (publish_date = ? AND (window IS NULL OR window = '')))
+           ORDER BY importance DESC, category, publish_date DESC""",
+        (window, window)
+    ).fetchall()
+
+    articles = []
+    cats = {}
+    for r in rows:
+        articles.append({
+            "title": r["title"],
+            "source": r["source"],
+            "category": r["category"] or "",
+            "publish_date": r["publish_date"],
+            "summary": r["summary"] or "",
+            "overview": r["overview"] or "",
+            "importance": r["importance"] or 0,
+            "url": r["url"] or "",
+            "window": r["window"]
+        })
+        cat = r["category"] or "其他"
+        cats[cat] = cats.get(cat, 0) + 1
+
+    conn.close()
+
+    window_display = date_str
+    try:
+        dd = datetime.strptime(date_str, "%Y-%m-%d")
+        weekdays = ["周一","周二","周三","周四","周五","周六","周日"]
+        window_display = dd.strftime("%Y年%m月%d日") + " " + weekdays[dd.weekday()]
+    except:
+        pass
+
+    return jsonify({
+        "display_date": date_str,
+        "window": window,
+        "window_display": window_display,
+        "total": len(articles),
+        "categories": cats,
+        "articles": articles,
+    })
+
+
+@app.route("/api/weekly-data/<week_start>")
+def api_weekly_data(week_start):
+    """从 DB 实时获取周报数据。week_start = 周一日期(如 2026-07-06)"""
+    try:
+        monday = datetime.strptime(week_start, "%Y-%m-%d").date()
+    except ValueError:
+        return jsonify({"error": "日期格式错误，应为 YYYY-MM-DD"}), 400
+    sunday = monday + timedelta(days=6)
+
+    conn = get_db()
+    rows = conn.execute(
+        """SELECT * FROM articles
+           WHERE is_deleted = 0
+             AND publish_date >= ? AND publish_date <= ?
+           ORDER BY importance DESC, publish_date DESC""",
+        (monday.isoformat(), sunday.isoformat())
+    ).fetchall()
+
+    if not rows:
+        conn.close()
+        return jsonify({"total": 0, "categories": {}, "articles": [], "top": []})
+
+    articles = []
+    cats = {}
+    for r in rows:
+        articles.append({
+            "title": r["title"], "source": r["source"],
+            "category": r["category"] or "", "publish_date": r["publish_date"],
+            "summary": r["summary"] or "", "importance": r["importance"] or 0,
+            "url": r["url"] or "",
+        })
+        cat = r["category"] or "其他"
+        cats[cat] = cats.get(cat, 0) + 1
+
+    # Top 5 重要文章（概览用）
+    top = sorted(articles, key=lambda a: a["importance"], reverse=True)[:5]
+
+    # 获取所有往期周报（从 reports/weekly/ 目录）
+    past = []
+    import os as _os
+    weekly_dir = _os.path.join(_os.path.dirname(_os.path.dirname(__file__)), "reports", "weekly")
+    if _os.path.isdir(weekly_dir):
+        for fname in sorted(_os.listdir(weekly_dir), reverse=True):
+            if fname.endswith(".html"):
+                d = fname.replace(".html", "")
+                try:
+                    datetime.strptime(d, "%Y-%m-%d")
+                    past.append(d)
+                except ValueError:
+                    pass
+
+    conn.close()
+    return jsonify({
+        "week_start": week_start,
+        "week_end": sunday.isoformat(),
+        "total": len(articles),
+        "categories": cats,
+        "top": [{"title": a["title"], "importance": a["importance"], "url": a["url"]} for a in top],
+        "articles": articles,
+        "past_weeks": past,
+    })
 
 
 if __name__ == "__main__":

@@ -42,6 +42,7 @@ def load_db_articles_for_date(target_date):
         """SELECT title, source, category, publish_date, summary, overview, importance, url
            FROM articles
            WHERE publish_date = ?
+             AND is_deleted = 0
            ORDER BY importance DESC, publish_date DESC""",
         (target_date,)
     ).fetchall()
@@ -97,7 +98,7 @@ def regenerate(target_date=None):
             # 获取数据库中的所有不同日期
             conn = sqlite3.connect(DB)
             rows = conn.execute(
-                "SELECT DISTINCT publish_date FROM articles WHERE publish_date IS NOT NULL ORDER BY publish_date"
+                "SELECT DISTINCT publish_date FROM articles WHERE publish_date IS NOT NULL AND is_deleted = 0 ORDER BY publish_date"
             ).fetchall()
             conn.close()
             dates_to_process = [r[0] for r in rows]

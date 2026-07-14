@@ -229,7 +229,7 @@ h1,h2,h3,h4{font-family:var(--font-sans);font-weight:700;letter-spacing:-0.02em}
     <div class="nav-links">
       <button class="nav-link active" data-tab="daily" onclick="switchTab('daily')">📰 日报</button>
       <button class="nav-link" data-tab="weekly" onclick="switchTab('weekly')">📋 周报</button>
-      <button class="nav-link" data-tab="monthly" onclick="switchTab('monthly')">📅 月报</button>
+      <button class="nav-link" data-tab="monthly" onclick="switchTab('monthly')" style="display:none">📅 月报</button>
     </div>
     <div class="nav-actions"></div>
   </div>
@@ -258,9 +258,9 @@ h1,h2,h3,h4{font-family:var(--font-sans);font-weight:700;letter-spacing:-0.02em}
      TAB: 周报
      ============================================================ -->
 <div class="tab-content" id="tab-weekly">
-  <div class="hero-section">
-    <div class="hero-title"><span>周报</span> 总览</div>
-    <div class="hero-subtitle">智能网联汽车每周新闻综述</div>
+  <div class="hero-section" id="weeklyHero">
+    <div class="hero-title"><span>智能网联汽车新闻</span> 周报</div>
+    <div class="hero-subtitle" id="weeklyHeroSub">智能网联汽车每周新闻综述</div>
   </div>
   <div class="weekly-content">
     <div class="weekly-viewer" id="weeklyViewer">
@@ -343,10 +343,20 @@ async function api(url) {
 // Init
 // ============================================================
 document.addEventListener('DOMContentLoaded', async () => {
+  // Daily: load from DB API
+  const availableDates = await api('/api/available-dates');
+  if (!availableDates) return;
+  // Build a map for quick lookup
+  window._availableDates = availableDates;
+  window._dateMap = {};
+  availableDates.forEach(d => { window._dateMap[d.date] = d; });
+
+  // Weekly/monthly: load from static reports
   reportsData = await api('/api/reports');
-  if (!reportsData) return;
-  weeklyReports = reportsData.weekly || [];
-  monthlyReports = reportsData.monthly || [];
+  if (reportsData) {
+    weeklyReports = reportsData.weekly || [];
+    monthlyReports = reportsData.monthly || [];
+  }
   initCalendar();
   initWeekly();
   initMonthly();
@@ -380,13 +390,11 @@ function fitIframes() {
 // ============================================================
 function initCalendar() {
   const todayStr = new Date().toISOString().slice(0,10);
-  // Default to latest report date
-  const dailies = reportsData.daily || [];
-  if (dailies.length > 0) {
-    selectedDate = dailies[0].date;
-  } else {
-    selectedDate = todayStr;
-  }
+  // 默认显示今天
+  selectedDate = todayStr;
+  // 跳转到今天所在月份
+  const [y, m] = todayStr.split('-').map(Number);
+  calDate = new Date(y, m - 1, 1);
   renderCalendar();
 }
 
@@ -402,48 +410,33 @@ function renderCalendar() {
 
   document.getElementById('calMonthLabel').textContent = `${year}年${month+1}月`;
 
-  // Build date set from reports
-  const reportDates = new Set();
-  (reportsData.daily || []).forEach(r => { if (r.date) reportDates.add(r.date); });
+  const availableDates = window._availableDates || [];
+  const dateMap = window._dateMap || {};
 
-  // Group by date -> latest version
-  const dateLatest = {};
-  (reportsData.daily || []).forEach(r => {
-    if (r.date && (!dateLatest[r.date] || r.version > dateLatest[r.date].version)) {
-      dateLatest[r.date] = r;
-    }
-  });
-
-  const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+  const firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   const weekdays = ['日','一','二','三','四','五','六'];
   let html = '';
   weekdays.forEach(d => { html += `<div class="calendar-weekday">${d}</div>`; });
-
-  // Empty cells before first day
   for (let i = 0; i < firstDay; i++) {
     html += '<div class="calendar-day empty"></div>';
   }
 
   for (let d = 1; d <= daysInMonth; d++) {
     const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const hasReport = dateLatest[dateStr];
+    const hasReport = dateMap[dateStr];
     const isSelected = dateStr === selectedDate;
     const isToday = dateStr === todayStr;
     let cls = 'calendar-day';
     if (hasReport) cls += ' has-report';
     if (isSelected) cls += ' selected';
     if (isToday) cls += ' calendar-today';
-
     html += `<div class="${cls}" onclick="selectDate('${dateStr}')">${d}</div>`;
   }
   document.getElementById('calGrid').innerHTML = html;
 
-  // Load initially
-  if (selectedDate && dateLatest[selectedDate]) {
-    loadDailyReport(selectedDate);
-  }
+  if (selectedDate) loadDailyReport(selectedDate);
 }
 
 function selectDate(dateStr) {
@@ -453,27 +446,71 @@ function selectDate(dateStr) {
 }
 
 // ============================================================
-// Load Daily Report
+// Load Daily Report — 直接从 DB 实时渲染
 // ============================================================
-function loadDailyReport(dateStr) {
+const CAT_ICONS = {
+  '政策法规': '📋', '标准动态': '📐', '投融资动态': '💰',
+  '技术动态': '⚙️', '项目动态': '🚀', '行业动态': '📊'
+};
+const CAT_ORDER = ['政策法规','标准动态','投融资动态','技术动态','项目动态','行业动态'];
+
+async function loadDailyReport(dateStr) {
   const viewer = document.getElementById('dailyViewer');
-  // Find latest version for this date
-  const dailies = (reportsData.daily || []).filter(r => r.date === dateStr);
-  if (dailies.length === 0) {
+  viewer.innerHTML = '<div class="loading"><div class="spinner"></div>加载中…</div>';
+
+  const data = await api(`/api/daily-data/${dateStr}`);
+  if (!data || data.total === 0) {
     viewer.innerHTML = `<div class="empty-state"><div class="icon">📭</div><div>${dateStr} 暂无日报</div></div>`;
     return;
   }
-  // Pick latest version（数字版本号排序）
-  dailies.sort((a,b) => {
-    const na = parseInt(a.version.replace('v','')) || 0;
-    const nb = parseInt(b.version.replace('v','')) || 0;
-    return nb - na;
-  });
-  const report = dailies[0];
-  const iframeId = 'daily-frame-' + (++iframeIdCounter);
 
-  viewer.innerHTML = `<iframe id="${iframeId}" src="${report.path}" onload="onIframeLoad(this)" style="min-height:400px"></iframe>`;
+  // Group articles by category
+  const byCat = {};
+  data.articles.forEach(a => {
+    const cat = a.category || '其他';
+    if (!byCat[cat]) byCat[cat] = [];
+    byCat[cat].push(a);
+  });
+
+  let html = '';
+  // Hero
+  html += `<div style="padding:28px 0 16px;text-align:center">`;
+  html += `<div style="font-family:var(--font-display);font-size:1.6rem;color:var(--color-text);margin-bottom:4px">智能网联汽车<span style="color:var(--color-accent)">新闻</span></div>`;
+  html += `<div style="font-size:0.85rem;color:var(--color-text-secondary)">${data.window_display} · 共 ${data.total} 条资讯</div>`;
+  // Category tags
+  html += `<div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">`;
+  for (const cat of CAT_ORDER) {
+    const cnt = data.categories[cat];
+    if (cnt) html += `<span style="padding:3px 14px;border-radius:100px;font-size:0.75rem;background:var(--color-accent-dim);color:var(--color-accent);font-weight:500">${CAT_ICONS[cat]||''} ${cat} ${cnt}</span>`;
+  }
+  html += `</div></div>`;
+
+  // Articles by category
+  for (const cat of CAT_ORDER) {
+    const items = byCat[cat];
+    if (!items || items.length === 0) continue;
+    html += `<div style="margin-bottom:24px">`;
+    html += `<h3 style="font-family:var(--font-sans);font-size:0.95rem;font-weight:600;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--color-accent);display:inline-block">${CAT_ICONS[cat]||''} ${cat}</h3>`;
+    html += `<div style="display:flex;flex-direction:column;gap:8px">`;
+    items.forEach(a => {
+      html += `<div style="background:var(--bg-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:16px 20px;transition:var(--transition);cursor:pointer" onmouseover="this.style.boxShadow='0 4px 16px rgba(31,27,22,0.08)';this.style.borderColor='var(--color-accent)'" onmouseout="this.style.boxShadow='none';this.style.borderColor='var(--color-border)'">`;
+      html += `<a href="${escHtml(a.url)}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-sans);font-size:0.9rem;font-weight:600;color:var(--color-text);text-decoration:none;display:block;margin-bottom:4px;line-height:1.4" onmouseover="this.style.color='var(--color-accent)'" onmouseout="this.style.color='var(--color-text)'">${escHtml(a.title)}</a>`;
+      html += `<div style="font-size:0.78rem;color:var(--color-text-muted);margin-bottom:6px"><span>${escHtml(a.source)}${a.publish_date ? ' · ' + escHtml(a.publish_date) : ''}</span></div>`;
+      if (a.summary) {
+        html += `<div style="font-size:0.82rem;color:var(--color-text-secondary);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">${escHtml(a.summary)}</div>`;
+      } else {
+        html += `<div style="font-size:0.78rem;color:var(--color-text-muted);font-style:italic">（暂无摘要）</div>`;
+      }
+      html += `</div>`;
+    });
+    html += `</div></div>`;
+  }
+
+  viewer.innerHTML = html;
 }
+
+function escHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function escJs(s) { return (s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'\\"').replace(/\n/g,'\\n'); }
 
 function onIframeLoad(iframe) {
   try {
@@ -524,39 +561,101 @@ document.addEventListener('keydown', function(e) {
 });
 
 // ============================================================
-// Weekly
+// Weekly — 从 DB 实时加载
 // ============================================================
-function initWeekly() {
+async function initWeekly() {
+  // 计算本周一
+  const today = new Date();
+  const day = today.getDay();
+  const diff = day === 0 ? -13 : -(6 + day); // 默认显示上周（已完成的一周）
+  const monday = new Date(today); monday.setDate(today.getDate() + diff);
+  const weekStart = monday.toISOString().slice(0, 10);
+
+  const data = await api(`/api/weekly-data/${weekStart}`);
+  if (!data || data.total === 0) {
+    document.getElementById('weeklyViewer').innerHTML = `<div class="empty-state"><div class="icon">📋</div><div>本周暂无数据</div></div>`;
+    document.getElementById('weeklyPastGrid').innerHTML = '<span style="font-size:0.85rem;color:var(--color-text-muted)">暂无往期周报</span>';
+    return;
+  }
+  renderWeeklyViewer(data);
+  renderWeeklyPast(data.past_weeks || []);
+}
+
+function renderWeeklyViewer(data) {
+  const viewer = document.getElementById('weeklyViewer');
+  const cats = data.categories || {};
+  const catKeys = ['政策法规','标准动态','投融资动态','技术动态','项目动态','行业动态'].filter(c => cats[c]);
+  catKeys.push(...Object.keys(cats).filter(c => !catKeys.includes(c)));
+
+  // 抬头：日期范围 + 各分类数量
+  const ws = data.week_start, we = data.week_end;
+  const catTags = catKeys.map(c => `${c} ${cats[c]}条`).join('  ·  ');
+  const heroEl = document.getElementById('weeklyHeroSub');
+  if (heroEl) heroEl.innerHTML = `共 ${data.total} 条资讯${catKeys.length ? '  ·  ' + catTags : ''}`;
+  // 也更新标题上的日期标记
+  const titleEl = document.querySelector('#weeklyHero .hero-title span');
+  if (titleEl && ws) titleEl.textContent = `${ws} ~ ${we}`;
+
+  let html = '';
+  // 概览
+  html += `<div class="overview-block" style="background:var(--bg-card);border-radius:var(--radius-md);padding:20px 24px;border:1px solid var(--color-border);margin-bottom:20px">`;
+  html += `<h3 style="font-size:1.05rem;margin-bottom:12px;color:#1e3a5f">📌 本周概览（${data.total}条资讯，${catKeys.length}个分类）</h3>`;
+  html += `<ul style="padding-left:20px;margin:0">`;
+  (data.top||[]).slice(0,5).forEach(a => {
+    html += `<li style="margin-bottom:6px;font-size:0.9rem">${escHtml(a.title)}</li>`;
+  });
+  html += `</ul></div>`;
+
+  // 按分类
+  catKeys.forEach(cat => {
+    const items = data.articles.filter(a => (a.category||'其他') === cat);
+    if (!items.length) return;
+    const icons = {政策法规:'📜',标准动态:'📏',投融资动态:'💰',技术动态:'🔧',项目动态:'🏗️',行业动态:'📊'};
+    html += `<div style="margin-bottom:16px">`;
+    html += `<h3 style="font-size:1rem;font-weight:700;color:#1e3a5f;border-left:4px solid #2563eb;padding-left:10px;margin:0 0 8px">${icons[cat]||'📌'} ${cat}（${items.length}条）</h3>`;
+    items.slice(0,8).forEach(a => {
+      const summary = a.summary || '';
+      html += `<div style="background:var(--bg-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:14px 18px;margin-bottom:8px;transition:box-shadow .2s;cursor:default" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,.08)';this.style.borderColor='#2563eb'" onmouseout="this.style.boxShadow='';this.style.borderColor='var(--color-border)'">`;
+      html += `<a href="${escHtml(a.url)}" target="_blank" rel="noopener noreferrer" style="font-family:var(--font-sans);font-size:0.92rem;font-weight:600;color:var(--color-text);text-decoration:none;display:block;margin-bottom:3px" onmouseover="this.style.color='#2563eb'" onmouseout="this.style.color='var(--color-text)'">${escHtml(a.title)}</a>`;
+      html += `<div style="font-size:0.76rem;color:var(--color-text-muted)">${escHtml(a.source)} · ${escHtml(a.publish_date||'')}</div>`;
+      if (summary) html += `<div style="font-size:0.8rem;color:var(--color-text-secondary);margin-top:4px;line-height:1.5">${escHtml(summary)}</div>`;
+      html += `</div>`;
+    });
+    html += `</div>`;
+  });
+
+  viewer.innerHTML = html;
+}
+
+function renderWeeklyPast(pastWeeks) {
   const grid = document.getElementById('weeklyPastGrid');
-  if (weeklyReports.length === 0) {
-    document.getElementById('weeklyViewer').innerHTML = `<div class="empty-state"><div class="icon">📋</div><div>暂无周报</div></div>`;
+  if (!pastWeeks.length) {
     grid.innerHTML = '<span style="font-size:0.85rem;color:var(--color-text-muted)">暂无往期周报</span>';
     return;
   }
-  weeklyReports.sort((a,b) => b.week.localeCompare(a.week));
-
-  // Past issues list
   grid.innerHTML = '';
-  weeklyReports.forEach((r, i) => {
+  pastWeeks.forEach((w, i) => {
+    // 周一日期 w → 计算周日日期用于显示 "7月6日 ~ 7月13日"
+    const m = new Date(w + 'T00:00:00');
+    if (isNaN(m.getTime())) return;
+    const s = new Date(m); s.setDate(m.getDate() + 6);
+    const fmt = d => `${d.getMonth()+1}月${d.getDate()}日`;
+    const label = `${fmt(m)} ~ ${fmt(s)}`;
+
     const item = document.createElement('div');
-    item.className = 'past-item' + (i === currentWeeklyIdx ? ' active' : '');
-    item.innerHTML = `<div class="past-item-icon">📄</div><span class="past-item-title">周报 | 智能网联汽车新闻动态 (${r.date_range || r.week})</span>`;
-    item.onclick = () => selectWeekly(i);
+    item.className = 'past-item';
+    item.innerHTML = `<div class="past-item-icon">📄</div><span class="past-item-title">${label} 周报</span>`;
+    item.onclick = async () => {
+      document.querySelectorAll('#weeklyPastGrid .past-item').forEach(el => el.classList.remove('active'));
+      item.classList.add('active');
+      const data = await api(`/api/weekly-data/${w}`);
+      if (data && data.total > 0) {
+        renderWeeklyViewer(data);
+        document.getElementById('weeklyHero').scrollIntoView({ behavior: 'smooth' });
+      }
+    };
     grid.appendChild(item);
   });
-  selectWeekly(0);
-}
-
-function selectWeekly(idx) {
-  if (idx < 0 || idx >= weeklyReports.length) return;
-  currentWeeklyIdx = idx;
-  const report = weeklyReports[idx];
-  document.querySelectorAll('#weeklyPastGrid .past-item').forEach((item, i) => {
-    item.classList.toggle('active', i === idx);
-  });
-  const viewer = document.getElementById('weeklyViewer');
-  const iframeId = 'weekly-frame-' + (++iframeIdCounter);
-  viewer.innerHTML = `<iframe id="${iframeId}" src="${report.path}" onload="onIframeLoad(this)" style="min-height:400px"></iframe>`;
 }
 
 // ============================================================
