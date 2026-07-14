@@ -38,7 +38,7 @@ jobs:
           python scripts/gen_report.py "$TODAY" v1 "$YESTERDAY"
 
       - name: 生成周报
-        run: python scripts/generate_weekly.py || true
+        run: python scripts/gen_weekly_report.py || true
 
       - name: 提交更新
         run: |
