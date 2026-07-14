@@ -4,89 +4,74 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>智能网联汽车新闻 · 报告入口</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg-deep: #f8f6f2;
-  --bg-surface: #ffffff;
-  --bg-card: #ffffff;
-  --bg-card-hover: #faf8f4;
-  --color-accent: #c27803;
-  --color-accent-dim: rgba(194,120,3,0.08);
-  --color-text: #1f1b16;
-  --color-text-secondary: #6b6258;
-  --color-text-muted: #a89f94;
-  --color-border: #e8e2d9;
-  --color-border-light: #ddd6cb;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
-  --font-display: 'DM Serif Display', serif;
-  --font-sans: 'Outfit', sans-serif;
-  --font-body: 'Noto Sans SC', 'Outfit', sans-serif;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{font-size:15px;-webkit-font-smoothing:antialiased}
-body{font-family:var(--font-body);background:var(--bg-deep);color:var(--color-text);min-height:100vh}
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-thumb{background:var(--color-border-light);border-radius:3px}
-.nav{position:sticky;top:0;z-index:100;background:rgba(248,246,242,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--color-border);padding:0 24px}
+:root{--bg-deep:#f8f6f2;--bg-surface:#fff;--bg-card:#fff;--bg-card-hover:#faf8f4;--color-accent:#c27803;--color-accent-dim:rgba(194,120,3,.08);--color-text:#1f1b16;--color-text-secondary:#6b6258;--color-text-muted:#a89f94;--color-border:#e8e2d9;--color-border-light:#ddd6cb;--radius-sm:8px;--radius-md:12px;--transition:.3s cubic-bezier(.4,0,.2,1)}
+*{margin:0;padding:0;box-sizing:border-box}html{font-size:15px}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",PingFang SC,Hiragino Sans GB,Microsoft YaHei,sans-serif;background:var(--bg-deep);color:var(--color-text);min-height:100vh}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:var(--color-border-light);border-radius:3px}
+.nav{position:sticky;top:0;z-index:100;background:rgba(248,246,242,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--color-border);padding:0 24px}
 .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:32px;height:64px}
-.nav-brand{display:flex;align-items:center;gap:10px;font-family:var(--font-sans);font-weight:700;font-size:1rem;color:var(--color-text);text-decoration:none;white-space:nowrap}
+.nav-brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1rem;color:var(--color-text);text-decoration:none;white-space:nowrap}
 .nav-brand-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#c27803,#a06402);display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff}
 .nav-links{display:flex;gap:4px;flex:1}
-.nav-link{padding:8px 20px;border-radius:var(--radius-sm);font-size:0.85rem;font-weight:500;color:var(--color-text-secondary);cursor:pointer;transition:var(--transition);border:none;background:transparent;font-family:var(--font-sans);letter-spacing:0.3px;position:relative}
+.nav-link{padding:8px 20px;border-radius:var(--radius-sm);font-size:.85rem;font-weight:500;color:var(--color-text-secondary);cursor:pointer;transition:var(--transition);border:none;background:transparent;letter-spacing:.3px;position:relative}
 .nav-link:hover{color:var(--color-text);background:var(--color-accent-dim)}
 .nav-link.active{color:var(--color-accent);background:var(--color-accent-dim)}
-.nav-link.active::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:60%;height:2px;background:var(--color-accent);border-radius:1px}
+.nav-link.active::after{content:"";position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:60%;height:2px;background:var(--color-accent);border-radius:1px}
 .container{max-width:1200px;margin:0 auto;padding:0 24px}
-.tab-content{display:none;animation:fadeIn 0.35s ease}
-.tab-content.active{display:block}
+.tab-content{display:none;animation:fadeIn .35s ease}.tab-content.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .calendar-section{padding:28px 0 20px}
 .calendar-nav{display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:16px}
-.calendar-nav-btn{background:var(--bg-card);border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:6px 14px;cursor:pointer;font-size:0.85rem;color:var(--color-text-secondary);transition:var(--transition);font-family:var(--font-sans)}
+.calendar-nav-btn{background:var(--bg-card);border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:6px 14px;cursor:pointer;font-size:.85rem;color:var(--color-text-secondary);transition:var(--transition)}
 .calendar-nav-btn:hover{background:var(--bg-card-hover);color:var(--color-text);border-color:var(--color-accent)}
-.calendar-month{font-family:var(--font-display);font-size:1.3rem;color:var(--color-text);min-width:140px;text-align:center}
+.calendar-month{font-size:1.3rem;color:var(--color-text);min-width:140px;text-align:center;font-weight:600}
 .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;background:var(--bg-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:10px}
-.calendar-weekday{text-align:center;font-size:0.72rem;color:var(--color-text-muted);padding:6px 0;font-weight:500}
-.calendar-day{text-align:center;padding:6px 0;border-radius:var(--radius-sm);font-size:0.85rem;color:var(--color-text-secondary);cursor:pointer;transition:var(--transition);position:relative;min-height:32px;display:flex;align-items:center;justify-content:center}
+.calendar-weekday{text-align:center;font-size:.72rem;color:var(--color-text-muted);padding:6px 0;font-weight:500}
+.calendar-day{text-align:center;padding:6px 0;border-radius:var(--radius-sm);font-size:.85rem;color:var(--color-text-secondary);cursor:pointer;transition:var(--transition);position:relative;min-height:32px;display:flex;align-items:center;justify-content:center}
 .calendar-day:hover{background:var(--color-accent-dim);color:var(--color-accent)}
 .calendar-day.has-report{color:var(--color-text);font-weight:600}
-.calendar-day.has-report::after{content:'';position:absolute;bottom:3px;width:4px;height:4px;border-radius:50%;background:var(--color-accent)}
+.calendar-day.has-report::after{content:"";position:absolute;bottom:3px;width:4px;height:4px;border-radius:50%;background:var(--color-accent)}
 .calendar-day.selected{background:var(--color-accent);color:#fff;font-weight:700}
 .calendar-day.selected::after{background:#fff}
 .calendar-day.empty{cursor:default;visibility:hidden}
-.report-viewer .empty-state{padding:60px;text-align:center;color:var(--color-text-muted);background:var(--bg-card);border:1px solid var(--color-border);border-radius:var(--radius-md);margin-top:20px}
 .hero-section{padding:28px 0 16px;text-align:center}
-.hero-title{font-family:var(--font-display);font-size:clamp(1.5rem,3vw,2.2rem);color:var(--color-text);margin-bottom:4px}
+.hero-title{font-size:clamp(1.5rem,3vw,2.2rem);color:var(--color-text);margin-bottom:4px}
 .hero-title span{color:var(--color-accent)}
-.hero-subtitle{font-size:0.85rem;color:var(--color-text-secondary);font-weight:300}
+.hero-subtitle{font-size:.85rem;color:var(--color-text-secondary);font-weight:300}
+.cat-tag{display:inline-block;background:var(--color-accent-dim);color:var(--color-accent);padding:2px 10px;border-radius:10px;font-size:.78rem;font-weight:600;margin:2px 4px}
+.article-card{background:var(--bg-card);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:16px 20px;margin:12px 0;transition:var(--transition)}
+.article-card:hover{box-shadow:0 4px 16px rgba(194,120,3,.12);border-color:var(--color-accent);transform:translateY(-1px)}
+.article-title{font-weight:600;font-size:.9rem;color:var(--color-text);text-decoration:none;display:block;margin-bottom:4px;line-height:1.4}
+.article-title:hover{color:var(--color-accent)}
+.article-meta{font-size:.78rem;color:var(--color-text-muted);display:flex;justify-content:flex-start;align-items:center;gap:12px;margin-bottom:8px}
+.article-summary{font-size:.82rem;color:var(--color-text-secondary);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.cat-section{margin:24px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--color-accent);display:flex;align-items:center;gap:10px}
+.cat-section h2{font-size:1.1rem;color:var(--color-accent);font-weight:600}
+.cat-count{font-size:.78rem;color:var(--color-text-muted);background:var(--color-accent-dim);padding:2px 10px;border-radius:10px}
+.empty-state{padding:60px 20px;text-align:center;color:var(--color-text-muted);background:var(--bg-card);border:1px solid var(--color-border);border-radius:var(--radius-md);margin-top:20px}
 .weekly-content{padding-bottom:32px}
 .weekly-viewer,.monthly-viewer{min-height:300px}
 .past-section{margin-top:16px;padding-top:16px;border-top:1px solid var(--color-border)}
 .past-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.past-header h3{font-family:var(--font-sans);font-size:0.95rem;font-weight:600;color:var(--color-text);letter-spacing:0.3px}
+.past-header h3{font-size:.95rem;font-weight:600;color:var(--color-text);letter-spacing:.3px}
 .past-line{flex:1;height:1px;background:linear-gradient(90deg,var(--color-border-light),transparent)}
 .past-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px}
-.past-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--radius-sm);border-left:3px solid transparent;cursor:pointer;transition:var(--transition);font-size:0.85rem;color:var(--color-text-secondary);background:var(--bg-card);border:1px solid var(--color-border);text-decoration:none}
+.past-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--radius-sm);border-left:3px solid transparent;cursor:pointer;transition:var(--transition);font-size:.85rem;color:var(--color-text-secondary);background:var(--bg-card);border:1px solid var(--color-border);text-decoration:none}
 .past-item:hover{background:var(--bg-card-hover);color:var(--color-text);border-left-color:var(--color-accent)}
 .past-item-icon{width:18px;height:18px;border:1.5px solid var(--color-border-light);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--color-text-muted);flex-shrink:0}
-.past-item-date{font-size:0.75rem;color:var(--color-text-muted);flex-shrink:0}
-.report-viewer iframe,.weekly-viewer iframe,.monthly-viewer iframe{width:100%;border:none;min-height:500px}
-@media(max-width:768px){.nav-links{gap:0} .nav-link{padding:8px 12px;font-size:0.78rem} .calendar-grid{padding:6px;gap:2px} .calendar-day{font-size:0.78rem;min-height:28px} .calendar-month{font-size:1.1rem}}
+.past-item-date{font-size:.75rem;color:var(--color-text-muted);flex-shrink:0;margin-left:auto}
+.loading{padding:40px;text-align:center;color:var(--color-text-muted);font-size:.9rem}
+@media(max-width:768px){.nav-links{gap:0}.nav-link{padding:8px 12px;font-size:.78rem}.calendar-grid{padding:6px;gap:2px}.calendar-day{font-size:.78rem;min-height:28px}.calendar-month{font-size:1.1rem}.article-card{padding:12px 14px}}
 </style>
 </head>
 <body>
 
 <nav class="nav">
   <div class="nav-inner">
-    <a class="nav-brand" href="/"><div class="nav-brand-icon">⚡</div>智能网联汽车新闻</a>
+    <a class="nav-brand" href="./"><div class="nav-brand-icon">⚡</div>智能网联汽车新闻</a>
     <div class="nav-links">
-      <button class="nav-link active" onclick="switchTab('daily')">📰 日报</button>
-      <button class="nav-link" onclick="switchTab('weekly')">📋 周报</button>
-      <button class="nav-link" onclick="switchTab('monthly')">📅 月报</button>
+      <button class="nav-link active" data-tab="daily" onclick="switchTab('daily')">📰 日报</button>
+      <button class="nav-link" data-tab="weekly" onclick="switchTab('weekly')">📋 周报</button>
     </div>
   </div>
 </nav>
@@ -103,14 +88,14 @@ body{font-family:var(--font-body);background:var(--bg-deep);color:var(--color-te
     <div class="calendar-grid" id="calGrid"></div>
   </div>
   <div class="report-viewer" id="dailyViewer">
-    <div class="empty-state"><div class="icon">📰</div><div>选择一个日期查看日报</div></div>
+    <div class="empty-state"><div style="font-size:32px">📰</div><div>选择一个日期查看日报</div></div>
   </div>
 </div>
 
 <div class="tab-content" id="tab-weekly">
   <div class="hero-section">
-    <div class="hero-title"><span>周报</span> 总览</div>
-    <div class="hero-subtitle">智能网联汽车每周新闻综述</div>
+    <div class="hero-title"><span id="weeklyHeroTitle">周报</span> 总览</div>
+    <div class="hero-subtitle" id="weeklyHeroSub">智能网联汽车每周新闻综述</div>
   </div>
   <div class="weekly-content">
     <div class="weekly-viewer" id="weeklyViewer"></div>
@@ -121,53 +106,26 @@ body{font-family:var(--font-body);background:var(--bg-deep);color:var(--color-te
   </div>
 </div>
 
-<div class="tab-content" id="tab-monthly">
-  <div class="hero-section">
-    <div class="hero-title"><span>月报</span> 总览</div>
-    <div class="hero-subtitle">月度智能网联汽车新闻汇总</div>
-  </div>
-  <div class="weekly-content">
-    <div class="monthly-viewer" id="monthlyViewer">
-      <div class="empty-state"><div class="icon">📅</div><div>月报功能即将上线</div></div>
-    </div>
-    <div class="past-section">
-      <div class="past-header"><h3>📅 往期回顾</h3><div class="past-line"></div></div>
-      <div class="past-grid" id="monthlyPastGrid"></div>
-    </div>
-  </div>
-</div>
-
 </div>
 
 <script>
-// === Inline Data ===
-const CALENDAR_DATES = ["2026-07-13", "2026-07-12", "2026-07-11", "2026-07-10", "2026-07-09", "2026-07-08", "2026-07-07", "2026-07-06", "2026-07-05", "2026-07-04", "2026-07-03", "2026-07-02", "2026-07-01"];
-const DATE_FILE = {"2026-07-13": {"file": "2026-07-13_v1.html", "path": "daily/2026-07-13_v1.html", "date": "2026-07-13", "version": "v1"}, "2026-07-12": {"file": "2026-07-12_v1.html", "path": "daily/2026-07-12_v1.html", "date": "2026-07-12", "version": "v1"}, "2026-07-11": {"file": "2026-07-11_v1.html", "path": "daily/2026-07-11_v1.html", "date": "2026-07-11", "version": "v1"}, "2026-07-10": {"file": "2026-07-10_v1.html", "path": "daily/2026-07-10_v1.html", "date": "2026-07-10", "version": "v1"}, "2026-07-09": {"file": "2026-07-09_v1.html", "path": "daily/2026-07-09_v1.html", "date": "2026-07-09", "version": "v1"}, "2026-07-08": {"file": "2026-07-08_v1.html", "path": "daily/2026-07-08_v1.html", "date": "2026-07-08", "version": "v1"}, "2026-07-07": {"file": "2026-07-07_v1.html", "path": "daily/2026-07-07_v1.html", "date": "2026-07-07", "version": "v1"}, "2026-07-06": {"file": "2026-07-06_v1.html", "path": "daily/2026-07-06_v1.html", "date": "2026-07-06", "version": "v1"}, "2026-07-05": {"file": "2026-07-05_v1.html", "path": "daily/2026-07-05_v1.html", "date": "2026-07-05", "version": "v1"}, "2026-07-04": {"file": "2026-07-04_v1.html", "path": "daily/2026-07-04_v1.html", "date": "2026-07-04", "version": "v1"}, "2026-07-03": {"file": "2026-07-03_v1.html", "path": "daily/2026-07-03_v1.html", "date": "2026-07-03", "version": "v1"}, "2026-07-02": {"file": "2026-07-02_v1.html", "path": "daily/2026-07-02_v1.html", "date": "2026-07-02", "version": "v1"}, "2026-07-01": {"file": "2026-07-01_v1.html", "path": "daily/2026-07-01_v1.html", "date": "2026-07-01", "version": "v1"}};
-const WEEKLY_LIST = [{"file": "2026-W29.html", "path": "weekly/2026-W29.html", "week": "2026-W29", "date_range": "7月13日-7月19日"}, {"file": "2026-W28.html", "path": "weekly/2026-W28.html", "week": "2026-W28", "date_range": "7月6日-7月12日"}];
+/* === 静态数据注入（CI 时由 build_static_page.py 写入） === */
+const DATA = {"daily":{"2026-07-13":{"total":4,"categories":{"政策法规":1,"技术动态":3},"articles":[{"title":"我国牵头制定的联合国自动驾驶系统全球技术法规获批发布","source":"自动采集","source_type":"media","url":"https://www.miit.gov.cn/xwfb/gxdt/sjdt/art/2026/art_708b7727cc4544e8bc2f335cdc92b531.html","publish_date":"2026-07-13","window":"2026-07-13","category":"政策法规","summary":"","importance":3,"overview":"我国牵头制定的联合国自动驾驶系统全球技术法规获批发布"},{"title":"从智联到智生：智能网联汽车产业升级的关键拐点","source":"自动采集","source_type":"media","url":"https://36kr.com/p/3517096992675970","publish_date":"2026-07-13","window":"2026-07-13","category":"技术动态","summary":"","importance":3,"overview":"从智联到智生：智能网联汽车产业升级的关键拐点"},{"title":"2025世界智能网联汽车大会——何利扬：赛力斯汽车对AI技术的探索","source":"自动采集","source_type":"media","url":"https://36kr.com/p/3514192807042184","publish_date":"2026-07-13","window":"2026-07-13","category":"技术动态","summary":"","importance":3,"overview":"2025世界智能网联汽车大会——何利扬：赛力斯汽车对AI技术的探索"},{"title":"1500余位全球行业精英齐聚山城，这场论坛为智能网联汽车注入新动能","source":"自动采集","source_type":"media","url":"https://36kr.com/p/3485711855410313","publish_date":"2026-07-13","window":"2026-07-13","category":"技术动态","summary":"","importance":3,"overview":"1500余位全球行业精英齐聚山城，这场论坛为智能网联汽车注入新动能"}]},"2026-07-12":{"total":10,"categories":{"政策法规":1,"标准动态":1,"技术动态":2,"项目动态":4,"行业动态":2},"articles":[{"title":"智能网联汽车保险纠纷成北京金融法院关注焦点，智驾保险体系建设提速","source":"中国经营报 / 新浪财经","source_type":"media","url":"https://cj.sina.com.cn/articles/view/1650111241/625ab30902001gw3w","publish_date":"2026-07-12","window":"2026-07-12","category":"政策法规","summary":"7月12日报道，在第14个全国保险公众宣传日之际，北京金融法院发布一批涉科技保险案例，智能网联汽车保险成为重点关注和研究的新型险种。数据显示，2025年我国新能源汽车市场渗透率已突破50%，相关保险纠纷从传统交通事故理赔，转向自动驾驶系统故障、算法缺陷、数据安全等全新法律问题。今年3月，国家金融监管总局北京监管局已正式启动智能网联新能源汽车商业保险开发应用，新产品覆盖自动泊车、NOA领航辅助等功能事故风险及传感器、域控制器等关键部件损失。北京金融法院将通过与监管部门协同打造智能网联汽车保险创新「策源地」，为产业协同发展提供法治支撑。","importance":4,"overview":"智能网联汽车保险纠纷成北京金融法院关注焦点，智驾保险体系建设提速"},{"title":"GB 47955—2026《智能网联汽车 组合驾驶辅助系统安全要求》强制性国家标准正式发布","source":"人民日报 / 中国经济网","source_type":"media","url":"https://www.ce.cn/xwzx/gnsz/gdxw/202607/t20260713_3083409.shtml","publish_date":"2026-07-12","window":"2026-07-12","category":"标准动态","summary":"本报北京7月12日电，工业和信息化部组织制定并归口的《智能网联汽车 组合驾驶辅助系统安全要求》（GB 47955—2026）强制性国家标准，近日由国家市场监督管理总局、国家标准化管理委员会批准发布，拟于2027年1月1日起正式实施。该标准是首部专门针对L2级组合驾驶辅助系统的强制性安全技术规范，充分考虑不同产品形态和技术路线，针对基础单车道、基础多车道、领航驾驶辅助（NOA）三类产品分别提出适用安全要求。标准从功能要求、数据记录、车辆制造商安全保障等维度提出基线要求，并构建了包括场地试验、道路试验、文件检验等在内的多层级评价方法。","importance":5,"overview":"GB 47955—2026《智能网联汽车 组合驾驶辅助系统安全要求》强制性国家标准正式发布"},{"title":"特斯拉FSD v14 Lite首次走出美国，韩国成为全球首个获得更新的海外市场","source":"IT之家","source_type":"media","url":"https://view.inews.qq.com/a/20260712A039TS00","publish_date":"2026-07-12","window":"2026-07-12","category":"技术动态","summary":"7月12日，特斯拉韩国官方宣布，FSD v14 Lite已开始在美国以外市场首次推送，韩国成为全球首个获得该更新的海外市场。老款Model 3/Y及搭载HW3.0芯片的车辆已收到固件推送，支持更强的自动驾驶功能。此次更新标志着特斯拉FSD首次走出美国进行海外部署，对全球自动驾驶技术竞争格局具有标志性意义。此前特斯拉CEO马斯克曾表示将在全球多个市场推进FSD落地，韩国成为首批受益市场，为后续在中国、欧洲等市场的部署积累经验。","importance":3,"overview":"特斯拉FSD v14 Lite首次走出美国，韩国成为全球首个获得更新的海外市场"},{"title":"高阶智驾加速下沉至大众市场，零跑已将城市NOA落地至8万元级车型","source":"中国新闻网","source_type":"media","url":"https://view.inews.qq.com/a/20260712A05JRL00","publish_date":"2026-07-12","window":"2026-07-12","category":"技术动态","summary":"7月12日，第23届长春国际汽车博览会上，蔚来、极狐、零跑、深蓝、比亚迪等多个中国自主品牌将智能驾驶作为核心参展卖点。其中零跑已把高阶智能驾驶落地至8万元级车型，多款入门车型开始搭载城市NOA功能。国产激光雷达和车载芯片规模化量产使硬件成本持续走低，智驾系统成本已降至3000-5000元级别，行业竞争正从价格战转向智驾普及能力的比拼。高阶智驾从高端车型向大众市场下沉的趋势，有望在2027年推动L2+级智能驾驶渗透率进一步攀升至更高水平。","importance":4,"overview":"高阶智驾加速下沉至大众市场，零跑已将城市NOA落地至8万元级车型"},{"title":"小鹏Robotaxi正式开启员工内测，何小鹏完成首单并兼任机器人业务负责人","source":"21世纪经济报道","source_type":"media","url":"https://view.inews.qq.com/a/20260712A04M4K00","publish_date":"2026-07-12","window":"2026-07-12","category":"项目动态","summary":"7月12日消息，小鹏Robotaxi正式开启员工内测，何小鹏化身「一号乘客」完成首单。该项目以GX为原型车，基于纯视觉方案打造，搭载4颗自研图灵AI芯片（总算力3000TOPS），采用与量产车同源的图灵智驾VLA 2.0大模型，是首款全栈自研前装量产的纯视觉L4级Robotaxi。从2025年11月官宣到全链路跑通仅用8个月。与此同时，何小鹏已亲自挂帅兼任小鹏机器人业务负责人，明确将冲刺IRON人形机器人量产，推动物理AI新赛道布局，Robotaxi被视为从「新能源汽车」迈向「机器人汽车」战略的核心载体。","importance":4,"overview":"小鹏Robotaxi正式开启员工内测，何小鹏完成首单并兼任机器人业务负责人"},{"title":"特斯拉Cybercab即将在得州超级工厂向员工开放试乘体验","source":"IT之家 / 网易","source_type":"media","url":"https://www.163.com/dy/article/L1KDFB3N0511B8LM.html","publish_date":"2026-07-12","window":"2026-07-12","category":"项目动态","summary":"7月12日，特斯拉官方账号宣布Cybercab将「很快在得州超级工厂向员工开放试乘体验」。特斯拉发布视频展示一辆金色Cybercab打开蝶翼门，在没有方向盘和踏板的情况下自动行驶。这是特斯拉首次公开表示将让人员乘坐这款无方向盘、无踏板的无人驾驶出租车，累计获得约290万次浏览。目前存在两种可能：一是在园区内部道路提供真正可预约的接驳服务，二是仅在停车场内短距离演示。业界更关注Cybercab何时能加入特斯拉在奥斯汀运营的收费Robotaxi车队。","importance":3,"overview":"特斯拉Cybercab即将在得州超级工厂向员工开放试乘体验"},{"title":"2026京津冀新能源和智能网联汽车产业链对接活动在廊坊举办，15家企业达成合作意向","source":"河北新闻网 / 网易","source_type":"media","url":"https://hebei.news.163.com/26/0712/10/L1KN5INQ04159CNM.html","publish_date":"2026-07-12","window":"2026-07-12","category":"项目动态","summary":"7月12日报道，由河北省工信厅会同北京市经信局、天津工信局联合主办的2026京津冀新能源和智能网联汽车产业链对接活动在廊坊举办。北汽股份、天津远程、长城汽车、吉利汽车、小米汽车、上汽尚界等12家整车企业及90余家零部件企业参加对接会。三地专家和车企负责人共同探讨行业发展方向与趋势，现场共有15家企业达成初步合作意向。活动旨在纵深打通三地汽车产业融合通道，促进整车与零部件企业精准对接，打造互补配套、高效联动的区域汽车产业生态圈。","importance":3,"overview":"2026京津冀新能源和智能网联汽车产业链对接活动在廊坊举办，15家企业达成合作意向"},{"title":"工信部：2026上半年国内乘用车L2级自动驾驶搭载率达70%，NOA车型占比超30%","source":"工信部 / 腾讯新闻","source_type":"gov","url":"https://www.miit.gov.cn/xwfb/gxdt/sjdt/art/2026/art_e28beb9f8fe94a92ba0a3a67c39eea20.html","publish_date":"2026-07-12","window":"2026-07-12","category":"行业动态","summary":"7月12日，工信部公布数据显示，2026年上半年国内乘用车新车中70%搭载了L2级自动驾驶功能，其中配备领航驾驶辅助（NOA，含城区和高速）的车型占比超过30%。华为乾崑智驾搭载量已突破190万辆，Momenta智驾系统搭载规模突破100万辆。高速NOA和城区NOA正在加速从高端车型向主流市场渗透，L2级智能驾驶已成为新车的标准配置。端到端大模型、无图智驾等技术路线日趋成熟，推动中国智能网联汽车产业进入规模化普及新阶段。","importance":3,"overview":"工信部：2026上半年国内乘用车L2级自动驾驶搭载率达70%，NOA车型占比超30%"},{"title":"特斯拉46天拆除Model S/X生产线，改造为Optimus人形机器人生产基地","source":"红星新闻","source_type":"media","url":"https://view.inews.qq.com/a/20260712A06DB600","publish_date":"2026-07-12","window":"2026-07-12","category":"行业动态","summary":"7月12日，特斯拉发布视频展示弗里蒙特工厂Model S和Model X生产线拆除过程，仅耗时46天即完成。生产线原址将改造为Optimus人形机器人生产基地，目标年产能100万台，第三代Optimus预计7月底启动量产。此举标志着特斯拉战略重心从高端电动车型向人形机器人赛道加速转移。Model S和Model X是特斯拉最早推出的车型，其产线退役意味着特斯拉产品矩阵进入全面换代周期。人形机器人和Robotaxi正在成为特斯拉未来增长的双引擎。","importance":3,"overview":"特斯拉46天拆除Model S/X生产线，改造为Optimus人形机器人生产基地"},{"title":"2026世界智能安全大会专题会议二:智能网联汽车预期功能安全精彩回顾","source":"汽车底盘集成与仿生全重实验室（公众号）","source_type":"wechat","url":"https://mp.weixin.qq.com/s?src=11&timestamp=1783906425&ver=6839&signature=8*-CYsA7orWzxwaSt61szVkWoj6wpEt9nue-hzYzWb6KOllocQHOG-dDms1DLeleEJAhKBwgEgYdS*CylRsDoeZALDKdsbVCs13kIGQLKGL5jKDdUqXg75VP8jypBuML&new=1","publish_date":"2026-07-12","window":"2026-07-12","category":"项目动态","summary":"2026世界智能安全大会 专题会议二：智能网联汽车预期功能安全精彩回顾 为促进全球自动驾驶安全领域的科技交流与国际合作，2026世界智能安全大会（FISITA Intelligent Safety Conference，ISC 2026）于2026年7月10日至12日在吉林长春举行。本次会议由世界汽车工程师学会联合会（FISITA）与中国汽车工程学会联合主办，吉林大学汽车底盘集成与仿生全国重点实验室、《Automotive Innovation》等单位承办，中国一汽作为合作伙伴参与支持。 ISC 2026汇聚了全球自动驾驶安全领域的专家学者与行业领袖，国际演讲嘉宾比例达到50%。会议围绕高安全","importance":0,"overview":"2026世界智能安全大会专题会议二:智能网联汽车预期功能安全精彩回顾"}]},"2026-07-11":{"total":3,"categories":{"标准动态":1,"项目动态":1,"技术动态":1},"articles":[{"title":"全球自动驾驶规则注入「重庆基因」，山城凭啥为全球智驾「出题」","source":"上游新闻","source_type":"media","url":"https://c.m.163.com/news/a/L1J3M3FJ053469M5.html","publish_date":"2026-07-11","window":"2026-07-11","category":"标准动态","summary":"联合国世界车辆法规协调组织（UN/WP.29）第199次全体会议在瑞士日内瓦召开。会上，由中国、欧盟、英国、美国、加拿大和日本共同牵头制定的联合国自动驾驶系统全球技术法规（ADS GTR）经全体缔约方投票表决，正式获批发布。这是首个自动驾驶全球技术法规。","importance":3,"overview":"全球自动驾驶规则注入「重庆基因」，山城凭啥为全球智驾「出题」"},{"title":"中国智能汽车从「能跑」走向「好用」，全国首批ADS 5实车交付","source":"羊城派","source_type":"media","url":"https://k.sina.com.cn/article_5787187353_v158f17899020025hxo.html","publish_date":"2026-07-11","window":"2026-07-11","category":"项目动态","summary":"7月9日，启境GT7正式开启全国交付，作为全国首批搭载华为乾崑智驾ADS 5的量产车型，标志着中国智能汽车正式从技术概念迈入用户日常出行。启境汽车近日完成工商变更登记，成功引入超10亿元人民币战略投资。","importance":3,"overview":"中国智能汽车从「能跑」走向「好用」，全国首批ADS 5实车交付"},{"title":"谁能问鼎？从VLA、世界模型到物理AI，年度智驾大模型标杆供应商入围公示","source":"高工智能汽车","source_type":"media","url":"https://new.qq.com/rain/a/20260711A047NP00","publish_date":"2026-07-11","window":"2026-07-11","category":"技术动态","summary":"由高工智能汽车研究院主办的年度行业评选，聚焦智能汽车前装量产。元戎启行、卓驭科技等入围年度智驾大模型标杆供应商名单。卓驭推出首个原生多模态基础模型，重新定义「移动物理AI」技术内核。","importance":3,"overview":"谁能问鼎？从VLA、世界模型到物理AI，年度智驾大模型标杆供应商入围公示"}]},"2026-07-10":{"total":3,"categories":{"技术动态":1,"项目动态":1,"标准动态":1},"articles":[{"title":"特斯拉城市NOA在美国正式上线，FSD选装价下调至1.2万美元","source":"IT之家","source_type":"media","url":"https://k.sina.com.cn/article_7880068201_1d5b04c69068027pb2.html","publish_date":"2026-07-10","window":"2026-07-10","category":"技术动态","summary":"特斯拉在美国市场正式上线城市NOA功能，同时将FSD选装价格从1.5万美元下调至1.2万美元。","importance":3,"overview":"特斯拉城市NOA在美国正式上线，FSD选装价下调至1.2万美元"},{"title":"小鹏集团召开首次Robotaxi全员会：不做运营，只做技术提供商","source":"环球网","source_type":"media","url":"https://www.163.com/dy/article/L1G1NJ490514R9OJ.html","publish_date":"2026-07-10","window":"2026-07-10","category":"项目动态","summary":"小鹏集团召开Robotaxi业务部首次全员会，何小鹏明确商业定位：小鹏不做运营，只做技术提供商和生态赋能者。Robotaxi收益来自卖硬件、卖服务、佣金分成三部分。","importance":3,"overview":"小鹏集团召开首次Robotaxi全员会：不做运营，只做技术提供商"},{"title":"中国深度参与全球自动驾驶标准制定，ADS GTR法规正式获批","source":"中原新闻网","source_type":"media","url":"https://www.toutiao.com/article/7660838334603821611/","publish_date":"2026-07-10","window":"2026-07-10","category":"标准动态","summary":"联合国世界车辆法规协调组织（UN/WP.29）第199次全体会议上，中国牵头制定的ADS GTR正式获批发布。专家认为这标志着中国汽车产业在全球标准体系话语权进一步提升。","importance":3,"overview":"中国深度参与全球自动驾驶标准制定，ADS GTR法规正式获批"}]},"2026-07-09":{"total":19,"categories":{"政策法规":2,"标准动态":2,"投融资动态":2,"技术动态":6,"项目动态":6,"行业动态":1},"articles":[{"title":"美国NHTSA拟探讨允许无方向盘的无人驾驶汽车上路，利好Robotaxi产业发展","source":"新浪财经","source_type":"media","url":"#no-url-6","publish_date":"2026-07-09","window":"2026-07-09","category":"政策法规","summary":"美国最高汽车安全监管机构NHTSA局长Jonathan Morrison表示，该机构「绝对」会考虑取消关于无人驾驶汽车必须配备方向盘的规定。NHTSA已于上个月更新联邦安全标准，取消了自动驾驶车辆必须配备手动制动踏板的要求。这些变革是特朗普政府推动无人驾驶汽车法规现代化努力的一部分，可能为特斯拉Cybercab等专用自动驾驶车辆的大规模推广扫清障碍。","importance":4,"overview":"美国NHTSA拟探讨允许无方向盘的无人驾驶汽车上路，利好Robotaxi产业发展"},{"title":"我国首个L2级组合驾驶辅助强制国标GB 47955—2026正式发布深度解读","source":"盖世汽车","source_type":"media","url":"#no-url-7","publish_date":"2026-07-09","window":"2026-07-09","category":"标准动态","summary":"盖世汽车发布GB 47955—2026《智能网联汽车 组合驾驶辅助系统安全要求》深度解读。该标准是首部专门针对L2级组合驾驶辅助系统的强制性安全技术规范，将L2级系统明确划分为基础单车道、基础多车道、领航驾驶辅助（NOA）三类，分别提出安全要求，从根源上杜绝了车企以「L2.5」「L2.9」等非标准话术进行模糊宣传的空间。标准构建了包括场地试验、道路试验、文件检验等在内的多层级评价体系。","importance":5,"overview":"我国首个L2级组合驾驶辅助强制国标GB 47955—2026正式发布深度解读"},{"title":"灵境智源完成超亿元天使轮及天使+轮融资，经纬创投领投，专注具身智能计算底座","source":"盖世汽车","source_type":"media","url":"#no-url-8","publish_date":"2026-07-09","window":"2026-07-09","category":"投融资动态","summary":"盖世汽车获悉，灵境智源已于近日完成超亿元天使轮及天使+轮融资，由经纬创投领投，上海闵行国资跟投。灵境智源定位具身原生全栈计算底座服务商，聚焦具身智能底层Infra赛道，为具身智能原生打造了德沃夏克超异构计算架构。目前已推出N系列与T系列双产品路径，全面适配人形、轮式、四足等全品类机器人形态，已对接超过300家机器人本体及泛具身企业。","importance":5,"overview":"灵境智源完成超亿元天使轮及天使+轮融资，经纬创投领投，专注具身智能计算底座"},{"title":"华为高管李文广：特别欢迎特斯拉FSD入华，确认明年技术上实现高速L3自动驾驶","source":"快科技 / 新浪科技","source_type":"media","url":"#no-url-9","publish_date":"2026-07-09","window":"2026-07-09","category":"技术动态","summary":"华为智能驾驶解决方案产品线总裁李文广接受采访明确表示：华为特别欢迎特斯拉FSD正式入华同台竞技，从技术落地节奏看，明年国内高速场景将正式迈入大规模商用的L3自动驾驶时代。今年下半年多款高端新能源车型将提前为高速L3功能做足硬件预埋。华为今年自动驾驶研发投入约100多亿，明年将超200亿。","importance":5,"overview":"华为高管李文广：特别欢迎特斯拉FSD入华，确认明年技术上实现高速L3自动驾驶"},{"title":"速腾聚创上半年激光雷达交付71.92万台，ADAS领域增长98%，机器人业务大增510%","source":"盖世汽车","source_type":"media","url":"#no-url-10","publish_date":"2026-07-09","window":"2026-07-09","category":"技术动态","summary":"速腾聚创上半年激光雷达产品总销量达719,200台，同比增长170%。其中ADAS领域销量436,600台，同比增长98%；机器人领域销量282,600台，同比增长510%。公司已与超过3400家机器人公司达成合作，连续多季度位居全球机器人3D激光雷达出货量第一。基于凤凰芯片的400万像素高清激光雷达方案已获头部车企定点，预期年内量产上车。","importance":4,"overview":"速腾聚创上半年激光雷达交付71.92万台，ADAS领域增长98%，机器人业务大增510%"},{"title":"小鹏Robotaxi进入员工内测阶段，定位全球软硬件方案供应商角色","source":"盖世汽车","source_type":"media","url":"#no-url-11","publish_date":"2026-07-09","window":"2026-07-09","category":"项目动态","summary":"小鹏召开Robotaxi业务首次全员会议，宣布该业务正式进入员工内测阶段。Robotaxi将作为集团物理AI与「机器人汽车」战略的核心载体。小鹏规划重心不在自建车队，而是转向全球软硬件方案供应商，将整车平台、自动驾驶算法、后台调度系统打包交付海外出行企业。TrendForce预测2035年中国Robotaxi市场规模将达445亿美元。","importance":4,"overview":"小鹏Robotaxi进入员工内测阶段，定位全球软硬件方案供应商角色"},{"title":"楚航科技马来西亚海外生产基地正式投入运营，毫米波雷达产品辐射南亚市场","source":"盖世汽车","source_type":"media","url":"#no-url-12","publish_date":"2026-07-09","window":"2026-07-09","category":"项目动态","summary":"7月9日，楚航科技宣布位于马来西亚吉隆坡的海外生产基地正式投入运营。该基地与马来西亚上市公司MCE Holdings合作，主要负责研发与生产应用于智慧出行领域的毫米波雷达产品。公司已获得马来西亚本土汽车品牌Perodua项目订单并实现规模化量产交付，是国内少数实现毫米波雷达产品出口的厂商之一。60GHz生命体探测雷达全系产品已通过欧盟CE认证。","importance":5,"overview":"楚航科技马来西亚海外生产基地正式投入运营，毫米波雷达产品辐射南亚市场"},{"title":"Waymo在拉斯维加斯启动完全无人驾驶运营，2026年底前冲刺每周100万次行程","source":"盖世汽车","source_type":"media","url":"#no-url-13","publish_date":"2026-07-09","window":"2026-07-09","category":"项目动态","summary":"当地时间7月8日，Alphabet旗下Waymo在拉斯维加斯启动完全无人驾驶运营，车内无安全员。Waymo同时宣布丹佛、圣地亚哥和坦帕将成为下一批部署城市。目前Waymo运营约3500辆robotaxi，累计完成超2000万次行程。公司此前完成160亿美元融资估值1260亿美元，目标2026年底前每周100万次付费行程，随后拓展至伦敦和东京等国际市场。","importance":5,"overview":"Waymo在拉斯维加斯启动完全无人驾驶运营，2026年底前冲刺每周100万次行程"},{"title":"小鹏Robotaxi开启员工内测!“一号乘客”是何小鹏","source":"深圳商报（公众号）","source_type":"wechat","url":"https://mp.weixin.qq.com/s?src=11&timestamp=1783652460&ver=6833&signature=3*RiyxeEcqv0SAUAVVktDPaUvTPByvTl*iWeP3xdSWKf2JNsgpenhryn0wzoNJEXiegj7OQziB9lTSzgfZKWqnqajXOJTV7cfpeeKb8nR7MJ45Attu-nLp3zMVEfFk0e&new=1","publish_date":"2026-07-09","window":null,"category":"技术动态","summary":"小鹏Robotaxi开始接单了！7月9日，记者从小鹏集团获悉，何小鹏化身“一号乘客”，完成首单内测——线上下单、自动接驾、行程送达，全流程一次跑通。从去年11月官宣到如今启动员工内测，小鹏Robotaxi只用了8个月。何小鹏表示，乘坐体验很舒适，全程很安心，接下来将通过不同用户的内测继续把体验做好。 图片来源：受访企业提供 何小鹏在内部Robotaxi全员会上表示，Robotaxi是小鹏从“新能源汽车”迈向“机器人汽车”的重要一步，未来10年，所有具身智能载体，本质上都会成为机器人。 小鹏Robotaxi以小鹏GX为原型车，是国内首款以纯视觉方案打造的全栈自研前装量产Robotaxi，具备L4","importance":4,"overview":"小鹏Robotaxi开启员工内测!“一号乘客”是何小鹏"},{"title":"小鹏Robotaxi上路开启员工内测,何小鹏试了第一单","source":"智能网联汽车年鉴（公众号）","source_type":"wechat","url":"https://mp.weixin.qq.com/s?src=11&timestamp=1783652460&ver=6833&signature=2FgFB3JbOJojF2uYeZcaaioGa-PLKawaTBPKXNNKBGZ18laaNkVMX7NlYPexQMOT80Mqq3yY5ySkGN7dyXKAH8zb5txwRo0USMuZc*clglluMEJgy9UBXbDAOucT1bcW&new=1","publish_date":"2026-07-09","window":null,"category":"技术动态","summary":"7月9日，小鹏Robotaxi（自动驾驶出租车）开启员工内测，小鹏集团董事长何小鹏化身“一号乘客”，完成首单内测——线上下单、自动接驾、行程送达，全流程一次跑通。 何小鹏成小鹏robotaxi首单乘客。小鹏集团供图何小鹏在内部Robotaxi全员会上表示，Robotaxi是小鹏从“新能源汽车”迈向“机器人汽车”的重要一步，未来十年，所有具身智能载体，本质上都会成为机器人。 据悉，小鹏Robotaxi以小鹏GX为原型车，是国内首款以纯视觉方案打造的全栈自研前装量产Robotaxi，具备L4级自动驾驶能力。车辆搭载4颗自研图灵AI芯片，本地有效算力达全球最高的3000TOPS，智驾模型采用与量产车","importance":4,"overview":"小鹏Robotaxi上路开启员工内测,何小鹏试了第一单"},{"title":"美国NHTSA拟探讨允许无方向盘的无人驾驶汽车上路，利好Robotaxi产业发展","source":"新浪财经","source_type":"media","url":"http://finance.sina.com.cn/7x24/2026-07-09/doc-inihfihx8581342.shtml","publish_date":"2026-07-09","window":"2026-07-09","category":"政策法规","summary":"美国最高汽车安全监管机构NHTSA局长Jonathan Morrison表示，该机构「绝对」会考虑取消关于无人驾驶汽车必须配备方向盘的规定。NHTSA已于上个月更新联邦安全标准，取消了自动驾驶车辆必须配备手动制动踏板的要求。这些变革是特朗普政府推动无人驾驶汽车法规现代化努力的一部分，可能为特斯拉Cybercab等专用自动驾驶车辆的大规模推广扫清障碍。","importance":4,"overview":"美国NHTSA拟探讨允许无方向盘的无人驾驶汽车上路，利好Robotaxi产业发展"},{"title":"我国首个L2级组合驾驶辅助强制国标GB 47955—2026正式发布深度解读","source":"盖世汽车","source_type":"media","url":"https://auto.gasgoo.com/news/202607/9I70465131C1103.shtml","publish_date":"2026-07-09","window":"2026-07-09","category":"标准动态","summary":"盖世汽车发布GB 47955—2026《智能网联汽车 组合驾驶辅助系统安全要求》深度解读。该标准是首部专门针对L2级组合驾驶辅助系统的强制性安全技术规范，将L2级系统明确划分为基础单车道、基础多车道、领航驾驶辅助（NOA）三类，分别提出安全要求，从根源上杜绝了车企以「L2.5」「L2.9」等非标准话术进行模糊宣传的空间。标准构建了包括场地试验、道路试验、文件检验等在内的多层级评价体系。","importance":5,"overview":"我国首个L2级组合驾驶辅助强制国标GB 47955—2026正式发布深度解读"},{"title":"灵境智源完成超亿元天使轮及天使+轮融资，经纬创投领投，专注具身智能计算底座","source":"盖世汽车","source_type":"media","url":"https://auto.gasgoo.com/news/202607/9I70465072C601.shtml","publish_date":"2026-07-09","window":"2026-07-09","category":"投融资动态","summary":"盖世汽车获悉，灵境智源已于近日完成超亿元天使轮及天使+轮融资，由经纬创投领投，上海闵行国资跟投。灵境智源定位具身原生全栈计算底座服务商，聚焦具身智能底层Infra赛道，为具身智能原生打造了德沃夏克超异构计算架构。目前已推出N系列与T系列双产品路径，全面适配人形、轮式、四足等全品类机器人形态，已对接超过300家机器人本体及泛具身企业。","importance":5,"overview":"灵境智源完成超亿元天使轮及天使+轮融资，经纬创投领投，专注具身智能计算底座"},{"title":"华为高管李文广：特别欢迎特斯拉FSD入华，确认明年技术上实现高速L3自动驾驶","source":"快科技 / 新浪科技","source_type":"media","url":"http://k.sina.com.cn/article_7857201856_1d45362c0019081u9y.html","publish_date":"2026-07-09","window":"2026-07-09","category":"技术动态","summary":"华为智能驾驶解决方案产品线总裁李文广接受采访明确表示：华为特别欢迎特斯拉FSD正式入华同台竞技，从技术落地节奏看，明年国内高速场景将正式迈入大规模商用的L3自动驾驶时代。今年下半年多款高端新能源车型将提前为高速L3功能做足硬件预埋。华为今年自动驾驶研发投入约100多亿，明年将超200亿。","importance":5,"overview":"华为高管李文广：特别欢迎特斯拉FSD入华，确认明年技术上实现高速L3自动驾驶"},{"title":"速腾聚创上半年激光雷达交付71.92万台，ADAS领域增长98%，机器人业务大增510%","source":"盖世汽车","source_type":"media","url":"https://auto.gasgoo.com/news/202607/9I70465061C601.shtml","publish_date":"2026-07-09","window":"2026-07-09","category":"技术动态","summary":"速腾聚创上半年激光雷达产品总销量达719,200台，同比增长170%。其中ADAS领域销量436,600台，同比增长98%；机器人领域销量282,600台，同比增长510%。公司已与超过3400家机器人公司达成合作，连续多季度位居全球机器人3D激光雷达出货量第一。基于凤凰芯片的400万像素高清激光雷达方案已获头部车企定点，预期年内量产上车。","importance":4,"overview":"速腾聚创上半年激光雷达交付71.92万台，ADAS领域增长98%，机器人业务大增510%"},{"title":"小鹏Robotaxi进入员工内测阶段，定位全球软硬件方案供应商角色","source":"盖世汽车","source_type":"media","url":"https://auto.gasgoo.com/news/202607/9I70465092C601.shtml","publish_date":"2026-07-09","window":"2026-07-09","category":"项目动态","summary":"小鹏召开Robotaxi业务首次全员会议，宣布该业务正式进入员工内测阶段。Robotaxi将作为集团物理AI与「机器人汽车」战略的核心载体。小鹏规划重心不在自建车队，而是转向全球软硬件方案供应商，将整车平台、自动驾驶算法、后台调度系统打包交付海外出行企业。TrendForce预测2035年中国Robotaxi市场规模将达445亿美元。","importance":4,"overview":"小鹏Robotaxi进入员工内测阶段，定位全球软硬件方案供应商角色"},{"title":"楚航科技马来西亚海外生产基地正式投入运营，毫米波雷达产品辐射南亚市场","source":"盖世汽车","source_type":"media","url":"https://auto.gasgoo.com/news/202607/9I70465093C601.shtml","publish_date":"2026-07-09","window":"2026-07-09","category":"项目动态","summary":"7月9日，楚航科技宣布位于马来西亚吉隆坡的海外生产基地正式投入运营。该基地与马来西亚上市公司MCE Holdings合作，主要负责研发与生产应用于智慧出行领域的毫米波雷达产品。公司已获得马来西亚本土汽车品牌Perodua项目订单并实现规模化量产交付，是国内少数实现毫米波雷达产品出口的厂商之一。60GHz生命体探测雷达全系产品已通过欧盟CE认证。","importance":5,"overview":"楚航科技马来西亚海外生产基地正式投入运营，毫米波雷达产品辐射南亚市场"},{"title":"Waymo在拉斯维加斯启动完全无人驾驶运营，2026年底前冲刺每周100万次行程","source":"盖世汽车","source_type":"media","url":"https://auto.gasgoo.com/news/202607/9I70465025C601.shtml","publish_date":"2026-07-09","window":"2026-07-09","category":"项目动态","summary":"当地时间7月8日，Alphabet旗下Waymo在拉斯维加斯启动完全无人驾驶运营，车内无安全员。Waymo同时宣布丹佛、圣地亚哥和坦帕将成为下一批部署城市。目前Waymo运营约3500辆robotaxi，累计完成超2000万次行程。公司此前完成160亿美元融资估值1260亿美元，目标2026年底前每周100万次付费行程，随后拓展至伦敦和东京等国际市场。","importance":5,"overview":"Waymo在拉斯维加斯启动完全无人驾驶运营，2026年底前冲刺每周100万次行程"},{"title":"2026年6月汽车工业经济运行情况：新能源汽车产销增长超23%，渗透率近六成","source":"工信部装备工业一司","source_type":"gov","url":"https://www.miit.gov.cn/jgsj/zbys/qcgy/art/2026/art_1ff554c909a142cdb56b188a9a9a7f2f.html","publish_date":"2026-07-09","window":"2026-07-09","category":"行业动态","summary":"工信部发布2026年6月汽车工业经济运行情况。6月汽车产销分别完成276万辆和281万辆，同比下降1.2%和3.2%。新能源汽车产销分别完成159.8万辆和164.3万辆，同比增长26%和23.6%，新车渗透率达58.5%。1-6月新能源汽车产销累计743.8万辆和744.6万辆，同比增长6.7%和7.3%，渗透率49.6%。6月汽车整车出口103.7万辆，同比增长75.1%，其中新能源汽车出口52.3万辆，同比增长1.6倍。","importance":4,"overview":"2026年6月汽车工业经济运行情况：新能源汽车产销增长超23%，渗透率近六成"}]},"2026-07-08":{"total":7,"categories":{"政策法规":1,"标准动态":1,"投融资动态":1,"技术动态":4},"articles":[{"title":"全国统一无人车上路标准正式实施，GA/T 2388-2026 重塑无人物流合规运营新秩序","source":"腾讯新闻","source_type":"media","url":"#no-url-1","publish_date":"2026-07-08","window":"2026-07-08","category":"政策法规","summary":"公安部发布的《智能网联汽车道路测试与示范应用安全通行规范》（GA/T 2388-2026）正式实施，成为国内首个统一覆盖 L3 及以上高阶自动驾驶车辆的道路通行安全准则。该标准适用城市道路、普通公路、开放示范区等场景，对近两年快速扩张的无人物流、无人末端配送、自动驾驶城配货运等行业形成全国统一的合规运营底线，标志着无人物流车行业告别野蛮生长、迈入规范化发展新阶段。","importance":3,"overview":"全国统一无人车上路标准正式实施，GA/T 2388-2026 重塑无人物流合规运营新秩序"},{"title":"中国首部 L3/L4 自动驾驶强制国标即将落地，2027 年 7 月实施倒计时","source":"搜狐汽车","source_type":"media","url":"#no-url-2","publish_date":"2026-07-08","window":"2026-07-08","category":"标准动态","summary":"工信部就《智能网联汽车 自动驾驶系统安全要求》强制国标（报批稿）公开征求意见，建议实施日期为 2027 年 7 月 1 日。该国标是首部针对 L3 有条件自动驾驶和 L4 高度自动驾驶的强制性国家标准，意味着所有宣称搭载 L3/L4 功能的新车须达标后方可申报公告、禁止上市销售，与已发布的组合驾驶辅助强制国标形成「L2+L3+L4」三段式强制标准体系，中国自动驾驶治理体系由此完成闭环。","importance":5,"overview":"中国首部 L3/L4 自动驾驶强制国标即将落地，2027 年 7 月实施倒计时"},{"title":"Momenta 正式登陆港交所，成为「物理 AI 第一股」，市值超 700 亿港元","source":"盖世汽车","source_type":"media","url":"#no-url-3","publish_date":"2026-07-08","window":"2026-07-08","category":"投融资动态","summary":"7 月 8 日，Momenta 以每股 295.6 港元发行价在港交所正式挂牌上市（股票代码 6880.HK），开盘涨超 6%，总市值超 700 亿港元。此次 IPO 引入 GIC、富达、比亚迪、奔驰等 14 家基石投资者，公开认购超 400 倍，机构抢筹超 1000 亿港元。Momenta 是全球城市 NOA 解决方案销量第一的独立智驾方案提供商，上市后被资本市场赋予「物理 AI 第一股」称号，标志着智能驾驶赛道资本化进入新阶段。","importance":5,"overview":"Momenta 正式登陆港交所，成为「物理 AI 第一股」，市值超 700 亿港元"},{"title":"东风汽车率先实现国内自主线控转向系统量产落地，首款车型通过工信部公告","source":"盖世汽车","source_type":"media","url":"#no-url-4","publish_date":"2026-07-08","window":"2026-07-08","category":"技术动态","summary":"东风汽车首款搭载自主线控转向（SBW）系统的量产车型正式通过工信部公告。在 2026 年 7 月 1 日线控转向国标实施后，东风成为国内首家实现自主 SBW 系统量产落地的车企。线控转向取消了传统转向柱的机械连接，为高阶自动驾驶的底盘线控化奠定关键技术基础，对提升 L3/L4 级自动驾驶的冗余安全性和驾舱布局灵活性意义深远。","importance":5,"overview":"东风汽车率先实现国内自主线控转向系统量产落地，首款车型通过工信部公告"},{"title":"华为乾崑半年车主报告：97.86% 用户用智驾，人均每天辅助驾驶 19 公里","source":"新浪科技 / 快科技","source_type":"media","url":"#no-url-5","publish_date":"2026-07-08","window":"2026-07-08","category":"技术动态","summary":"鸿蒙智行发布半年车主用车报告，披露华为乾崑智驾真实使用数据：截至今年 6 月底，使用过智驾功能的活跃车主达 121.03 万人，活跃用户占比 97.86%，几乎所有车主都会主动开启辅助驾驶；人均半年累计智驾里程 3512 公里，分摊到每天平均 19 公里。这一数据从用户侧印证了高阶辅助驾驶已从尝鲜变为日常刚需，也是行业观察智驾渗透率与用户黏性的重要参考。","importance":4,"overview":"华为乾崑半年车主报告：97.86% 用户用智驾，人均每天辅助驾驶 19 公里"},{"title":"关于举办内蒙古自治区智能网联汽车装调运维员职工职业技能比赛通知","source":"内蒙古环成技工学校（公众号）","source_type":"wechat","url":"https://mp.weixin.qq.com/s?src=11&timestamp=1783564868&ver=6831&signature=op6Ap1IA*HfTwui71s9oRDd2BTD3E-8nER8LQktBuEz2LTC2juQlUQiqDRjATpvKeRAIqXdZcLNLHaDYfYiWsrHj7AeT5MC6JENe*0aOG9B2-xGWQieHV9WSU9jZV5YJ&new=1","publish_date":"2026-07-08","window":null,"category":"技术动态","summary":"自治区职工职业技能比赛组委会各成员，各盟市、自治区产业职工职业技能比赛组委会办公室，各有关单位： 为认真学习贯彻党的二十大和二十届历次全会精神，贯彻落实习近平总书记关于工人阶级和工会工作的重要论述、关于技能人才工作的重要指示批示精神，聚焦自治区党委“1571”工作部署，激发新职业职工技能活力，提升我区智能网联汽车产业职工的劳动技能和职业素养，根据自治区总工会、自治区人力资源和社会保障厅《关于举办“建功‘十五五’ 奋进新征程”2026 年内蒙古自治区职工职业技能比赛的通知》（内工发〔2026〕10 号）精神，自治区职工职业技能比赛组委会决定于 2026 年 7 月中旬举办自治区智能网联汽车装调运","importance":3,"overview":"关于举办内蒙古自治区智能网联汽车装调运维员职工职业技能比赛通知"},{"title":"自动驾驶深度解剖","source":"智投瞭望（公众号）","source_type":"wechat","url":"https://mp.weixin.qq.com/s?src=11&timestamp=1783564885&ver=6831&signature=c4i1Ofl4yH7EEOcyo6Ko9jqmSofIcK*GTYjXOGBNx1zUmJvoOw0pepOXybl9dDULlUqGyS4Wnk7TUIHVZfQ0AiUMeadHQ9-zvdsjloXGfn5ldJRk9yEcPpl1hGxKY*rX&new=1","publish_date":"2026-07-08","window":null,"category":"技术动态","summary":"核心提示：2026年以来，国内自动驾驶行业迎来史上最密集的上市窗口期。5月驭势科技登陆港交所创下6777倍超购纪录，7月8日Momenta与易控智驾同日挂牌，西井科技创业板IPO也进入冲刺阶段。这批2016-2018年诞生的初代自动驾驶创业公司，历经十年技术迭代与商业试错，终于集体叩开资本市场大门。 这不是偶然的资本热潮，而是制度红利、技术成熟、商业闭环、一级退出四重因素共振的结果。自动驾驶行业正彻底告别“PPT讲故事、烧钱拼研发”的蛮荒时代，进入“场景落地、收入兑现、盈利验证”的产业化新阶段。 一、什么是自动驾驶与智能驾驶：定义、分级与场景边界 1.核心定义 日常语境中，“智能驾驶”与“自动","importance":5,"overview":"自动驾驶深度解剖"}]},"2026-07-07":{"total":1,"categories":{"政策法规":1},"articles":[{"title":"L3级及以上自动驾驶全国通行规范正式生效，阿维塔获L3测试牌照","source":"新浪财经","source_type":"media","url":"https://finance.sina.cn/2026-07-07/detail-inifxxxc1596562.d.html","publish_date":"2026-07-07","window":"2026-07-07","category":"政策法规","summary":"7月1日起，公安部发布的《智能网联汽车道路测试与示范应用安全通行规范》正式生效，成为国内首个面向L3级及以上自动驾驶的全国性道路通行安全规范。同日，阿维塔科技宣布正式取得L3级自动驾驶测试牌照。","importance":3,"overview":"L3级及以上自动驾驶全国通行规范正式生效，阿维塔获L3测试牌照"}]},"2026-07-02":{"total":1,"categories":{"行业动态":1},"articles":[{"title":"工信部通报哪吒汽车等32款App存在侵害用户权益问题","source":"工信部","source_type":"media","url":"https://finance.sina.cn/2026-07-02/detail-inihhrc5864455.d.html","publish_date":"2026-07-02","window":"2026-07-02","category":"行业动态","summary":"7月2日，工信部信息通信管理局发布通报，哪吒汽车App等32款App及SDK存在违法违规收集使用个人信息等问题。","importance":3,"overview":"工信部通报哪吒汽车等32款App存在侵害用户权益问题"}]},"2026-07-01":{"total":2,"categories":{"政策法规":2},"articles":[{"title":"GA/T 2388—2026《智能网联汽车道路测试与示范应用安全通行规范》正式实施","source":"公安部","source_type":"media","url":"http://m.yourche.cn/home/article/92764.html","publish_date":"2026-07-01","window":"2026-07-01","category":"政策法规","summary":"公安部正式发布《智能网联汽车道路测试与示范应用安全通行规范》（GA/T 2388-2026），7月1日正式实施，是国内首部专门针对智能网联汽车的全场景安全通行行为规范，覆盖L3级及以上所有智能网联汽车。","importance":3,"overview":"GA/T 2388—2026《智能网联汽车道路测试与示范应用安全通行规范》正式实施"},{"title":"深圳经济特区智能网联汽车管理条例修订版正式施行，授权全市Robotaxi全域测试","source":"深圳人大","source_type":"media","url":"https://news.qq.com/rain/a/20260701A09LS900","publish_date":"2026-07-01","window":"2026-07-01","category":"政策法规","summary":"修订后的《深圳经济特区智能网联汽车管理条例》于7月1日正式施行，授权全市有序探索自动驾驶出租车全域测试与商业化运营。","importance":3,"overview":"深圳经济特区智能网联汽车管理条例修订版正式施行，授权全市Robotaxi全域测试"}]}},"weekly":{"2026-07-13":{"week_start":"2026-07-13","week_end":"2026-07-19","total":4,"categories":{"政策法规":1,"技术动态":3},"articles":[{"title":"我国牵头制定的联合国自动驾驶系统全球技术法规获批发布","source":"自动采集","source_type":"media","url":"https://www.miit.gov.cn/xwfb/gxdt/sjdt/art/2026/art_708b7727cc4544e8bc2f335cdc92b531.html","publish_date":"2026-07-13","window":"2026-07-13","category":"政策法规","summary":"","importance":3,"overview":"我国牵头制定的联合国自动驾驶系统全球技术法规获批发布"},{"title":"从智联到智生：智能网联汽车产业升级的关键拐点","source":"自动采集","source_type":"media","url":"https://36kr.com/p/3517096992675970","publish_date":"2026-07-13","window":"2026-07-13","category":"技术动态","summary":"","importance":3,"overview":"从智联到智生：智能网联汽车产业升级的关键拐点"},{"title":"2025世界智能网联汽车大会——何利扬：赛力斯汽车对AI技术的探索","source":"自动采集","source_type":"media","url":"https://36kr.com/p/3514192807042184","publish_date":"2026-07-13","window":"2026-07-13","category":"技术动态","summary":"","importance":3,"overview":"2025世界智能网联汽车大会——何利扬：赛力斯汽车对AI技术的探索"},{"title":"1500余位全球行业精英齐聚山城，这场论坛为智能网联汽车注入新动能","source":"自动采集","source_type":"media","url":"https://36kr.com/p/3485711855410313","publish_date":"2026-07-13","window":"2026-07-13","category":"技术动态","summary":"","importance":3,"overview":"1500余位全球行业精英齐聚山城，这场论坛为智能网联汽车注入新动能"}]},"2026-07-06":{"week_start":"2026-07-06","week_end":"2026-07-12","total":43,"categories":{"政策法规":5,"标准动态":6,"技术动态":14,"项目动态":12,"行业动态":3,"投融资动态":3},"articles":[{"title":"智能网联汽车保险纠纷成北京金融法院关注焦点，智驾保险体系建设提速","source":"中国经营报 / 新浪财经","source_type":"media","url":"https://cj.sina.com.cn/articles/view/1650111241/625ab30902001gw3w","publish_date":"2026-07-12","window":"2026-07-12","category":"政策法规","summary":"7月12日报道，在第14个全国保险公众宣传日之际，北京金融法院发布一批涉科技保险案例，智能网联汽车保险成为重点关注和研究的新型险种。数据显示，2025年我国新能源汽车市场渗透率已突破50%，相关保险纠纷从传统交通事故理赔，转向自动驾驶系统故障、算法缺陷、数据安全等全新法律问题。今年3月，国家金融监管总局北京监管局已正式启动智能网联新能源汽车商业保险开发应用，新产品覆盖自动泊车、NOA领航辅助等功能事故风险及传感器、域控制器等关键部件损失。北京金融法院将通过与监管部门协同打造智能网联汽车保险创新「策源地」，为产业协同发展提供法治支撑。","importance":4,"overview":"智能网联汽车保险纠纷成北京金融法院关注焦点，智驾保险体系建设提速"},{"title":"GB 47955—2026《智能网联汽车 组合驾驶辅助系统安全要求》强制性国家标准正式发布","source":"人民日报 / 中国经济网","source_type":"media","url":"https://www.ce.cn/xwzx/gnsz/gdxw/202607/t20260713_3083409.shtml","publish_date":"2026-07-12","window":"2026-07-12","category":"标准动态","summary":"本报北京7月12日电，工业和信息化部组织制定并归口的《智能网联汽车 组合驾驶辅助系统安全要求》（GB 47955—2026）强制性国家标准，近日由国家市场监督管理总局、国家标准化管理委员会批准发布，拟于2027年1月1日起正式实施。该标准是首部专门针对L2级组合驾驶辅助系统的强制性安全技术规范，充分考虑不同产品形态和技术路线，针对基础单车道、基础多车道、领航驾驶辅助（NOA）三类产品分别提出适用安全要求。标准从功能要求、数据记录、车辆制造商安全保障等维度提出基线要求，并构建了包括场地试验、道路试验、文件检验等在内的多层级评价方法。","importance":5,"overview":"GB 47955—2026《智能网联汽车 组合驾驶辅助系统安全要求》强制性国家标准正式发布"},{"title":"特斯拉FSD v14 Lite首次走出美国，韩国成为全球首个获得更新的海外市场","source":"IT之家","source_type":"media","url":"https://view.inews.qq.com/a/20260712A039TS00","publish_date":"2026-07-12","window":"2026-07-12","category":"技术动态","summary":"7月12日，特斯拉韩国官方宣布，FSD v14 Lite已开始在美国以外市场首次推送，韩国成为全球首个获得该更新的海外市场。老款Model 3/Y及搭载HW3.0芯片的车辆已收到固件推送，支持更强的自动驾驶功能。此次更新标志着特斯拉FSD首次走出美国进行海外部署，对全球自动驾驶技术竞争格局具有标志性意义。此前特斯拉CEO马斯克曾表示将在全球多个市场推进FSD落地，韩国成为首批受益市场，为后续在中国、欧洲等市场的部署积累经验。","importance":3,"overview":"特斯拉FSD v14 Lite首次走出美国，韩国成为全球首个获得更新的海外市场"},{"title":"高阶智驾加速下沉至大众市场，零跑已将城市NOA落地至8万元级车型","source":"中国新闻网","source_type":"media","url":"https://view.inews.qq.com/a/20260712A05JRL00","publish_date":"2026-07-12","window":"2026-07-12","category":"技术动态","summary":"7月12日，第23届长春国际汽车博览会上，蔚来、极狐、零跑、深蓝、比亚迪等多个中国自主品牌将智能驾驶作为核心参展卖点。其中零跑已把高阶智能驾驶落地至8万元级车型，多款入门车型开始搭载城市NOA功能。国产激光雷达和车载芯片规模化量产使硬件成本持续走低，智驾系统成本已降至3000-5000元级别，行业竞争正从价格战转向智驾普及能力的比拼。高阶智驾从高端车型向大众市场下沉的趋势，有望在2027年推动L2+级智能驾驶渗透率进一步攀升至更高水平。","importance":4,"overview":"高阶智驾加速下沉至大众市场，零跑已将城市NOA落地至8万元级车型"},{"title":"小鹏Robotaxi正式开启员工内测，何小鹏完成首单并兼任机器人业务负责人","source":"21世纪经济报道","source_type":"media","url":"https://view.inews.qq.com/a/20260712A04M4K00","publish_date":"2026-07-12","window":"2026-07-12","category":"项目动态","summary":"7月12日消息，小鹏Robotaxi正式开启员工内测，何小鹏化身「一号乘客」完成首单。该项目以GX为原型车，基于纯视觉方案打造，搭载4颗自研图灵AI芯片（总算力3000TOPS），采用与量产车同源的图灵智驾VLA 2.0大模型，是首款全栈自研前装量产的纯视觉L4级Robotaxi。从2025年11月官宣到全链路跑通仅用8个月。与此同时，何小鹏已亲自挂帅兼任小鹏机器人业务负责人，明确将冲刺IRON人形机器人量产，推动物理AI新赛道布局，Robotaxi被视为从「新能源汽车」迈向「机器人汽车」战略的核心载体。","importance":4,"overview":"小鹏Robotaxi正式开启员工内测，何小鹏完成首单并兼任机器人业务负责人"},{"title":"特斯拉Cybercab即将在得州超级工厂向员工开放试乘体验","source":"IT之家 / 网易","source_type":"media","url":"https://www.163.com/dy/article/L1KDFB3N0511B8LM.html","publish_date":"2026-07-12","window":"2026-07-12","category":"项目动态","summary":"7月12日，特斯拉官方账号宣布Cybercab将「很快在得州超级工厂向员工开放试乘体验」。特斯拉发布视频展示一辆金色Cybercab打开蝶翼门，在没有方向盘和踏板的情况下自动行驶。这是特斯拉首次公开表示将让人员乘坐这款无方向盘、无踏板的无人驾驶出租车，累计获得约290万次浏览。目前存在两种可能：一是在园区内部道路提供真正可预约的接驳服务，二是仅在停车场内短距离演示。业界更关注Cybercab何时能加入特斯拉在奥斯汀运营的收费Robotaxi车队。","importance":3,"overview":"特斯拉Cybercab即将在得州超级工厂向员工开放试乘体验"},{"title":"2026京津冀新能源和智能网联汽车产业链对接活动在廊坊举办，15家企业达成合作意向","source":"河北新闻网 / 网易","source_type":"media","url":"https://hebei.news.163.com/26/0712/10/L1KN5INQ04159CNM.html","publish_date":"2026-07-12","window":"2026-07-12","category":"项目动态","summary":"7月12日报道，由河北省工信厅会同北京市经信局、天津工信局联合主办的2026京津冀新能源和智能网联汽车产业链对接活动在廊坊举办。北汽股份、天津远程、长城汽车、吉利汽车、小米汽车、上汽尚界等12家整车企业及90余家零部件企业参加对接会。三地专家和车企负责人共同探讨行业发展方向与趋势，现场共有15家企业达成初步合作意向。活动旨在纵深打通三地汽车产业融合通道，促进整车与零部件企业精准对接，打造互补配套、高效联动的区域汽车产业生态圈。","importance":3,"overview":"2026京津冀新能源和智能网联汽车产业链对接活动在廊坊举办，15家企业达成合作意向"},{"title":"工信部：2026上半年国内乘用车L2级自动驾驶搭载率达70%，NOA车型占比超30%","source":"工信部 / 腾讯新闻","source_type":"gov","url":"https://www.miit.gov.cn/xwfb/gxdt/sjdt/art/2026/art_e28beb9f8fe94a92ba0a3a67c39eea20.html","publish_date":"2026-07-12","window":"2026-07-12","category":"行业动态","summary":"7月12日，工信部公布数据显示，2026年上半年国内乘用车新车中70%搭载了L2级自动驾驶功能，其中配备领航驾驶辅助（NOA，含城区和高速）的车型占比超过30%。华为乾崑智驾搭载量已突破190万辆，Momenta智驾系统搭载规模突破100万辆。高速NOA和城区NOA正在加速从高端车型向主流市场渗透，L2级智能驾驶已成为新车的标准配置。端到端大模型、无图智驾等技术路线日趋成熟，推动中国智能网联汽车产业进入规模化普及新阶段。","importance":3,"overview":"工信部：2026上半年国内乘用车L2级自动驾驶搭载率达70%，NOA车型占比超30%"},{"title":"特斯拉46天拆除Model S/X生产线，改造为Optimus人形机器人生产基地","source":"红星新闻","source_type":"media","url":"https://view.inews.qq.com/a/20260712A06DB600","publish_date":"2026-07-12","window":"2026-07-12","category":"行业动态","summary":"7月12日，特斯拉发布视频展示弗里蒙特工厂Model S和Model X生产线拆除过程，仅耗时46天即完成。生产线原址将改造为Optimus人形机器人生产基地，目标年产能100万台，第三代Optimus预计7月底启动量产。此举标志着特斯拉战略重心从高端电动车型向人形机器人赛道加速转移。Model S和Model X是特斯拉最早推出的车型，其产线退役意味着特斯拉产品矩阵进入全面换代周期。人形机器人和Robotaxi正在成为特斯拉未来增长的双引擎。","importance":3,"overview":"特斯拉46天拆除Model S/X生产线，改造为Optimus人形机器人生产基地"},{"title":"2026世界智能安全大会专题会议二:智能网联汽车预期功能安全精彩回顾","source":"汽车底盘集成与仿生全重实验室（公众号）","source_type":"wechat","url":"https://mp.weixin.qq.com/s?src=11&timestamp=1783906425&ver=6839&signature=8*-CYsA7orWzxwaSt61szVkWoj6wpEt9nue-hzYzWb6KOllocQHOG-dDms1DLeleEJAhKBwgEgYdS*CylRsDoeZALDKdsbVCs13kIGQLKGL5jKDdUqXg75VP8jypBuML&new=1","publish_date":"2026-07-12","window":"2026-07-12","category":"项目动态","summary":"2026世界智能安全大会 专题会议二：智能网联汽车预期功能安全精彩回顾 为促进全球自动驾驶安全领域的科技交流与国际合作，2026世界智能安全大会（FISITA Intelligent Safety Conference，ISC 2026）于2026年7月10日至12日在吉林长春举行。本次会议由世界汽车工程师学会联合会（FISITA）与中国汽车工程学会联合主办，吉林大学汽车底盘集成与仿生全国重点实验室、《Automotive Innovation》等单位承办，中国一汽作为合作伙伴参与支持。 ISC 2026汇聚了全球自动驾驶安全领域的专家学者与行业领袖，国际演讲嘉宾比例达到50%。会议围绕高安全","importance":0,"overview":"2026世界智能安全大会专题会议二:智能网联汽车预期功能安全精彩回顾"},{"title":"全球自动驾驶规则注入「重庆基因」，山城凭啥为全球智驾「出题」","source":"上游新闻","source_type":"media","url":"https://c.m.163.com/news/a/L1J3M3FJ053469M5.html","publish_date":"2026-07-11","window":"2026-07-11","category":"标准动态","summary":"联合国世界车辆法规协调组织（UN/WP.29）第199次全体会议在瑞士日内瓦召开。会上，由中国、欧盟、英国、美国、加拿大和日本共同牵头制定的联合国自动驾驶系统全球技术法规（ADS GTR）经全体缔约方投票表决，正式获批发布。这是首个自动驾驶全球技术法规。","importance":3,"overview":"全球自动驾驶规则注入「重庆基因」，山城凭啥为全球智驾「出题」"},{"title":"中国智能汽车从「能跑」走向「好用」，全国首批ADS 5实车交付","source":"羊城派","source_type":"media","url":"https://k.sina.com.cn/article_5787187353_v158f17899020025hxo.html","publish_date":"2026-07-11","window":"2026-07-11","category":"项目动态","summary":"7月9日，启境GT7正式开启全国交付，作为全国首批搭载华为乾崑智驾ADS 5的量产车型，标志着中国智能汽车正式从技术概念迈入用户日常出行。启境汽车近日完成工商变更登记，成功引入超10亿元人民币战略投资。","importance":3,"overview":"中国智能汽车从「能跑」走向「好用」，全国首批ADS 5实车交付"},{"title":"谁能问鼎？从VLA、世界模型到物理AI，年度智驾大模型标杆供应商入围公示","source":"高工智能汽车","source_type":"media","url":"https://new.qq.com/rain/a/20260711A047NP00","publish_date":"2026-07-11","window":"2026-07-11","category":"技术动态","summary":"由高工智能汽车研究院主办的年度行业评选，聚焦智能汽车前装量产。元戎启行、卓驭科技等入围年度智驾大模型标杆供应商名单。卓驭推出首个原生多模态基础模型，重新定义「移动物理AI」技术内核。","importance":3,"overview":"谁能问鼎？从VLA、世界模型到物理AI，年度智驾大模型标杆供应商入围公示"},{"title":"特斯拉城市NOA在美国正式上线，FSD选装价下调至1.2万美元","source":"IT之家","source_type":"media","url":"https://k.sina.com.cn/article_7880068201_1d5b04c69068027pb2.html","publish_date":"2026-07-10","window":"2026-07-10","category":"技术动态","summary":"特斯拉在美国市场正式上线城市NOA功能，同时将FSD选装价格从1.5万美元下调至1.2万美元。","importance":3,"overview":"特斯拉城市NOA在美国正式上线，FSD选装价下调至1.2万美元"},{"title":"小鹏集团召开首次Robotaxi全员会：不做运营，只做技术提供商","source":"环球网","source_type":"media","url":"https://www.163.com/dy/article/L1G1NJ490514R9OJ.html","publish_date":"2026-07-10","window":"2026-07-10","category":"项目动态","summary":"小鹏集团召开Robotaxi业务部首次全员会，何小鹏明确商业定位：小鹏不做运营，只做技术提供商和生态赋能者。Robotaxi收益来自卖硬件、卖服务、佣金分成三部分。","importance":3,"overview":"小鹏集团召开首次Robotaxi全员会：不做运营，只做技术提供商"},{"title":"中国深度参与全球自动驾驶标准制定，ADS GTR法规正式获批","source":"中原新闻网","source_type":"media","url":"https://www.toutiao.com/article/7660838334603821611/","publish_date":"2026-07-10","window":"2026-07-10","category":"标准动态","summary":"联合国世界车辆法规协调组织（UN/WP.29）第199次全体会议上，中国牵头制定的ADS GTR正式获批发布。专家认为这标志着中国汽车产业在全球标准体系话语权进一步提升。","importance":3,"overview":"中国深度参与全球自动驾驶标准制定，ADS GTR法规正式获批"},{"title":"美国NHTSA拟探讨允许无方向盘的无人驾驶汽车上路，利好Robotaxi产业发展","source":"新浪财经","source_type":"media","url":"#no-url-6","publish_date":"2026-07-09","window":"2026-07-09","category":"政策法规","summary":"美国最高汽车安全监管机构NHTSA局长Jonathan Morrison表示，该机构「绝对」会考虑取消关于无人驾驶汽车必须配备方向盘的规定。NHTSA已于上个月更新联邦安全标准，取消了自动驾驶车辆必须配备手动制动踏板的要求。这些变革是特朗普政府推动无人驾驶汽车法规现代化努力的一部分，可能为特斯拉Cybercab等专用自动驾驶车辆的大规模推广扫清障碍。","importance":4,"overview":"美国NHTSA拟探讨允许无方向盘的无人驾驶汽车上路，利好Robotaxi产业发展"},{"title":"我国首个L2级组合驾驶辅助强制国标GB 47955—2026正式发布深度解读","source":"盖世汽车","source_type":"media","url":"#no-url-7","publish_date":"2026-07-09","window":"2026-07-09","category":"标准动态","summary":"盖世汽车发布GB 47955—2026《智能网联汽车 组合驾驶辅助系统安全要求》深度解读。该标准是首部专门针对L2级组合驾驶辅助系统的强制性安全技术规范，将L2级系统明确划分为基础单车道、基础多车道、领航驾驶辅助（NOA）三类，分别提出安全要求，从根源上杜绝了车企以「L2.5」「L2.9」等非标准话术进行模糊宣传的空间。标准构建了包括场地试验、道路试验、文件检验等在内的多层级评价体系。","importance":5,"overview":"我国首个L2级组合驾驶辅助强制国标GB 47955—2026正式发布深度解读"},{"title":"灵境智源完成超亿元天使轮及天使+轮融资，经纬创投领投，专注具身智能计算底座","source":"盖世汽车","source_type":"media","url":"#no-url-8","publish_date":"2026-07-09","window":"2026-07-09","category":"投融资动态","summary":"盖世汽车获悉，灵境智源已于近日完成超亿元天使轮及天使+轮融资，由经纬创投领投，上海闵行国资跟投。灵境智源定位具身原生全栈计算底座服务商，聚焦具身智能底层Infra赛道，为具身智能原生打造了德沃夏克超异构计算架构。目前已推出N系列与T系列双产品路径，全面适配人形、轮式、四足等全品类机器人形态，已对接超过300家机器人本体及泛具身企业。","importance":5,"overview":"灵境智源完成超亿元天使轮及天使+轮融资，经纬创投领投，专注具身智能计算底座"},{"title":"华为高管李文广：特别欢迎特斯拉FSD入华，确认明年技术上实现高速L3自动驾驶","source":"快科技 / 新浪科技","source_type":"media","url":"#no-url-9","publish_date":"2026-07-09","window":"2026-07-09","category":"技术动态","summary":"华为智能驾驶解决方案产品线总裁李文广接受采访明确表示：华为特别欢迎特斯拉FSD正式入华同台竞技，从技术落地节奏看，明年国内高速场景将正式迈入大规模商用的L3自动驾驶时代。今年下半年多款高端新能源车型将提前为高速L3功能做足硬件预埋。华为今年自动驾驶研发投入约100多亿，明年将超200亿。","importance":5,"overview":"华为高管李文广：特别欢迎特斯拉FSD入华，确认明年技术上实现高速L3自动驾驶"},{"title":"速腾聚创上半年激光雷达交付71.92万台，ADAS领域增长98%，机器人业务大增510%","source":"盖世汽车","source_type":"media","url":"#no-url-10","publish_date":"2026-07-09","window":"2026-07-09","category":"技术动态","summary":"速腾聚创上半年激光雷达产品总销量达719,200台，同比增长170%。其中ADAS领域销量436,600台，同比增长98%；机器人领域销量282,600台，同比增长510%。公司已与超过3400家机器人公司达成合作，连续多季度位居全球机器人3D激光雷达出货量第一。基于凤凰芯片的400万像素高清激光雷达方案已获头部车企定点，预期年内量产上车。","importance":4,"overview":"速腾聚创上半年激光雷达交付71.92万台，ADAS领域增长98%，机器人业务大增510%"},{"title":"小鹏Robotaxi进入员工内测阶段，定位全球软硬件方案供应商角色","source":"盖世汽车","source_type":"media","url":"#no-url-11","publish_date":"2026-07-09","window":"2026-07-09","category":"项目动态","summary":"小鹏召开Robotaxi业务首次全员会议，宣布该业务正式进入员工内测阶段。Robotaxi将作为集团物理AI与「机器人汽车」战略的核心载体。小鹏规划重心不在自建车队，而是转向全球软硬件方案供应商，将整车平台、自动驾驶算法、后台调度系统打包交付海外出行企业。TrendForce预测2035年中国Robotaxi市场规模将达445亿美元。","importance":4,"overview":"小鹏Robotaxi进入员工内测阶段，定位全球软硬件方案供应商角色"},{"title":"楚航科技马来西亚海外生产基地正式投入运营，毫米波雷达产品辐射南亚市场","source":"盖世汽车","source_type":"media","url":"#no-url-12","publish_date":"2026-07-09","window":"2026-07-09","category":"项目动态","summary":"7月9日，楚航科技宣布位于马来西亚吉隆坡的海外生产基地正式投入运营。该基地与马来西亚上市公司MCE Holdings合作，主要负责研发与生产应用于智慧出行领域的毫米波雷达产品。公司已获得马来西亚本土汽车品牌Perodua项目订单并实现规模化量产交付，是国内少数实现毫米波雷达产品出口的厂商之一。60GHz生命体探测雷达全系产品已通过欧盟CE认证。","importance":5,"overview":"楚航科技马来西亚海外生产基地正式投入运营，毫米波雷达产品辐射南亚市场"},{"title":"Waymo在拉斯维加斯启动完全无人驾驶运营，2026年底前冲刺每周100万次行程","source":"盖世汽车","source_type":"media","url":"#no-url-13","publish_date":"2026-07-09","window":"2026-07-09","category":"项目动态","summary":"当地时间7月8日，Alphabet旗下Waymo在拉斯维加斯启动完全无人驾驶运营，车内无安全员。Waymo同时宣布丹佛、圣地亚哥和坦帕将成为下一批部署城市。目前Waymo运营约3500辆robotaxi，累计完成超2000万次行程。公司此前完成160亿美元融资估值1260亿美元，目标2026年底前每周100万次付费行程，随后拓展至伦敦和东京等国际市场。","importance":5,"overview":"Waymo在拉斯维加斯启动完全无人驾驶运营，2026年底前冲刺每周100万次行程"},{"title":"小鹏Robotaxi开启员工内测!“一号乘客”是何小鹏","source":"深圳商报（公众号）","source_type":"wechat","url":"https://mp.weixin.qq.com/s?src=11&timestamp=1783652460&ver=6833&signature=3*RiyxeEcqv0SAUAVVktDPaUvTPByvTl*iWeP3xdSWKf2JNsgpenhryn0wzoNJEXiegj7OQziB9lTSzgfZKWqnqajXOJTV7cfpeeKb8nR7MJ45Attu-nLp3zMVEfFk0e&new=1","publish_date":"2026-07-09","window":null,"category":"技术动态","summary":"小鹏Robotaxi开始接单了！7月9日，记者从小鹏集团获悉，何小鹏化身“一号乘客”，完成首单内测——线上下单、自动接驾、行程送达，全流程一次跑通。从去年11月官宣到如今启动员工内测，小鹏Robotaxi只用了8个月。何小鹏表示，乘坐体验很舒适，全程很安心，接下来将通过不同用户的内测继续把体验做好。 图片来源：受访企业提供 何小鹏在内部Robotaxi全员会上表示，Robotaxi是小鹏从“新能源汽车”迈向“机器人汽车”的重要一步，未来10年，所有具身智能载体，本质上都会成为机器人。 小鹏Robotaxi以小鹏GX为原型车，是国内首款以纯视觉方案打造的全栈自研前装量产Robotaxi，具备L4","importance":4,"overview":"小鹏Robotaxi开启员工内测!“一号乘客”是何小鹏"},{"title":"小鹏Robotaxi上路开启员工内测,何小鹏试了第一单","source":"智能网联汽车年鉴（公众号）","source_type":"wechat","url":"https://mp.weixin.qq.com/s?src=11&timestamp=1783652460&ver=6833&signature=2FgFB3JbOJojF2uYeZcaaioGa-PLKawaTBPKXNNKBGZ18laaNkVMX7NlYPexQMOT80Mqq3yY5ySkGN7dyXKAH8zb5txwRo0USMuZc*clglluMEJgy9UBXbDAOucT1bcW&new=1","publish_date":"2026-07-09","window":null,"category":"技术动态","summary":"7月9日，小鹏Robotaxi（自动驾驶出租车）开启员工内测，小鹏集团董事长何小鹏化身“一号乘客”，完成首单内测——线上下单、自动接驾、行程送达，全流程一次跑通。 何小鹏成小鹏robotaxi首单乘客。小鹏集团供图何小鹏在内部Robotaxi全员会上表示，Robotaxi是小鹏从“新能源汽车”迈向“机器人汽车”的重要一步，未来十年，所有具身智能载体，本质上都会成为机器人。 据悉，小鹏Robotaxi以小鹏GX为原型车，是国内首款以纯视觉方案打造的全栈自研前装量产Robotaxi，具备L4级自动驾驶能力。车辆搭载4颗自研图灵AI芯片，本地有效算力达全球最高的3000TOPS，智驾模型采用与量产车","importance":4,"overview":"小鹏Robotaxi上路开启员工内测,何小鹏试了第一单"},{"title":"美国NHTSA拟探讨允许无方向盘的无人驾驶汽车上路，利好Robotaxi产业发展","source":"新浪财经","source_type":"media","url":"http://finance.sina.com.cn/7x24/2026-07-09/doc-inihfihx8581342.shtml","publish_date":"2026-07-09","window":"2026-07-09","category":"政策法规","summary":"美国最高汽车安全监管机构NHTSA局长Jonathan Morrison表示，该机构「绝对」会考虑取消关于无人驾驶汽车必须配备方向盘的规定。NHTSA已于上个月更新联邦安全标准，取消了自动驾驶车辆必须配备手动制动踏板的要求。这些变革是特朗普政府推动无人驾驶汽车法规现代化努力的一部分，可能为特斯拉Cybercab等专用自动驾驶车辆的大规模推广扫清障碍。","importance":4,"overview":"美国NHTSA拟探讨允许无方向盘的无人驾驶汽车上路，利好Robotaxi产业发展"},{"title":"我国首个L2级组合驾驶辅助强制国标GB 47955—2026正式发布深度解读","source":"盖世汽车","source_type":"media","url":"https://auto.gasgoo.com/news/202607/9I70465131C1103.shtml","publish_date":"2026-07-09","window":"2026-07-09","category":"标准动态","summary":"盖世汽车发布GB 47955—2026《智能网联汽车 组合驾驶辅助系统安全要求》深度解读。该标准是首部专门针对L2级组合驾驶辅助系统的强制性安全技术规范，将L2级系统明确划分为基础单车道、基础多车道、领航驾驶辅助（NOA）三类，分别提出安全要求，从根源上杜绝了车企以「L2.5」「L2.9」等非标准话术进行模糊宣传的空间。标准构建了包括场地试验、道路试验、文件检验等在内的多层级评价体系。","importance":5,"overview":"我国首个L2级组合驾驶辅助强制国标GB 47955—2026正式发布深度解读"},{"title":"灵境智源完成超亿元天使轮及天使+轮融资，经纬创投领投，专注具身智能计算底座","source":"盖世汽车","source_type":"media","url":"https://auto.gasgoo.com/news/202607/9I70465072C601.shtml","publish_date":"2026-07-09","window":"2026-07-09","category":"投融资动态","summary":"盖世汽车获悉，灵境智源已于近日完成超亿元天使轮及天使+轮融资，由经纬创投领投，上海闵行国资跟投。灵境智源定位具身原生全栈计算底座服务商，聚焦具身智能底层Infra赛道，为具身智能原生打造了德沃夏克超异构计算架构。目前已推出N系列与T系列双产品路径，全面适配人形、轮式、四足等全品类机器人形态，已对接超过300家机器人本体及泛具身企业。","importance":5,"overview":"灵境智源完成超亿元天使轮及天使+轮融资，经纬创投领投，专注具身智能计算底座"},{"title":"华为高管李文广：特别欢迎特斯拉FSD入华，确认明年技术上实现高速L3自动驾驶","source":"快科技 / 新浪科技","source_type":"media","url":"http://k.sina.com.cn/article_7857201856_1d45362c0019081u9y.html","publish_date":"2026-07-09","window":"2026-07-09","category":"技术动态","summary":"华为智能驾驶解决方案产品线总裁李文广接受采访明确表示：华为特别欢迎特斯拉FSD正式入华同台竞技，从技术落地节奏看，明年国内高速场景将正式迈入大规模商用的L3自动驾驶时代。今年下半年多款高端新能源车型将提前为高速L3功能做足硬件预埋。华为今年自动驾驶研发投入约100多亿，明年将超200亿。","importance":5,"overview":"华为高管李文广：特别欢迎特斯拉FSD入华，确认明年技术上实现高速L3自动驾驶"},{"title":"速腾聚创上半年激光雷达交付71.92万台，ADAS领域增长98%，机器人业务大增510%","source":"盖世汽车","source_type":"media","url":"https://auto.gasgoo.com/news/202607/9I70465061C601.shtml","publish_date":"2026-07-09","window":"2026-07-09","category":"技术动态","summary":"速腾聚创上半年激光雷达产品总销量达719,200台，同比增长170%。其中ADAS领域销量436,600台，同比增长98%；机器人领域销量282,600台，同比增长510%。公司已与超过3400家机器人公司达成合作，连续多季度位居全球机器人3D激光雷达出货量第一。基于凤凰芯片的400万像素高清激光雷达方案已获头部车企定点，预期年内量产上车。","importance":4,"overview":"速腾聚创上半年激光雷达交付71.92万台，ADAS领域增长98%，机器人业务大增510%"},{"title":"小鹏Robotaxi进入员工内测阶段，定位全球软硬件方案供应商角色","source":"盖世汽车","source_type":"media","url":"https://auto.gasgoo.com/news/202607/9I70465092C601.shtml","publish_date":"2026-07-09","window":"2026-07-09","category":"项目动态","summary":"小鹏召开Robotaxi业务首次全员会议，宣布该业务正式进入员工内测阶段。Robotaxi将作为集团物理AI与「机器人汽车」战略的核心载体。小鹏规划重心不在自建车队，而是转向全球软硬件方案供应商，将整车平台、自动驾驶算法、后台调度系统打包交付海外出行企业。TrendForce预测2035年中国Robotaxi市场规模将达445亿美元。","importance":4,"overview":"小鹏Robotaxi进入员工内测阶段，定位全球软硬件方案供应商角色"},{"title":"楚航科技马来西亚海外生产基地正式投入运营，毫米波雷达产品辐射南亚市场","source":"盖世汽车","source_type":"media","url":"https://auto.gasgoo.com/news/202607/9I70465093C601.shtml","publish_date":"2026-07-09","window":"2026-07-09","category":"项目动态","summary":"7月9日，楚航科技宣布位于马来西亚吉隆坡的海外生产基地正式投入运营。该基地与马来西亚上市公司MCE Holdings合作，主要负责研发与生产应用于智慧出行领域的毫米波雷达产品。公司已获得马来西亚本土汽车品牌Perodua项目订单并实现规模化量产交付，是国内少数实现毫米波雷达产品出口的厂商之一。60GHz生命体探测雷达全系产品已通过欧盟CE认证。","importance":5,"overview":"楚航科技马来西亚海外生产基地正式投入运营，毫米波雷达产品辐射南亚市场"},{"title":"Waymo在拉斯维加斯启动完全无人驾驶运营，2026年底前冲刺每周100万次行程","source":"盖世汽车","source_type":"media","url":"https://auto.gasgoo.com/news/202607/9I70465025C601.shtml","publish_date":"2026-07-09","window":"2026-07-09","category":"项目动态","summary":"当地时间7月8日，Alphabet旗下Waymo在拉斯维加斯启动完全无人驾驶运营，车内无安全员。Waymo同时宣布丹佛、圣地亚哥和坦帕将成为下一批部署城市。目前Waymo运营约3500辆robotaxi，累计完成超2000万次行程。公司此前完成160亿美元融资估值1260亿美元，目标2026年底前每周100万次付费行程，随后拓展至伦敦和东京等国际市场。","importance":5,"overview":"Waymo在拉斯维加斯启动完全无人驾驶运营，2026年底前冲刺每周100万次行程"},{"title":"2026年6月汽车工业经济运行情况：新能源汽车产销增长超23%，渗透率近六成","source":"工信部装备工业一司","source_type":"gov","url":"https://www.miit.gov.cn/jgsj/zbys/qcgy/art/2026/art_1ff554c909a142cdb56b188a9a9a7f2f.html","publish_date":"2026-07-09","window":"2026-07-09","category":"行业动态","summary":"工信部发布2026年6月汽车工业经济运行情况。6月汽车产销分别完成276万辆和281万辆，同比下降1.2%和3.2%。新能源汽车产销分别完成159.8万辆和164.3万辆，同比增长26%和23.6%，新车渗透率达58.5%。1-6月新能源汽车产销累计743.8万辆和744.6万辆，同比增长6.7%和7.3%，渗透率49.6%。6月汽车整车出口103.7万辆，同比增长75.1%，其中新能源汽车出口52.3万辆，同比增长1.6倍。","importance":4,"overview":"2026年6月汽车工业经济运行情况：新能源汽车产销增长超23%，渗透率近六成"},{"title":"全国统一无人车上路标准正式实施，GA/T 2388-2026 重塑无人物流合规运营新秩序","source":"腾讯新闻","source_type":"media","url":"#no-url-1","publish_date":"2026-07-08","window":"2026-07-08","category":"政策法规","summary":"公安部发布的《智能网联汽车道路测试与示范应用安全通行规范》（GA/T 2388-2026）正式实施，成为国内首个统一覆盖 L3 及以上高阶自动驾驶车辆的道路通行安全准则。该标准适用城市道路、普通公路、开放示范区等场景，对近两年快速扩张的无人物流、无人末端配送、自动驾驶城配货运等行业形成全国统一的合规运营底线，标志着无人物流车行业告别野蛮生长、迈入规范化发展新阶段。","importance":3,"overview":"全国统一无人车上路标准正式实施，GA/T 2388-2026 重塑无人物流合规运营新秩序"},{"title":"中国首部 L3/L4 自动驾驶强制国标即将落地，2027 年 7 月实施倒计时","source":"搜狐汽车","source_type":"media","url":"#no-url-2","publish_date":"2026-07-08","window":"2026-07-08","category":"标准动态","summary":"工信部就《智能网联汽车 自动驾驶系统安全要求》强制国标（报批稿）公开征求意见，建议实施日期为 2027 年 7 月 1 日。该国标是首部针对 L3 有条件自动驾驶和 L4 高度自动驾驶的强制性国家标准，意味着所有宣称搭载 L3/L4 功能的新车须达标后方可申报公告、禁止上市销售，与已发布的组合驾驶辅助强制国标形成「L2+L3+L4」三段式强制标准体系，中国自动驾驶治理体系由此完成闭环。","importance":5,"overview":"中国首部 L3/L4 自动驾驶强制国标即将落地，2027 年 7 月实施倒计时"},{"title":"Momenta 正式登陆港交所，成为「物理 AI 第一股」，市值超 700 亿港元","source":"盖世汽车","source_type":"media","url":"#no-url-3","publish_date":"2026-07-08","window":"2026-07-08","category":"投融资动态","summary":"7 月 8 日，Momenta 以每股 295.6 港元发行价在港交所正式挂牌上市（股票代码 6880.HK），开盘涨超 6%，总市值超 700 亿港元。此次 IPO 引入 GIC、富达、比亚迪、奔驰等 14 家基石投资者，公开认购超 400 倍，机构抢筹超 1000 亿港元。Momenta 是全球城市 NOA 解决方案销量第一的独立智驾方案提供商，上市后被资本市场赋予「物理 AI 第一股」称号，标志着智能驾驶赛道资本化进入新阶段。","importance":5,"overview":"Momenta 正式登陆港交所，成为「物理 AI 第一股」，市值超 700 亿港元"},{"title":"东风汽车率先实现国内自主线控转向系统量产落地，首款车型通过工信部公告","source":"盖世汽车","source_type":"media","url":"#no-url-4","publish_date":"2026-07-08","window":"2026-07-08","category":"技术动态","summary":"东风汽车首款搭载自主线控转向（SBW）系统的量产车型正式通过工信部公告。在 2026 年 7 月 1 日线控转向国标实施后，东风成为国内首家实现自主 SBW 系统量产落地的车企。线控转向取消了传统转向柱的机械连接，为高阶自动驾驶的底盘线控化奠定关键技术基础，对提升 L3/L4 级自动驾驶的冗余安全性和驾舱布局灵活性意义深远。","importance":5,"overview":"东风汽车率先实现国内自主线控转向系统量产落地，首款车型通过工信部公告"},{"title":"华为乾崑半年车主报告：97.86% 用户用智驾，人均每天辅助驾驶 19 公里","source":"新浪科技 / 快科技","source_type":"media","url":"#no-url-5","publish_date":"2026-07-08","window":"2026-07-08","category":"技术动态","summary":"鸿蒙智行发布半年车主用车报告，披露华为乾崑智驾真实使用数据：截至今年 6 月底，使用过智驾功能的活跃车主达 121.03 万人，活跃用户占比 97.86%，几乎所有车主都会主动开启辅助驾驶；人均半年累计智驾里程 3512 公里，分摊到每天平均 19 公里。这一数据从用户侧印证了高阶辅助驾驶已从尝鲜变为日常刚需，也是行业观察智驾渗透率与用户黏性的重要参考。","importance":4,"overview":"华为乾崑半年车主报告：97.86% 用户用智驾，人均每天辅助驾驶 19 公里"},{"title":"关于举办内蒙古自治区智能网联汽车装调运维员职工职业技能比赛通知","source":"内蒙古环成技工学校（公众号）","source_type":"wechat","url":"https://mp.weixin.qq.com/s?src=11&timestamp=1783564868&ver=6831&signature=op6Ap1IA*HfTwui71s9oRDd2BTD3E-8nER8LQktBuEz2LTC2juQlUQiqDRjATpvKeRAIqXdZcLNLHaDYfYiWsrHj7AeT5MC6JENe*0aOG9B2-xGWQieHV9WSU9jZV5YJ&new=1","publish_date":"2026-07-08","window":null,"category":"技术动态","summary":"自治区职工职业技能比赛组委会各成员，各盟市、自治区产业职工职业技能比赛组委会办公室，各有关单位： 为认真学习贯彻党的二十大和二十届历次全会精神，贯彻落实习近平总书记关于工人阶级和工会工作的重要论述、关于技能人才工作的重要指示批示精神，聚焦自治区党委“1571”工作部署，激发新职业职工技能活力，提升我区智能网联汽车产业职工的劳动技能和职业素养，根据自治区总工会、自治区人力资源和社会保障厅《关于举办“建功‘十五五’ 奋进新征程”2026 年内蒙古自治区职工职业技能比赛的通知》（内工发〔2026〕10 号）精神，自治区职工职业技能比赛组委会决定于 2026 年 7 月中旬举办自治区智能网联汽车装调运","importance":3,"overview":"关于举办内蒙古自治区智能网联汽车装调运维员职工职业技能比赛通知"},{"title":"自动驾驶深度解剖","source":"智投瞭望（公众号）","source_type":"wechat","url":"https://mp.weixin.qq.com/s?src=11&timestamp=1783564885&ver=6831&signature=c4i1Ofl4yH7EEOcyo6Ko9jqmSofIcK*GTYjXOGBNx1zUmJvoOw0pepOXybl9dDULlUqGyS4Wnk7TUIHVZfQ0AiUMeadHQ9-zvdsjloXGfn5ldJRk9yEcPpl1hGxKY*rX&new=1","publish_date":"2026-07-08","window":null,"category":"技术动态","summary":"核心提示：2026年以来，国内自动驾驶行业迎来史上最密集的上市窗口期。5月驭势科技登陆港交所创下6777倍超购纪录，7月8日Momenta与易控智驾同日挂牌，西井科技创业板IPO也进入冲刺阶段。这批2016-2018年诞生的初代自动驾驶创业公司，历经十年技术迭代与商业试错，终于集体叩开资本市场大门。 这不是偶然的资本热潮，而是制度红利、技术成熟、商业闭环、一级退出四重因素共振的结果。自动驾驶行业正彻底告别“PPT讲故事、烧钱拼研发”的蛮荒时代，进入“场景落地、收入兑现、盈利验证”的产业化新阶段。 一、什么是自动驾驶与智能驾驶：定义、分级与场景边界 1.核心定义 日常语境中，“智能驾驶”与“自动","importance":5,"overview":"自动驾驶深度解剖"},{"title":"L3级及以上自动驾驶全国通行规范正式生效，阿维塔获L3测试牌照","source":"新浪财经","source_type":"media","url":"https://finance.sina.cn/2026-07-07/detail-inifxxxc1596562.d.html","publish_date":"2026-07-07","window":"2026-07-07","category":"政策法规","summary":"7月1日起，公安部发布的《智能网联汽车道路测试与示范应用安全通行规范》正式生效，成为国内首个面向L3级及以上自动驾驶的全国性道路通行安全规范。同日，阿维塔科技宣布正式取得L3级自动驾驶测试牌照。","importance":3,"overview":"L3级及以上自动驾驶全国通行规范正式生效，阿维塔获L3测试牌照"}]},"2026-06-29":{"week_start":"2026-06-29","week_end":"2026-07-05","total":3,"categories":{"行业动态":1,"政策法规":2},"articles":[{"title":"工信部通报哪吒汽车等32款App存在侵害用户权益问题","source":"工信部","source_type":"media","url":"https://finance.sina.cn/2026-07-02/detail-inihhrc5864455.d.html","publish_date":"2026-07-02","window":"2026-07-02","category":"行业动态","summary":"7月2日，工信部信息通信管理局发布通报，哪吒汽车App等32款App及SDK存在违法违规收集使用个人信息等问题。","importance":3,"overview":"工信部通报哪吒汽车等32款App存在侵害用户权益问题"},{"title":"GA/T 2388—2026《智能网联汽车道路测试与示范应用安全通行规范》正式实施","source":"公安部","source_type":"media","url":"http://m.yourche.cn/home/article/92764.html","publish_date":"2026-07-01","window":"2026-07-01","category":"政策法规","summary":"公安部正式发布《智能网联汽车道路测试与示范应用安全通行规范》（GA/T 2388-2026），7月1日正式实施，是国内首部专门针对智能网联汽车的全场景安全通行行为规范，覆盖L3级及以上所有智能网联汽车。","importance":3,"overview":"GA/T 2388—2026《智能网联汽车道路测试与示范应用安全通行规范》正式实施"},{"title":"深圳经济特区智能网联汽车管理条例修订版正式施行，授权全市Robotaxi全域测试","source":"深圳人大","source_type":"media","url":"https://news.qq.com/rain/a/20260701A09LS900","publish_date":"2026-07-01","window":"2026-07-01","category":"政策法规","summary":"修订后的《深圳经济特区智能网联汽车管理条例》于7月1日正式施行，授权全市有序探索自动驾驶出租车全域测试与商业化运营。","importance":3,"overview":"深圳经济特区智能网联汽车管理条例修订版正式施行，授权全市Robotaxi全域测试"}]}}};
 
-// === Tab ===
+/* === Tab 切换 === */
 function switchTab(tab) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
   document.getElementById('tab-'+tab).classList.add('active');
-  document.querySelector('.nav-link[onclick*="'+tab+'"]').classList.add('active');
-  if (tab==='daily' && selectedDate) loadDailyReport(selectedDate);
-  if (tab==='weekly') setTimeout(initWeekly, 100);
+  document.querySelector('.nav-link[data-tab="'+tab+'"]').classList.add('active');
+  if (tab === 'daily') renderCalendar();
+  if (tab === 'weekly') renderWeekly();
 }
 
-// === Calendar ===
+/* === 日历 === */
+const WD = ['日','一','二','三','四','五','六'];
 let calDate = new Date();
 let selectedDate = null;
-const WD = ['日','一','二','三','四','五','六'];
-const TODAY = new Date().toISOString().slice(0,10);
-
-function initCalendar() {
-  const keys = Object.keys(DATE_FILE).sort().reverse();
-  selectedDate = keys.length > 0 ? keys[0] : TODAY;
-  calDate = new Date(parseInt(selectedDate.slice(0,4)), parseInt(selectedDate.slice(5,7))-1, 1);
-  renderCalendar();
-  if (selectedDate) loadDailyReport(selectedDate);
-}
 
 function calMonth(d) { calDate.setMonth(calDate.getMonth()+d); renderCalendar(); }
 
@@ -178,10 +136,10 @@ function renderCalendar() {
   const dim = new Date(y,m+1,0).getDate();
   let html = '';
   WD.forEach(w => html += '<div class="calendar-weekday">'+w+'</div>');
-  for (let i=0; i<fd; i++) html += '<div class="calendar-day empty"></div>';
-  for (let d=1; d<=dim; d++) {
+  for (let i=0;i<fd;i++) html += '<div class="calendar-day empty"></div>';
+  for (let d=1;d<=dim;d++) {
     const s = y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-    const has = CALENDAR_DATES.includes(s);
+    const has = DATA.daily[s];
     let cls = 'calendar-day';
     if (has) cls += ' has-report';
     if (s === selectedDate) cls += ' selected';
@@ -192,38 +150,138 @@ function renderCalendar() {
   document.getElementById('calGrid').innerHTML = html;
 }
 
-function selectDate(s) { selectedDate = s; renderCalendar(); loadDailyReport(s); }
+function selectDate(s) {
+  selectedDate = s;
+  renderCalendar();
+  renderDaily(s);
+}
 
-function loadDailyReport(s) {
+function renderDaily(s) {
   const viewer = document.getElementById('dailyViewer');
-  const info = DATE_FILE[s];
-  if (!info) {
-    viewer.innerHTML = '<div class="empty-state"><div class="icon">📰</div><div>'+s+' 暂无日报</div></div>';
+  const data = DATA.daily[s];
+  if (!data) {
+    viewer.innerHTML = '<div class="empty-state"><div style="font-size:32px">📭</div><div>'+s+' 暂无日报</div></div>';
     return;
   }
-  viewer.innerHTML = '<iframe src="'+info.path+'" onload="fitIframe(this)" style="min-height:500px"></iframe>';
+  const weekdays = ['','周一','周二','周三','周四','周五','周六','周日'];
+  const dt = new Date(s);
+  const wd = weekdays[dt.getDay() || 7];
+  let html = '<div class="hero-section" style="padding:24px 0 12px"><div class="hero-title" style="font-size:1.5rem">智能网联汽车 <span style="color:var(--color-accent)">日报</span></div><div class="hero-subtitle">'+s+' '+wd+' · 共 '+data.total+' 条资讯 · '+formatCats(data.categories)+'</div></div>';
+  const catOrder = ['政策法规','标准动态','投融资动态','技术动态','项目动态','行业动态'];
+  const cats = data.categories;
+  for (const cat of catOrder) {
+    if (!cats[cat]) continue;
+    const items = data.articles.filter(a => a.category === cat);
+    html += '<div class="cat-section"><h2>📌 '+cat+'</h2><span class="cat-count">'+items.length+' 条</span></div>';
+    for (const a of items) {
+      const summary = a.summary || '（暂无摘要）';
+      html += '<div class="article-card">';
+      html += '<a class="article-title" href="'+escAttr(a.url)+'" target="_blank" rel="noopener noreferrer">'+escHtml(a.title)+'</a>';
+      html += '<div class="article-meta"><span>📰 '+escHtml(a.source || '')+'</span><span>📅 '+escHtml(a.publish_date || s)+'</span></div>';
+      html += '<div class="article-summary">'+escHtml(summary)+'</div>';
+      html += '</div>';
+    }
+  }
+  // 未在6类中的兜底
+  const known = new Set(catOrder);
+  const others = data.articles.filter(a => !known.has(a.category));
+  for (const a of others) {
+    html += '<div class="cat-section"><h2>📌 '+(a.category || '未分类')+'</h2></div>';
+    html += '<div class="article-card"><a class="article-title" href="'+escAttr(a.url)+'" target="_blank" rel="noopener noreferrer">'+escHtml(a.title)+'</a>';
+    html += '<div class="article-meta"><span>📰 '+escHtml(a.source || '')+'</span><span>📅 '+escHtml(a.publish_date || s)+'</span></div>';
+    html += '<div class="article-summary">'+escHtml(a.summary || '（暂无摘要）')+'</div></div>';
+  }
+  viewer.innerHTML = html;
 }
 
-function fitIframe(f) {
-  try { f.style.height = Math.max(f.contentWindow.document.body.scrollHeight, 500)+'px'; } catch(e) {}
+function formatCats(cats) {
+  return Object.entries(cats).map(([k,v]) => k+' '+v+'条').join(' · ');
 }
 
-// === Weekly ===
-function initWeekly() {
-  if (WEEKLY_LIST.length === 0) {
-    document.getElementById('weeklyViewer').innerHTML = '<div class="empty-state"><div class="icon">📋</div><div>暂无周报</div></div>';
+/* === 周报 === */
+function renderWeekly() {
+  // 默认显示上周
+  const today = new Date();
+  const day = today.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  const monday = new Date(today); monday.setDate(today.getDate() + diff);
+  const lastMonday = new Date(monday); lastMonday.setDate(monday.getDate() - 7);
+  const lastSunday = new Date(lastMonday); lastSunday.setDate(lastMonday.getDate() + 6);
+  const startStr = lastMonday.toISOString().slice(0,10);
+  const endStr = lastSunday.toISOString().slice(0,10);
+  const defaultWeek = DATA.weekly[startStr];
+  if (defaultWeek) {
+    renderWeeklyViewer(defaultWeek);
+  } else {
+    document.getElementById('weeklyViewer').innerHTML = '<div class="empty-state"><div style="font-size:32px">📋</div><div>本周暂无周报</div></div>';
+  }
+  // 往期回顾
+  const grid = document.getElementById('weeklyPastGrid');
+  const weeks = Object.keys(DATA.weekly).sort().reverse();
+  if (weeks.length === 0) {
+    grid.innerHTML = '<span style="font-size:.85rem;color:var(--color-text-muted)">暂无往期周报</span>';
     return;
   }
-  document.getElementById('weeklyViewer').innerHTML = '<iframe src="'+WEEKLY_LIST[0].path+'" onload="fitIframe(this)" style="min-height:500px"></iframe>';
-  let h = '';
-  WEEKLY_LIST.forEach(function(w) {
-    h += '<a class="past-item" href="'+w.path+'" target="_blank"><span class="past-item-icon">📋</span><span>'+w.date_range+'</span><span class="past-item-date">'+w.week+'</span></a>';
+  grid.innerHTML = '';
+  weeks.forEach(w => {
+    const endDate = new Date(w); endDate.setDate(endDate.getDate() + 6);
+    const label = w.slice(5).replace('-','月')+'日 ~ '+endDate.toISOString().slice(5).replace('-','月')+'日';
+    const item = document.createElement('div');
+    item.className = 'past-item';
+    item.innerHTML = '<span class="past-item-icon">📋</span><span>'+label+'</span><span class="past-item-date">'+w+'</span>';
+    item.onclick = () => {
+      document.querySelectorAll('#weeklyPastGrid .past-item').forEach(el => el.classList.remove('active'));
+      item.classList.add('active');
+      renderWeeklyViewer(DATA.weekly[w]);
+      window.scrollTo({top:0,behavior:'smooth'});
+    };
+    grid.appendChild(item);
   });
-  document.getElementById('weeklyPastGrid').innerHTML = h;
 }
 
-// === Init ===
-document.addEventListener('DOMContentLoaded', function() { initCalendar(); initWeekly(); });
+function renderWeeklyViewer(data) {
+  document.getElementById('weeklyHeroTitle').textContent = data.week_start+' ~ '+data.week_end;
+  const ws = data.week_start, we = data.week_end;
+  const catKeys = Object.keys(data.categories);
+  const catTags = catKeys.map(c => c+' '+data.categories[c]+'条').join('  ·  ');
+  document.getElementById('weeklyHeroSub').innerHTML = '共 '+data.total+' 条资讯'+(catKeys.length ? '  ·  '+catTags : '');
+  const viewer = document.getElementById('weeklyViewer');
+  const catOrder = ['政策法规','标准动态','投融资动态','技术动态','项目动态','行业动态'];
+  let html = '';
+  for (const cat of catOrder) {
+    const items = data.articles.filter(a => a.category === cat);
+    if (items.length === 0) continue;
+    html += '<div class="cat-section"><h2>📌 '+cat+'</h2><span class="cat-count">'+items.length+' 条</span></div>';
+    for (const a of items) {
+      const summary = a.summary || '（暂无摘要）';
+      html += '<div class="article-card">';
+      html += '<a class="article-title" href="'+escAttr(a.url)+'" target="_blank" rel="noopener noreferrer">'+escHtml(a.title)+'</a>';
+      html += '<div class="article-meta"><span>📰 '+escHtml(a.source || '')+'</span><span>📅 '+escHtml(a.publish_date || '')+'</span></div>';
+      html += '<div class="article-summary">'+escHtml(summary)+'</div>';
+      html += '</div>';
+    }
+  }
+  viewer.innerHTML = html;
+}
+
+/* === 工具 === */
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function escAttr(s) { return escHtml(s).replace(/'/g,'&#39;'); }
+
+/* === 初始化 === */
+document.addEventListener('DOMContentLoaded', () => {
+  // 默认选中最新一天
+  const dates = Object.keys(DATA.daily).sort().reverse();
+  if (dates.length > 0) {
+    const firstDate = dates[0];
+    calDate = new Date(parseInt(firstDate.slice(0,4)), parseInt(firstDate.slice(5,7))-1, 1);
+    selectedDate = firstDate;
+  }
+  renderCalendar();
+  if (selectedDate) renderDaily(selectedDate);
+});
 </script>
 </body>
 </html>

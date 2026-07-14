@@ -46,6 +46,9 @@ jobs:
             echo "非周一，跳过周报生成"
           fi
 
+      - name: 生成 GitHub Pages 静态入口页
+        run: python scripts/build_static_page.py
+
       - name: 提交更新
         run: |
           git config user.name "GitHub Actions"
