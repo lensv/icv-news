@@ -1,24 +1,49 @@
 {
-  "collected_at": "2026-07-13 09:34:37",
+  "collected_at": "2026-07-13 18:23:57",
   "window": "2026-07-12",
   "keywords": [
     "智能网联汽车",
     "自动驾驶",
     "Robotaxi",
     "智能驾驶",
-    "车路云"
+    "车路云",
+    "L3级 自动驾驶",
+    "城市NOA",
+    "组合驾驶辅助 安全要求",
+    "智慧交通 车路协同",
+    "无人驾驶 商业化"
   ],
-  "total": 1,
+  "total": 2,
   "items": [
     {
-      "title": "2026世界智能安全大会专题会议二:智能网联汽车预期功能安全精彩回顾",
-      "account": "汽车底盘集成与仿生全重实验室",
+      "title": "7月12日:美监管机构警告Robotaxi避让缺陷,文远车队破千辆,腾讯HY3与Gemma4开源,Cybercab员工试乘",
+      "account": "自驾车早",
       "date": "2026-07-12",
-      "url": "https://weixin.sogou.com/link?url=dn9a_-gY295K0Rci_xozVXfdMkSQTLW6cwJThYulHEtVjXrGTiVgS4eDql_7F0Xto19CpSUIohh6EpzwLEqVulqXa8Fplpd9AvFUoWW-PJbtIHQ6gwYlkWcC6NyTpEBmm7QWSIvJAmKL_5JH8AgzBWXRlzX3YX79sHde39hUwF-DYZJMLNrzO52C85CxTKedCtP7H4_pwOgQStG_xi9PGYG_V2rLrhYkiJ-HceI6zixUIW2Jzt1CXOkMGIlw-5TyJEU6nocdKLW54z_tGSZTqA..&type=2&query=%E6%99%BA%E8%83%BD%E7%BD%91%E8%81%94%E6%B1%BD%E8%BD%A6&token=48134A6877A15CE2C5C090B1D20ECDF5C6A516FA6A544079",
-      "real_url": "https://mp.weixin.qq.com/s?src=11&timestamp=1783906425&ver=6839&signature=8*-CYsA7orWzxwaSt61szVkWoj6wpEt9nue-hzYzWb6KOllocQHOG-dDms1DLeleEJAhKBwgEgYdS*CylRsDoeZALDKdsbVCs13kIGQLKGL5jKDdUqXg75VP8jypBuML&new=1",
-      "summary": "2026世界智能安全大会 专题会议二：智能网联汽车预期功能安全精彩回顾 为促进全球自动驾驶安全领域的科技交流与国际合作，2026世界智能安全大会（FISITA Intelligent Safety Conference，ISC 2026）于2026年7月10日至12日在吉林长春举行。本次会议由世界汽车工程师学会联合会（FISITA）与中国汽车工程学会联合主办，吉林大学汽车底盘集成与仿生全国重点实验室、《Automotive Innovation》等单位承办，中国一汽作为合作伙伴参与支持。 ISC 2026汇聚了全球自动驾驶安全领域的专家学者与行业领袖，国际演讲嘉宾比例达到50%。会议围绕高安全",
-      "keyword": "智能网联汽车",
-      "digest": false,
+      "url": "https://weixin.sogou.com/link?url=dn9a_-gY295K0Rci_xozVXfdMkSQTLW6cwJThYulHEtVjXrGTiVgS4eDql_7F0XtwR7OVSJIKFKh0R2pTJiWp1qXa8Fplpd9oQ3BrKMvRM2Fb5aM52vSlLfVvTaKl1m_nFZS23ioQbXi4WoY7QlTExnBr5d-hC3fq9gRxpAifK5GiRBFJxFk-rUjS1amMYyMrlQwiE5KD9xttcSLrRWGR0htds0WMIq5uclMYf-9hDY0YEqo3Ou_FRvyVyeCripwjCBfSUh3AEP6zvkPgoArRQ..&type=2&query=Robotaxi&token=4A8782B667B14CF1D4D283AEB664272DD5B3F32F6A54BB74",
+      "real_url": "https://mp.weixin.qq.com/s?src=11&timestamp=1783937908&ver=6840&signature=V*rsQ3yET3sgvZwfCI*gxRrsNIS*UihfCHUdfJOe3n7AXvY077e3sj6CR5iXtSpzFU5rhtaMgJnm3r31ELrmeshSfgbwQQ*Xg0ix28*otBMO0PVoBeZ2Zspscq-7zNsv&new=1",
+      "summary": "AUTONOMOUS DRIVING · DAILY BRIEF 自动驾驶晨报 2026年7月12日 · 星期日 本期精选 10 条 📋 今日概览 · 10 条 1 美国监管机构警告 Robotaxi 在避让应急救援车辆方面存在缺陷 行业动态 央视网 2 文远知行全球 Robotaxi 车队规模突破 1000 辆 行业动态 今日头条 3 特斯拉 Cybercab 将很快在得州超级工厂向员工开放试乘 行业动态 凤凰网 4 特斯拉推进 Grok 语音控制 FSD 功能 产品发布 新浪财经 5 腾讯 HY3 正式发布，Agent 能力大幅跃升 模型发布 和讯网 6 Google 开源 Gemma 4",
+      "keyword": "Robotaxi",
+      "digest": true,
+      "parsed_items": [
+        "条 📋 今日概览 ·",
+        "美国监管机构警告 Robotaxi 在避让应急救援车辆方面存在缺陷",
+        "文远知行全球 Robotaxi 车队规模突破",
+        "辆",
+        "特斯拉 Cybercab 将很快在得州超级工厂向员工开放试乘",
+        "特斯拉推进 Grok 语音控制 FSD 功能",
+        "正式发布，Agent 能力大幅跃升 模型发布 和讯网",
+        "Google 开源 Gemma 4"
+      ]
+    },
+    {
+      "title": "美国警察拦下违章Robotaxi,却开不出罚单,无人驾驶执法难题来了!",
+      "account": "Vision科技",
+      "date": "2026-07-12",
+      "url": "https://weixin.sogou.com/link?url=dn9a_-gY295K0Rci_xozVXfdMkSQTLW6cwJThYulHEtVjXrGTiVgS4eDql_7F0XtwR7OVSJIKFKh0R2pTJiWp1qXa8Fplpd9ZPCFWB_jF_6U8BUMRQ_2Z21AqO0BZH0WD6-C38Gx0h6LTUWP57EtEOT-oHTMUZDmpI-RXvKRzjkDglIdCtqVOdQIG8ejaDAQWr964cHlpdccM1rNeqCDcHYVW1eqGMepYlTmIepwa3slnkwswJV3FKACdYMQr0cUUs_QieR46XhFH6In5Ei3zg..&type=2&query=Robotaxi&token=4A8782B667B14CF1D4D283AEB664272DD5B3F32F6A54BB74",
+      "real_url": "https://mp.weixin.qq.com/s?src=11&timestamp=1783937908&ver=6840&signature=p64TWCZhK38BvhES7CFpnH9VulpkufH*k-gurBKB3V3-p3yRDxcil6kR3dGoUlkhQMlt2WlMfTDjPVCmjM1a4zTQszOIJAtUGwNZopdC-R95O0nOvKgRxxll*6I6hWKF&new=1",
+      "summary": "最近，美国加州圣布鲁诺警察局遭遇了一件尴尬事：一辆Waymo Robotaxi在警察眼皮底下非法掉头，警察正常拦下车辆准备开罚单，却发现车里没有人类司机。警察无奈发帖：“我们的罚单本上没有‘机器人’这一栏。”最终只能联系Waymo公司通报情况，而无法当场开出传统罚单。这不是孤例，而是美国警方正面临的真实执法困境：当“司机”消失，传统交通执法体系该怎么办？ 法律定义严重滞后 传统交通法规几乎全部围绕“人类司机”设计： 拦车 → 要求出示驾照 → 当场开罚单 → 记分/罚款 事故责任 → 追究驾驶员过错 而Robotaxi（无人驾驶出租车）在自动驾驶模式下，车内可能只有乘客，甚至完全无人。车辆本身",
+      "keyword": "Robotaxi",
+      "digest": true,
       "parsed_items": []
     }
   ]

@@ -37,8 +37,14 @@ jobs:
           YESTERDAY=$(date -d 'yesterday' +%Y-%m-%d)
           python scripts/gen_report.py "$TODAY" v1 "$YESTERDAY"
 
-      - name: 生成周报
-        run: python scripts/gen_weekly_report.py || true
+      - name: 生成周报（仅周一）
+        run: |
+          if [ "$(date +%u)" = "1" ] || [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            LAST_MONDAY=$(date -d 'last monday' +%Y-%m-%d)
+            python scripts/gen_weekly_report.py --week-start "$LAST_MONDAY"
+          else
+            echo "非周一，跳过周报生成"
+          fi
 
       - name: 提交更新
         run: |

@@ -221,6 +221,7 @@ if __name__ == "__main__":
     if args.week_start:
         monday = date.fromisoformat(args.week_start)
     else:
-        monday = get_this_week_monday()
+        from datetime import timedelta
+        monday = get_this_week_monday() - timedelta(days=7)
 
     generate(monday, force=args.force)

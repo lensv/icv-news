@@ -43,6 +43,13 @@
 - **每日流程串联顺序（v16 起）**：官网直采+WebSearch 生成 news_index.json → collect_public_accounts.py（需用 venv python） → merge_public_accounts.py → **generate_overview.py（新增：从标题提炼概览文本写入 JSON+DB）** → score_articles.py（重要性评分1-5） → fetch_full_content.py batch（抓正文全文） → gen_report.py 生成日报 HTML → import_news_to_db.py（写入 icv_news.db + 生成每日快照）。
 - 注意：搜狗微信有频控，无头环境高频会弹验证码；微信文章链接带 timestamp 签名有时效，长期存档建议未来改存纯文章 ID。
 
+## 白名单过滤与数据质量（2026-07-14 修复）
+- **共享过滤模块 `scripts/icv_filter.py`**：`filter_icv()` + `classify()` + `CAT_KEYS`，供 `collect_all_sites.py` 和 `collect_ci.py` 共同 import。
+- **filter_icv 修复点**：噪音黑名单 36 项、L4 car_words 需配 ICV 限定词（不再仅动词）、L5 国标改复合判断防误匹配「国际标准」。
+- **classify 修复**：未命中返回 `""`，不再默认 fallback 到「行业动态」。未分类文章存 `data/unclassified_{日期}.json`。
+- **软删除**：articles 表有 `is_deleted` 列，所有报告查询和 API 均过滤 `is_deleted=0`。删除记录在 `articles_deleted_audit` 表可恢复。
+- **质量验证**：`scripts/validate_db.py` — 检查重复/空分类/行业动态占比>30%/未分类文件，集成到 CI。
+
 ## Web 入口（2026-07-13 完成）
 - `web/app.py` Flask 后端，`web/templates/index.html` 单页前端
 - 顶部导航：日报 / 周报 / 月报 / 数据查询
