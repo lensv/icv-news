@@ -3,15 +3,13 @@
 生成 GitHub Pages 静态 index.html
 - 从 DB 读取所有 is_deleted=0 的文章
 - 按日期 (window) 分组为日报
-- 按 ISO 周 (周一~周日) 分组为周报
+- 按 ISO 周 (周一~周日) 分组为周报（只保留已完成的周）
 - 烘焙到 HTML 模板中，部署后无需后端即可显示
 """
 import datetime
 import json
 import os
-import re
 import sqlite3
-import sys
 from collections import defaultdict
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -37,7 +35,7 @@ def fetch_all():
 
 
 def build_daily(articles):
-    """按 window 分组（window = 前一天采集日期 = 日报要展示的日期）"""
+    """按 window 分组"""
     daily = {}
     for a in articles:
         wd = a.get('window') or a.get('publish_date') or ''
@@ -59,7 +57,7 @@ def build_daily(articles):
 
 
 def build_weekly(articles):
-    """按 ISO 周分组（周一~周日）"""
+    """按 ISO 周分组（周一~周日），只保留已完成的周（week_end <= 今天）"""
     by_monday = defaultdict(list)
     for a in articles:
         wd = a.get('window') or a.get('publish_date') or ''
@@ -72,16 +70,18 @@ def build_weekly(articles):
         monday = d - datetime.timedelta(days=d.weekday())
         by_monday[monday.strftime("%Y-%m-%d")].append(a)
     out = {}
+    today = datetime.date.today()
     for monday, items in by_monday.items():
+        sunday_obj = datetime.datetime.strptime(monday, "%Y-%m-%d") + datetime.timedelta(days=6)
+        if sunday_obj.date() > today:
+            continue  # 当前/未来周不生成
         cats = defaultdict(int)
         for a in items:
             c = a.get('category') or ''
             cats[c] += 1
-        sunday_dt = datetime.datetime.strptime(monday, "%Y-%m-%d") + datetime.timedelta(days=6)
-        sunday = sunday_dt.strftime("%Y-%m-%d")
         out[monday] = {
             'week_start': monday,
-            'week_end': sunday,
+            'week_end': sunday_obj.strftime("%Y-%m-%d"),
             'total': len(items),
             'categories': dict(cats),
             'articles': items,
