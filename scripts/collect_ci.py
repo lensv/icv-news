@@ -6,6 +6,7 @@ import json, os, sys
 from datetime import date, datetime, timedelta
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, BASE)
 IDX = os.path.join(BASE, "data", "news_index.json")
 DB = os.path.join(BASE, "data", "icv_news.db")
 
