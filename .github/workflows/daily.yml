@@ -28,6 +28,20 @@ jobs:
       - name: 采集新闻（Playwright 直采）
         run: python scripts/collect_ci.py
 
+      - name: 数据库迁移（补足缺失列）
+        run: |
+          python -c "
+          import sqlite3
+          conn = sqlite3.connect('data/icv_news.db')
+          for col, dtype in [('is_deleted','INTEGER DEFAULT 0'),('needs_review','INTEGER DEFAULT 0'),('review_reason','TEXT')]:
+              try: conn.execute(f'ALTER TABLE articles ADD COLUMN {col} {dtype}')
+              except: pass
+          conn.execute('CREATE TABLE IF NOT EXISTS articles_deleted_audit (id INTEGER, title TEXT, source TEXT, url TEXT, category TEXT, publish_date TEXT, window TEXT, deleted_at DATETIME, delete_reason TEXT, original_row_json TEXT)')
+          conn.commit()
+          conn.close()
+          print('Schema migration OK')
+          "
+
       - name: 生成概览文本
         run: python scripts/generate_overview.py --force || true
 
