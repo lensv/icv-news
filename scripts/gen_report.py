@@ -13,7 +13,7 @@ import sqlite3
 import sys
 from datetime import date, timedelta
 
-BASE = r"E:\trae_solo\自动化监测智能网联汽车新闻"
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE = os.path.join(BASE, "templates", "daily_template.html")
 DB = os.path.join(BASE, "data", "icv_news.db")
 
