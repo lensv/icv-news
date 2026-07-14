@@ -33,7 +33,11 @@ CREATE TABLE IF NOT EXISTS articles (
     is_wechat     INTEGER DEFAULT 0,
     window        TEXT,
     importance    INTEGER DEFAULT 0,
-    keywords      TEXT
+    keywords      TEXT,
+    overview      TEXT,
+    is_deleted    INTEGER DEFAULT 0,
+    needs_review  INTEGER DEFAULT 0,
+    review_reason TEXT
 );
 CREATE TABLE IF NOT EXISTS collect_log (
     id                  INTEGER PRIMARY KEY AUTOINCREMENT,
